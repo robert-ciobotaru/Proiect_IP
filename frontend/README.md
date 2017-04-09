@@ -26,7 +26,7 @@ Un meniu lateral pentru setari.
 View-uri pentru alegerea tipurilor de notificari dorite.
 View-uri pentru alegerea notificarilor personalizate.
 
-
+"
                                                    | ------ Asigurarea comunicarii cu middle-end-ul
                                                    |
 BACK-END ------- MIDDLE-END ------------ FRONT-END | ------ Interpretarea mesajelor primite de la middle-end
@@ -34,7 +34,7 @@ BACK-END ------- MIDDLE-END ------------ FRONT-END | ------ Interpretarea mesaje
                                                    | ------ Afisarea informatiilor in mod corespunzator
                                                    |
                                                    | ------ Programarea notificarilor
-
+"
 
 ## Actori
 ### User-ul
