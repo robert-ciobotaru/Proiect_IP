@@ -7,6 +7,7 @@ Membrii Echipei:
 	-Roman Nicusor Alexandru
 	-Nastasa Doru Alexandru
 	-Olarasu Loredana Mihaela
+	-Mihailescu Richard
 	-Matei Bogdan
 	
 Descrierea task-ului:
@@ -75,8 +76,8 @@ avand o lista de alte restFull services disponibile
 online.
 	WeatherCrawler - multiple servicii gasite la adresa https://openweathermap.org/api, plus altele
 	NewsCrawler - https://newsapi.org/reddit-r-all-api, plus altele(wall street journal/cnn/fox news)
-	HazzardCrawler - https://earthquake.usgs.gov/fdsnws/event/1/, si alte hazarde posibile (incendii/etc.)
-	
+	HazzardCrawler - https://earthquake.usgs.gov/fdsnws/event/1/ -> pentru cutremure
+					 https://api.sigimera.org/v1/crises -> pentru inundatii, cicloni si eruptii vulcanice
 	Fiecare dintre servicii va cauta periodic(o data pe ora) printre clientii alesi
 	date relevante la campul lor de informare, si va trimite spre Proxy, in format .json
 	informatiile pe care le-a procurat.
@@ -97,4 +98,7 @@ instiintati de Crawler-ul respectiv, si trimiterea fisierelor spre Central.
 	Output:
 		Boolean .json validation
 		.json files care sa contina lista de utilizatori care trebuie sa fie instiintati
+
+P.S : Datele scrise mai sus sunt subiective si vor fi schimbate in viitorul apropiat, adaptandu-se la
+nevoile/capacitatile echipei respectiv al intregului proiect.
 \ No newline at end of file
