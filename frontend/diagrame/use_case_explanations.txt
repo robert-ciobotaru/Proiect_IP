@@ -1,0 +1,14 @@
+user e clar
+
+android app = imaginile pe care le vede utilizatorul
+
+view renderer = partea care interpreteaza informatii si le afiseaza ( se ocupa java de chestia asta )
+
+controller = logica aplicatiei.. verifica daca un utilizator e logat, il inregistreaza daca nu e,
+             discuta cu middle end-ul si trimite / primeste informatii pe care le pune la dispozitie pentru a 
+                 afisa in aplicatie notificarile,
+             vede la ce ore trebuie afisate notificari si se asigura ca le afiseaza
+
+middle end receiver si sender = discuta cu middle end-ul ... ar trebui sa stie sa 
+                                interpreteze mesaje / sa scrie mesaje si sa faca anumite
+                                actiuni pe baza a ceea ce primeste
