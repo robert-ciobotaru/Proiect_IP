@@ -55,5 +55,5 @@
 
 * **Notes:**
 
-    _No known format for some specific types other than 'User_Notification'_
+  -
  
