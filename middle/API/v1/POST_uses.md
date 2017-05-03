@@ -1,57 +1,51 @@
-****
+**POST_uses**
 ----
   
 
 * **URL**
 
-  v1/users/{userId}/notifications/triggered-notifications
+  _v1/users_
 
 * **Method:**
   
-  `GET` 
+  `POST` 
   
 *  **URL Params**
-
-   <_If URL params exist, specify them in accordance with name mentioned in URL section. Separate into optional and required. Document data constraints._> 
-
-   **Required:**
- 
-   `userId=[integer]`
-
-
+_No Url params requested_
 * **Data Params**
 
-  _N/A for GET verb_
+  ```javascript
+ {
+    "country" : "Romania",
+    "city" : "Iasi",
+    "newsCrawler" : false
+    "hazzardCrawle" : false
+    "weatherCrawler" : true
+    "e-mail" : "example@gmail.com"
+}
+  ```
 
-* **Success Response:**
-  
+* **Success Response:** 
 
-  * **Code:** 200 <br />
+  * **Code:** 201 Created <br />
     **Content:** 
 ```javascript
 {
-    "type" : 'News' or 'Hazzard' or 'Weather' or 'User_Notification'
-    "data" :{json with data} or NOTIFICATION_DATA[NOTIFICATION_TEXT]
-    error:(string) // field that will be completed should any problems occur
+    "id" : 23,
+    "country" : "Romania",
+    "city" : "Iasi",
+    "newsCrawler" : false
+    "hazzardCrawle" : false
+    "weatherCrawler" : true
+    "e-mail" : "example@gmail.com"
 }
 ```
  
 * **Error Response:**
 
-  <_Most endpoints will have many ways they can fail. From unauthorized access, to wrongful parameters etc. All of those should be liste d here. It might seem repetitive, but it helps prevent assumptions from being made where they should be._>
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "Data for creating new user is invalid" }`
 
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ error : "Log in" }`
-
-  OR
-
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ error : "Email Invalid" }`
-
-* **Sample Call:**
-
-  <_Just a sample call to your endpoint in a runnable format ($.ajax call or a curl request) - this makes life easier and more predictable._> 
 
 * **Notes:**
-
-  <_This is where all uncertainties, commentary, discussion etc. can go. I recommend timestamping and identifying oneself when leaving comments here._> 
+  _No aditional info available_
