@@ -14,7 +14,7 @@
 _No Url params requested_
 * **Data Params**
 
-  ```javascript
+```javascript
  {
     "country" : "Romania",
     "city" : "Iasi",
@@ -23,7 +23,7 @@ _No Url params requested_
     "weatherCrawler" : true
     "e-mail" : "example@gmail.com"
 }
-  ```
+```
 
 * **Success Response:** 
 
