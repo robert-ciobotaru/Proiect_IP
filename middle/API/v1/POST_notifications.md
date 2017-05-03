@@ -49,5 +49,4 @@
 
 
 * **Notes:**
-  
-  -
+  _No aditional info available_
