@@ -8,7 +8,6 @@
 * Cojocariu Florin
 * Strainu Emanuela
 * Damoc Valentin
-* Oprea Silviu
 	
 ## Descrierea task-ului
 
