@@ -52,8 +52,10 @@
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ error : "Invalid User" }`
 
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "Input criteria not correct" }`
 
 * **Notes:**
 
-  -
+  _No aditional info available_
  
