@@ -18,6 +18,7 @@ import com.usermanagement.DTO.AddNotificationDto;
 import com.usermanagement.DTO.GetTriggeredNotificationsDto;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
+import com.usermanagement.DTO.NotificationRequestDto;
 import com.usermanagement.DTO.NotificationsListDto;
 import com.usermanagement.DTO.UserDto;
 
@@ -82,4 +83,25 @@ public class UsersRestController {
     	
         return new ResponseEntity<>(notificationsList, HttpStatus.OK);
     }
+    
+    
+    @RequestMapping(value = "/{userId}/notifications/{notificationId}", method = RequestMethod.GET)
+    public ResponseEntity<NotificationDto> getNotificationsSpecificated(@PathVariable("userId") Long userId ,@PathVariable("notificationId") Long notificationId ) {
+    	NotificationRequestDto notification = new NotificationRequestDto();
+    	String url = new String("https://www.youtube.com/");
+   	     RestTemplate rest = new RestTemplate();
+    	notification.setUserid(userId);
+    	notification.setNotificationid(notificationId);
+    	try{
+       	 ResponseEntity<NotificationDto>response = rest.postForEntity(url,notification,NotificationDto.class);
+       	 }
+       	 catch (Exception e) {
+       		 System.out.println(e);
+       	 }
+    	NotificationDto notificationResponse = new NotificationDto();
+    	notificationResponse.setId((int) (long)notification.getNotificationid());
+        return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
+     
+    }
+    
 }
