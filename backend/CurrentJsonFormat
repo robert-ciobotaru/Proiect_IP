@@ -70,6 +70,12 @@ USER_DATA : {
        id:(int)
        country:(string)
        city(string)
+       crawlerData:(int)
+       /* a 3 bit number (XXX) if
+       bit1 isset then user wants to be notified by News
+       bit2 isset then user wants to be notified by Weather
+       bit2 isset then user wants to be notified by Hazzards
+       For example crawlerData : 5(101) means that the user wants to be Notified by News and Hazzards but not by Weather
        [e-mail]:(string) 
 }
 e-mail field is currently optional and USER_DATA will change depending on what information FRONT_END
