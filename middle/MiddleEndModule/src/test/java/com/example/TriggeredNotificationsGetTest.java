@@ -52,8 +52,8 @@ public class TriggeredNotificationsGetTest {
 	public void test1() throws Exception {
 		NotificationDto response = null;
 	this.mockMvc.perform(get("/v1/users/2/notifications/triggered-notifications").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-				+ "\"method\":\"gettriggeredNotifications\","
-				+ "\"userId\":\"2\","
+				+ "\"method\":\"getTriggeredNotifications\","
+				+ "\"userId\":\"2\""
 				+ "}"))
 	            .andExpect(status().isOk())
 	            .andExpect(jsonPath("$.notifications[0].period", is("none")))
