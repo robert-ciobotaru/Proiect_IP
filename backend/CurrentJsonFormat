@@ -26,19 +26,18 @@ INPUT
 OUTPUT
 {
     id:(int) USER_ID
-    result:(bool) //has the notification been successfully added(?)
-    error:(string) // field that will be completed should result : False
+    error:(string) // field that will be completed should any problems occur
 }
 
 
 
 INPUT
 {
+    id:(int) USER_ID
     method:getExpiredNotifications
 }
 OUTPUT
 {
-    id: USER_ID
     type :(string) 'News' or 'Hazzard' or 'Weather' or 'User_Notification'
     data:{json with data} or NOTIFICATION_DATA[NOTIFICATION_TEXT]
     error:(string) // field that will be completed should any problems occur
@@ -47,36 +46,54 @@ OUTPUT
 
 INPUT
 {   
-    id: NEW_USER_ID
     method:addUser
     data:USER_DATA
 }
 OUTPUT
 {
     id:(int) USER_ID
-    result:(bool) //has the user been successfully added(?)
-    error:(string) // field that will be completed should result : False
+    error:(string) // field that will be completed should any problems occur
 }
 
 
 
+INPUT
+{
+    id:(int) NOTIFICATION_ID
+    method:removeNotification
+}
+OUTPUT
+{
+    id:(int) NOTIFICATION_ID
+    error:(string) // field that will be completed should any problems occur
+}
+
+
+INPUT
+{
+    id:(int) USER_ID
+    method:removeUser
+}
+OUTPUT
+{
+    id:(int) USER_ID
+    error:(string) // field that will be completed should any problems occur
+}
+
+
 NOTIFICATION_DATA : {
+       [ID] : (int) NOTIFCATION_ID // this is returned by getNotifications
        text:(string) NOTIFICATION_TEXT
        time:(TIMESTAMP) EXPIRATION_DATE
        repeatable:(BOOL)
        interval:(int) REPEAT_INTERVAL_IN_SECONDS // field that will be completed should result : True
 }
 USER_DATA : {
-       id:(int)
        country:(string)
-       city(string)
-       crawlerData:(int)
-       /* a 3 bit number (XXX) if
-       bit1 isset then user wants to be notified by News
-       bit2 isset then user wants to be notified by Weather
-       bit2 isset then user wants to be notified by Hazzards
-       For example crawlerData : 5(101) means that the user wants to be Notified by News and Hazzards but not by Weather
-       */
+       city:(string)
+       newsCrawler:(bool) //user wants to receive news notifications
+       hazzardCrawler:(bool)//user wants...
+       weatherCrawler:(bool) // user wants..
        [e-mail]:(string) 
 }
 e-mail field is currently optional and USER_DATA will change depending on what information FRONT_END
