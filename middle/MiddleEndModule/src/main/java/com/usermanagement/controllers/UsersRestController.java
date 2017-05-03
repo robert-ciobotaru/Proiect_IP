@@ -66,7 +66,7 @@ public class UsersRestController {
        	 }
        	 catch (Exception e) {
        		 System.out.println(e);
-       	 } 
+       	 }  
     	
     	NotificationsListDto notificationsList = new NotificationsListDto();
     	NotificationCreateDto notification1 = new NotificationCreateDto();
