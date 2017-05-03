@@ -25,6 +25,7 @@
 
   * **Code:** 200 <br />
     **Content:** 
+
 ```javascript
 {
     "type" : 'User_Notification'
@@ -41,9 +42,11 @@
  
 * **Error Response:**
 
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
+  * **Code:** 422 Unprocessable Entity <br />
     **Content:** `{ error : "Invalid User" }`
 
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "Input criteria not correct" }`
 
 * **Notes:**
 
