@@ -1,18 +1,16 @@
-****
+**GET_notifications**
 ----
   
 
 * **URL**
 
-  v1/users/{userId}/notifications/triggered-notifications
+  _v1/users/{userId}/notifications_
 
 * **Method:**
   
   `GET` 
   
 *  **URL Params**
-
-   <_If URL params exist, specify them in accordance with name mentioned in URL section. Separate into optional and required. Document data constraints._> 
 
    **Required:**
  
@@ -23,35 +21,39 @@
 
   _N/A for GET verb_
 
-* **Success Response:**
-  
+* **Success Response:** 
 
   * **Code:** 200 <br />
     **Content:** 
 ```javascript
 {
-    "type" : 'News' or 'Hazzard' or 'Weather' or 'User_Notification'
-    "data" :{json with data} or NOTIFICATION_DATA[NOTIFICATION_TEXT]
-    error:(string) // field that will be completed should any problems occur
+    "notificationsList" : [
+        {
+            "id": 23,
+            "text": "Wake me up",
+            "time" : 1231245,
+            "repeatable" : true,
+            "interval" : 300
+        },
+        {
+            "id": 24,
+            "text": "Get the kid",
+            "time" : 123245,
+            "repeatable" : false,
+            "interval" : 400
+        }
+    ],
+    "error" : "Whatever error string"
 }
 ```
  
 * **Error Response:**
 
-  <_Most endpoints will have many ways they can fail. From unauthorized access, to wrongful parameters etc. All of those should be liste d here. It might seem repetitive, but it helps prevent assumptions from being made where they should be._>
-
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ error : "Log in" }`
-
-  OR
-
   * **Code:** 422 UNPROCESSABLE ENTRY <br />
-    **Content:** `{ error : "Email Invalid" }`
+    **Content:** `{ error : "Invalid User" }`
 
-* **Sample Call:**
-
-  <_Just a sample call to your endpoint in a runnable format ($.ajax call or a curl request) - this makes life easier and more predictable._> 
 
 * **Notes:**
 
-  <_This is where all uncertainties, commentary, discussion etc. can go. I recommend timestamping and identifying oneself when leaving comments here._> 
+    _No known format for some specific types other than 'User_Notification'_
+ 
