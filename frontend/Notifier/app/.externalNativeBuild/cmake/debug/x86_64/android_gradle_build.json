@@ -2,11 +2,11 @@
 {
 	"buildFiles" : 
 	[
-		"C:/Users/cschifirnet/AndroidStudioProjects/Notifier/app/CMakeLists.txt"
+		"D:/AnII-SemestruII/IP/Proiect_IP/frontend/Notifier/app/CMakeLists.txt"
 	],
 	"cleanCommands" : 
 	[
-		"C:\\Users\\cschifirnet\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.3155560\\bin\\cmake.exe --build C:\\Users\\cschifirnet\\AndroidStudioProjects\\Notifier\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target clean"
+		"C:\\Users\\munte\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.3155560\\bin\\cmake.exe --build D:\\AnII-SemestruII\\IP\\Proiect_IP\\frontend\\Notifier\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -15,27 +15,27 @@
 		{
 			"abi" : "x86_64",
 			"artifactName" : "native-lib",
-			"buildCommand" : "C:\\Users\\cschifirnet\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.3155560\\bin\\cmake.exe --build C:\\Users\\cschifirnet\\AndroidStudioProjects\\Notifier\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target native-lib",
+			"buildCommand" : "C:\\Users\\munte\\AppData\\Local\\Android\\Sdk\\cmake\\3.6.3155560\\bin\\cmake.exe --build D:\\AnII-SemestruII\\IP\\Proiect_IP\\frontend\\Notifier\\app\\.externalNativeBuild\\cmake\\debug\\x86_64 --target native-lib",
 			"buildType" : "debug",
 			"files" : 
 			[
 				
 				{
-					"flags" : "  --target=x86_64-none-linux-android --gcc-toolchain=C:/Users/cschifirnet/AppData/Local/Android/Sdk/ndk-bundle/toolchains/x86_64-4.9/prebuilt/windows-x86_64 --sysroot=C:/Users/cschifirnet/AppData/Local/Android/Sdk/ndk-bundle/platforms/android-21/arch-x86_64  -Dnative_lib_EXPORTS -isystem C:\\Users\\cschifirnet\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem C:\\Users\\cschifirnet\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\x86_64\\include -isystem C:\\Users\\cschifirnet\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security  -frtti -fexceptions -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIC    -c ",
-					"src" : "C:/Users/cschifirnet/AndroidStudioProjects/Notifier/app/src/main/cpp/native-lib.cpp",
-					"workingDirectory" : "C:/Users/cschifirnet/AndroidStudioProjects/Notifier/app/.externalNativeBuild/cmake/debug/x86_64"
+					"flags" : "  --target=x86_64-none-linux-android --gcc-toolchain=C:/Users/munte/AppData/Local/Android/Sdk/ndk-bundle/toolchains/x86_64-4.9/prebuilt/windows-x86_64 --sysroot=C:/Users/munte/AppData/Local/Android/Sdk/ndk-bundle/platforms/android-21/arch-x86_64  -Dnative_lib_EXPORTS -isystem C:\\Users\\munte\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem C:\\Users\\munte\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\x86_64\\include -isystem C:\\Users\\munte\\AppData\\Local\\Android\\Sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security  -frtti -fexceptions -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "D:/AnII-SemestruII/IP/Proiect_IP/frontend/Notifier/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/AnII-SemestruII/IP/Proiect_IP/frontend/Notifier/app/.externalNativeBuild/cmake/debug/x86_64"
 				}
 			],
-			"output" : "C:/Users/cschifirnet/AndroidStudioProjects/Notifier/app/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so",
-			"toolchain" : "2865086033"
+			"output" : "D:/AnII-SemestruII/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so",
+			"toolchain" : "1886947569"
 		}
 	},
 	"toolchains" : 
 	{
-		"2865086033" : 
+		"1886947569" : 
 		{
-			"cCompilerExecutable" : "C:/Users/cschifirnet/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
-			"cppCompilerExecutable" : "C:/Users/cschifirnet/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+			"cCompilerExecutable" : "C:/Users/munte/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "C:/Users/munte/AppData/Local/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
 		}
 	}
 }
