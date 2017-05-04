@@ -49,8 +49,8 @@
  
 * **Error Response:**
 
-    **Content:** `{ error : "Invalid User" }`
   * **Code:** 422 Unprocessable Entry <br />
+    **Content:** `{ error : "Invalid User" }`
 
   * **Code:** 400 Bad Request <br />
     **Content:** `{ error : "Input criteria not correct" }`
