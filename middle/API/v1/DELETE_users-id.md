@@ -26,9 +26,9 @@
     **Content:** 
 
 ```json
- { 
-      "id": 23
-  }
+{ 
+     "id": 23
+}
 ```
  
 * **Error Response:**
