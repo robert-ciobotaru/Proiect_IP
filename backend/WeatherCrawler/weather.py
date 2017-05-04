@@ -5,7 +5,7 @@ import time
 
 f = open('city_list.txt', 'r')
 apiKey = 'f84f759814378e0469d34ed3b8c0bec1'  # API key for request
-urlProxy = 'http://localhost:8991'
+urlProxy = 'http://fenrir.info.uaic.ro:8991'
 
 while True:
     for line in f:
