@@ -3,156 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/47dbc0ce78e7c1942b23f52fbed13c925daadb86/output/jars/classes.jar"
+        jar="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_0a5eb2d83459151da7547224a2eb29bda052852b/classes.dex" />
+        sha1="b8c4305bf3fa484a738890d2672aa26e0bcd53f6">
+        <dex dex="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_65b807ec590a1b5bf606fdb05a06b4d9930795b5\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/edufcknd/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.3.1_34ce569668fd3c27b229c54e14cd84dc4a6a6d36/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/38c8c1ba747bcc511b2c9e426e763d551441320a/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_70143ae4c1c8b25e6bba4c0d2d78b03ed70f7e17/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/bc303116ab6c0163f5046b06788761ce1c117430/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b165af62e78cb492ff9d3c21598a82923238f448/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_76c1e4e8ac76203c80bf5557f33a8dcacb70c632/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="35cdf00271c6b9b19c1dd03ba436b0010c88afe2">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_6e7f0f340944116e8bd5b6714cb1e72bbb5f8367/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/edfb231cb526e02071740f440bdf4dd15a868c07/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ecaa9549e1834b65a21826951976e4b4ed3ba7be/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/85bc04920b30d8fd10ed887844c2b2967ba9be80/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e6e31542af37ba8d818b8d5f5f8fd3b722777d76/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/759cd45c0c8e0aa0871ca34128ea167a479b0a1d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_77222f40e1746fbbca41c255738664301ee0f4b1/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/a329781f0d04e29d88768e9ecc6bd7b2661fba0e/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_48d6f126eb48feecb77c1fff33e7f08b978444ed/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/b3757ddac0a7773c80d14ba204f6d641cf9b6ede/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_64b6edf44741bd4083e88d3cc6faa22b0fa08741/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_50feb6fb5e7e4737dd4aa7893da089fa3a69e7b8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/56aabb870618391ff5460d0affaef07b0639df90/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a69fc79a44009ecc2922b8ebbf00789667011098/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/e167ac9ff4db4ed66297462d24cee4b965a79831/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e261978c3469f2127c5b806f8bc21b9e7276d5cb/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/407ecd534953ecbb8f130e9bd70794f579b2e6a2/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fb57737bbe1ecee72d0f1c0b5ad6ae788d80f2c9/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/5fdce7bd0381fe3d329a253949d1c11bc1832a32/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_40804c07265ff864ea5fd6e862c7872e8f2e506e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/edufcknd/.android/build-cache/3b8d36db5b69ef0e58a38adf7c406fc1ce0383b6/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="95519720620b553f63afc789beba9ad582807f7c">
-        <dex dex="/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d7ddddceb3306e28c3595041580bc9bcb751bbd0/classes.dex" />
+        <dex dex="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_ed8bdbad012943abc7a8065678fa8db6ea0eccfe\classes.dex" />
     </item>
 
 </items>

@@ -1,3 +1,0 @@
-/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/.externalNativeBuild/cmake/debug/mips64/CMakeFiles/edit_cache.dir
-/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/.externalNativeBuild/cmake/debug/mips64/CMakeFiles/rebuild_cache.dir
-/Volumes/work/FII/Semestrul 4/IP/Proiect_IP/frontend/Notifier/app/.externalNativeBuild/cmake/debug/mips64/CMakeFiles/native-lib.dir
