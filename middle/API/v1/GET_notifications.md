@@ -23,9 +23,9 @@
 
 * **Success Response:** 
 
-  * **Code:** 200 <br />
+  * **Code:** 200 OK <br />
     **Content:** 
-```javascript
+```json
 {
     "notificationsList" : [
         {
@@ -49,8 +49,8 @@
  
 * **Error Response:**
 
-  * **Code:** 422 UNPROCESSABLE ENTRY <br />
     **Content:** `{ error : "Invalid User" }`
+  * **Code:** 422 Unprocessable Entry <br />
 
   * **Code:** 400 Bad Request <br />
     **Content:** `{ error : "Input criteria not correct" }`

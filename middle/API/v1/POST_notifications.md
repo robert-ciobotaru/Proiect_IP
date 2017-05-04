@@ -19,7 +19,7 @@
 
 * **Data Params**
 
-  ```javascript
+  ```json
   {
       "text": "Wake me up",
       "time" : 1231245,
@@ -30,9 +30,9 @@
 
 * **Success Response:** 
 
-  * **Code:** 200 <br />
+  * **Code:** 200 OK <br />
     **Content:** 
-```javascript
+```json
  { 
       "id": 23,
       "text": "Wake me up",

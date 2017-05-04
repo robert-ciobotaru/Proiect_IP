@@ -1,4 +1,4 @@
-**POST_uses**
+**POST_users**
 ----
   
 
@@ -14,7 +14,7 @@
 _No Url params requested_
 * **Data Params**
 
-```javascript
+```json
  {
     "country" : "Romania",
     "city" : "Iasi",
@@ -29,7 +29,7 @@ _No Url params requested_
 
   * **Code:** 201 Created <br />
     **Content:** 
-```javascript
+```json
 {
     "id" : 23,
     "country" : "Romania",

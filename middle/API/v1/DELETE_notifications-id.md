@@ -23,10 +23,10 @@
 
 * **Success Response:** 
 
-  * **Code:** 200 Ok <br />
+  * **Code:** 200 OK <br />
     **Content:** 
 
-```javascript
+```json
  { 
       "id": 23
   }

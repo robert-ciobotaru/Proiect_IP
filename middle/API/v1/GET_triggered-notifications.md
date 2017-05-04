@@ -23,10 +23,10 @@
 
 * **Success Response:** 
 
-  * **Code:** 200 <br />
+  * **Code:** 200 OK <br />
     **Content:** 
 
-```javascript
+```json
 {
     "type" : 'User_Notification'
     "data" : {
