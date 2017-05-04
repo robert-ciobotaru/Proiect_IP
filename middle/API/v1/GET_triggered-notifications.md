@@ -28,7 +28,7 @@
 
 ```json
 {
-    "type" : 'User_Notification',
+    "type" : "User_Notification",
     "data" : {
         "id": 23,
         "text": "Wake me up",
