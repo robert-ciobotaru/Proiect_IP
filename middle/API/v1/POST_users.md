@@ -18,9 +18,9 @@ _No Url params requested_
  {
     "country" : "Romania",
     "city" : "Iasi",
-    "newsCrawler" : false
-    "hazzardCrawle" : false
-    "weatherCrawler" : true
+    "newsCrawler" : false,
+    "hazzardCrawle" : false,
+    "weatherCrawler" : true,
     "e-mail" : "example@gmail.com"
 }
 ```
@@ -34,9 +34,9 @@ _No Url params requested_
     "id" : 23,
     "country" : "Romania",
     "city" : "Iasi",
-    "newsCrawler" : false
-    "hazzardCrawle" : false
-    "weatherCrawler" : true
+    "newsCrawler" : false,
+    "hazzardCrawle" : false,
+    "weatherCrawler" : true,
     "e-mail" : "example@gmail.com"
 }
 ```
