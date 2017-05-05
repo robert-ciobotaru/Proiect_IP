@@ -1,6 +1,7 @@
 package com.usermanagement.controllers;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import javax.xml.ws.Response;
 
@@ -8,15 +9,21 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.WebRequest;
+
 import com.usermanagement.DTO.AddNotificationDto;
 import com.usermanagement.DTO.AddUserDto;
 import com.usermanagement.DTO.ErrorDto;
@@ -43,7 +50,16 @@ import com.usermanagement.DTO.UserDto;
 @RestController
 @RequestMapping("v1/users")
 public class UsersRestController {
-
+	
+	@ExceptionHandler({HttpMessageNotReadableException.class})
+	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
+	  
+		ErrorDto error = new ErrorDto();
+		error.setError("The specified request is not readable");
+	  
+	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
 /*    @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getNotifications(@PathVariable("userId") Long userId) {
     	UserDto user = new UserDto();
@@ -55,7 +71,7 @@ public class UsersRestController {
     public ResponseEntity<NotificationDto> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
     	NotificationDto notification = new NotificationDto();
     	AddNotificationDto addNotification = new AddNotificationDto();
-    	 String url = new String("https://www.youtube.com/");
+    	 String url = new String("http://localhost:9000");
     	 RestTemplate rest = new RestTemplate();
     	 
     	 addNotification.setId(userId);
@@ -77,7 +93,7 @@ public class UsersRestController {
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<ResponseInterfaceDto> getNotifications(@PathVariable("userId") Integer userId){
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
-    	String url = new String("https://www.triburile.ro/");
+    	String url = new String("http://localhost:9000");
     	RestTemplate rest = new RestTemplate();
     	getNotifications.setId(userId);
     	ResponseEntity<GetNotificationsResultFromBackEnd> response = null;
@@ -149,28 +165,28 @@ public class UsersRestController {
     }
     
     
-    @RequestMapping(value = "/{userId}/notifications/{notificationId}", method = RequestMethod.GET)
-    public ResponseEntity<NotificationDto> getNotificationsSpecificated(@PathVariable("userId") Long userId ,@PathVariable("notificationId") Long notificationId ) {
-    	NotificationRequestDto notification = new NotificationRequestDto();
-    	String url = new String("https://www.youtube.com/");
-   	     RestTemplate rest = new RestTemplate();
-    	notification.setUserid(userId);
-    	notification.setNotificationid(notificationId);
-    	try{
-       	 ResponseEntity<NotificationDto>response = rest.postForEntity(url,notification,NotificationDto.class);
-       	 }
-       	 catch (Exception e) {
-       		 System.out.println(e);
-       	 }
-    	NotificationDto notificationResponse = new NotificationDto();
-    	notificationResponse.setId((int) (long)notification.getNotificationid());
-        return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
-     
-    }
+//    @RequestMapping(value = "/{userId}/notifications/{notificationId}", method = RequestMethod.GET)
+//    public ResponseEntity<NotificationDto> getNotificationsSpecificated(@PathVariable("userId") Long userId ,@PathVariable("notificationId") Long notificationId ) {
+//    	NotificationRequestDto notification = new NotificationRequestDto();
+//    	String url = new String("http://localhost:9000");
+//   	     RestTemplate rest = new RestTemplate();
+//    	notification.setUserid(userId);
+//    	notification.setNotificationid(notificationId);
+//    	try{
+//       	 ResponseEntity<NotificationDto>response = rest.postForEntity(url,notification,NotificationDto.class);
+//       	 }
+//       	 catch (Exception e) {
+//       		 System.out.println(e);
+//       	 }
+//    	NotificationDto notificationResponse = new NotificationDto();
+//    	notificationResponse.setId((int) (long)notification.getNotificationid());
+//        return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
+//     
+//    }
     @RequestMapping(value ="/{userId}/notifications/{notificationId}", method = RequestMethod.DELETE)
     public ResponseEntity<ResponseInterfaceDto> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
-    	String url = new String("https://www.MANOLEIHATEYOU.VERYMUCH/");
+    	String url = new String("http://localhost:9000");
     	RestTemplate rest = new RestTemplate();
     	removeNotification.setId(userId);
     	removeNotification.setMethod("removeNotification");
@@ -268,7 +284,7 @@ public class UsersRestController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ResponseInterfaceDto> postUser(@RequestBody UserCreateDto userCreate){
     	 AddUserDto addUser = new AddUserDto();
-    	 String url = new String("https://www.youtube.com/");
+    	 String url = new String("http://localhost:9000");
     	 RestTemplate rest = new RestTemplate();
     	 addUser.setUser(userCreate);
     	 ResponseEntity<UserCreateResponseFromBackEnd> response = null;
