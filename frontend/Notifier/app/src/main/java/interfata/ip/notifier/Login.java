@@ -19,9 +19,9 @@ public class Login extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        EditText editText  =(EditText) findViewById(R.id.editText);
+        final EditText editText  =(EditText) findViewById(R.id.editText);
         final String text = editText.getText().toString();
-        EditText editText2 =(EditText) findViewById(R.id.editText2);
+        final EditText editText2 =(EditText) findViewById(R.id.editText2);
         final String text2=editText2.getText().toString();
 
 
@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(text.length()>3 && text2.length()>3) {
+                if(editText.length()>3 && editText2.length()>3) {
                     Intent categories = new Intent(Login.this, Categories.class);
                     startActivity(categories);
                 }
