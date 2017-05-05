@@ -1,20 +1,13 @@
 package com.usermanagement.DTO;
 
-public class UserDto {
-	public Integer id;
+public class UserCreateDto {
     public String country;
     public String city;
     public boolean newsCrawler;
     public boolean hazzardCrawler;
     public boolean weatherCrawler;
     public String email;
-
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    
 	public String getCountry() {
 		return country;
 	}
@@ -51,5 +44,4 @@ public class UserDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-    
 }

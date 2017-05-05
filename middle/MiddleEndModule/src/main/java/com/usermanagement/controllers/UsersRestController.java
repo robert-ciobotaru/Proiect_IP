@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.usermanagement.DTO.AddNotificationDto;
+import com.usermanagement.DTO.AddUserDto;
 import com.usermanagement.DTO.ErrorDto;
 import com.usermanagement.DTO.GetNotificationsDto;
 import com.usermanagement.DTO.GetNotificationsResultDto;
@@ -33,6 +34,9 @@ import com.usermanagement.DTO.RemoveUserDto;
 import com.usermanagement.DTO.RemoveUserMethodDto;
 import com.usermanagement.DTO.RemoveUserReturnDto;
 import com.usermanagement.DTO.ResponseInterfaceDto;
+import com.usermanagement.DTO.UserCreateDto;
+import com.usermanagement.DTO.UserCreateResponseFromBackEnd;
+import com.usermanagement.DTO.UserCreateReturn;
 import com.usermanagement.DTO.UserDto;
 
 //@RefreshScope
@@ -258,6 +262,64 @@ public class UsersRestController {
     		removeResponse.setId(removeUser.getId());
     		return new ResponseEntity<>((ResponseInterfaceDto)removeResponse, HttpStatus.OK);
     	}
+    }
+    
+    
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<ResponseInterfaceDto> postUser(@RequestBody UserCreateDto userCreate){
+    	 AddUserDto addUser = new AddUserDto();
+    	 String url = new String("https://www.youtube.com/");
+    	 RestTemplate rest = new RestTemplate();
+    	 addUser.setUser(userCreate);
+    	 ResponseEntity<UserCreateResponseFromBackEnd> response = null;
+    	 try{
+    	     response = rest.postForEntity(url,addUser,UserCreateResponseFromBackEnd.class);
+    	 }
+    	 catch (Exception e) {
+    		 System.out.println(e);
+    	 }
+    	 
+    	 UserCreateResponseFromBackEnd userCreateResponse = null;
+    	 
+    	 if ( response != null ){
+     		
+    		 userCreateResponse = response.getBody();   	
+      	 }
+      	 else{
+      	
+      		userCreateResponse = new UserCreateResponseFromBackEnd();
+      	 }
+    	userCreateResponse.setUser(new UserDto());
+    	userCreateResponse.setError("");
+    	userCreateResponse.getUser().setId(23);
+    	userCreateResponse.getUser().setCity(userCreate.getCity());
+    	userCreateResponse.getUser().setCountry(userCreate.getCountry());
+    	userCreateResponse.getUser().setEmail(userCreate.getEmail());
+    	userCreateResponse.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
+    	userCreateResponse.getUser().setNewsCrawler(userCreate.isNewsCrawler());
+    	userCreateResponse.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
+    	
+        if(userCreateResponse.getUser().getEmail().equals("manole.catalin@gmail.com")){
+        	userCreateResponse.setError("Data for creating new user is invalid");
+     	   
+        }
+        else
+        {
+        	userCreateResponse.setError("");
+        }
+
+     	if(userCreateResponse.getError().length()>0){
+     			ErrorDto error = new ErrorDto();
+     			error.setError(userCreateResponse.getError());
+     			
+     			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.BAD_REQUEST);
+     		}
+     		else{
+     			UserCreateReturn returnUser = new UserCreateReturn();
+     			returnUser.setUser(userCreateResponse.getUser());
+     		      
+     			return new ResponseEntity<>((ResponseInterfaceDto)returnUser, HttpStatus.CREATED);
+     		}
     }
        
 }
