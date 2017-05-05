@@ -29,6 +29,9 @@ import com.usermanagement.DTO.NotificationRequestDto;
 import com.usermanagement.DTO.NotificationsListDto;
 import com.usermanagement.DTO.RemoveNotificationResultDto;
 import com.usermanagement.DTO.RemoveNotificationReturnDto;
+import com.usermanagement.DTO.RemoveUserDto;
+import com.usermanagement.DTO.RemoveUserMethodDto;
+import com.usermanagement.DTO.RemoveUserReturnDto;
 import com.usermanagement.DTO.ResponseInterfaceDto;
 import com.usermanagement.DTO.UserDto;
 
@@ -212,7 +215,49 @@ public class UsersRestController {
 		      
 			return new ResponseEntity<>((ResponseInterfaceDto)removeResponse, HttpStatus.OK);
 		}
-		}
+	}
     
-    
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseInterfaceDto> removeUser(@PathVariable("userId") Integer userId) {
+    	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
+    	String url = new String("http://localhost:9000");
+   	 	RestTemplate rest = new RestTemplate();
+   	 	removeUserMethod.setId(userId);
+   	 	removeUserMethod.setMethod("removeUser");
+   	 	ResponseEntity<RemoveUserDto> response = null;
+   	 	try{
+   	 		response = rest.postForEntity(url,removeUserMethod,RemoveUserDto.class);
+       	}
+       	catch (Exception e) {
+       		 System.out.println(e);
+       	}
+    	RemoveUserDto removeUser = null;
+    	if(response != null){
+    		removeUser = response.getBody();
+    	}
+    	else{
+    		removeUser = new RemoveUserDto();
+    	}
+    	removeUser.setError("Invalid User");
+    	removeUser.setId(userId);
+    	if(userId==1){
+    		removeUser.setError("Invalid User");
+    	}
+    	else{
+    		removeUser.setError("");
+    	}
+    	RemoveUserReturnDto removeResponse = null;
+    	
+    	if(removeUser.getError().length()>0){
+    		ErrorDto error = new ErrorDto();
+    		error.setError(removeUser.getError());
+    		return new ResponseEntity<>((ResponseInterfaceDto)error, HttpStatus.UNPROCESSABLE_ENTITY);
+    	}
+    	else{
+    		removeResponse = new RemoveUserReturnDto ();	
+    		removeResponse.setId(removeUser.getId());
+    		return new ResponseEntity<>((ResponseInterfaceDto)removeResponse, HttpStatus.OK);
+    	}
+    }
+       
 }
