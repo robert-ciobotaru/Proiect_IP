@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="interfata.ip.notifier.Register"
+    tools:showIn="@layout/activity_register"/>
+
+
+
+<TextView
+android:id="@+id/register"
+android:layout_width="113dp"
+android:layout_height="37dp"
+android:text="Register"
+android:textSize="30sp"
+android:textColor="@color/colorPrimaryDark"
+android:textStyle="bold"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintHorizontal_bias="0.396"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.033" />
+
+<Button
+android:id="@+id/button"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@color/colorBlue"
+android:text="Log In"
+android:textStyle="bold"
+android:textSize="15sp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintHorizontal_bias="0.392"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintVertical_bias="0.893" />
+
+<EditText
+android:id="@+id/prenume"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="textPersonName"
+android:text="Prenume"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="72dp" />
+
+<EditText
+android:id="@+id/nume"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="textPersonName"
+android:text="Nume"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="114dp" />
+
+<EditText
+android:id="@+id/email"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="textEmailAddress"
+android:text="Email"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="156dp" />
+
+<EditText
+android:id="@+id/telefon"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="phone"
+android:text="Telefon"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="198dp" />
+
+<EditText
+android:id="@+id/username"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="textPersonName"
+android:text="Username"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="240dp" />
+
+<EditText
+android:id="@+id/password"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="textVisiblePassword"
+android:text="Password"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="282dp" />
+
+<EditText
+android:id="@+id/conf pass"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:ems="10"
+android:inputType="textVisiblePassword"
+android:text="Confirmare password"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="324dp" />
+
+<CheckBox
+android:id="@+id/checkBox"
+style="@android:style/Widget.Holo.CompoundButton.CheckBox"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="I agree to the Terms and Conditions"
+and android:textSize="10sp"
+tools:layout_editor_absoluteX="39dp"
+tools:layout_editor_absoluteY="366dp" />
+
+
+
+    </android.support.constraint.ConstraintLayout>
