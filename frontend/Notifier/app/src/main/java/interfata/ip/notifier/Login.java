@@ -21,7 +21,7 @@ public class Login extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent categories = new Intent(getApplicationContext(),Categories.class);
+                Intent categories = new Intent(Login.this,Categories.class);
                 startActivity(categories);
             }
         });

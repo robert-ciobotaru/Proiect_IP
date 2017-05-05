@@ -27,7 +27,7 @@ public class NotificationSend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notification_send);
+        setContentView(R.layout.activity_notification_send);
 
         editText = (EditText) this.findViewById(R.id.editText);
         button = (Button) this.findViewById(R.id.button);
