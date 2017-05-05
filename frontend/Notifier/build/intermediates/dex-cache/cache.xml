@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="b8c4305bf3fa484a738890d2672aa26e0bcd53f6">
-        <dex dex="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_65b807ec590a1b5bf606fdb05a06b4d9930795b5\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="C:\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_ed8bdbad012943abc7a8065678fa8db6ea0eccfe\classes.dex" />
+        <dex dex="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_31b6b29b5cf10f0a4f9d3455b04f580afb8940e6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e3422a9c36083b662ba82099495982a3599fad7d">
+        <dex dex="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_8f817cded90b9acbbe3749ae5efb2df8df8e7d41\classes.dex" />
     </item>
 
 </items>
