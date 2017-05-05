@@ -31,7 +31,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(editText.length()>3 && editText2.length()>3) {
-                    Intent categories = new Intent(Login.this, Categories.class);
+                    Intent categories = new Intent(Login.this, NotificationSend.class);
                     startActivity(categories);
                 }
                 else{
