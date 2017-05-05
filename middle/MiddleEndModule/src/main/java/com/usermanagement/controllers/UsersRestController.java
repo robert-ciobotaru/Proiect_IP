@@ -23,8 +23,12 @@ import com.usermanagement.DTO.GetNotificationsDto;
 import com.usermanagement.DTO.GetNotificationsResultDto;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
+import com.usermanagement.DTO.NotificationRemoveDto;
 import com.usermanagement.DTO.NotificationRequestDto;
 import com.usermanagement.DTO.NotificationsListDto;
+import com.usermanagement.DTO.RemoveNotificationResultDto;
+import com.usermanagement.DTO.RemoveNotificationReturnDto;
+import com.usermanagement.DTO.ResponseInterfaceDto;
 import com.usermanagement.DTO.UserDto;
 
 //@RefreshScope
@@ -108,7 +112,7 @@ public class UsersRestController {
     	notificationsResult.setError("");
     	notificationsResult.setNotifications(notificationsList);
     	
-    	
+    	 
     
 
     		if(notificationsResult.getError().equals("Input criteria not correct"))
@@ -138,5 +142,59 @@ public class UsersRestController {
         return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
      
     }
+    @RequestMapping(value ="/{userId}/notifications/{notificationId}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseInterfaceDto> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
+    	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
+    	String url = new String("https://www.MANOLEIHATEYOU.VERYMUCH/");
+    	RestTemplate rest = new RestTemplate();
+    	removeNotification.setId(userId);
+    	removeNotification.setMethod("removeNotification");
+    	
+    	ResponseEntity<RemoveNotificationResultDto> response = null;
+    	
+    	try{
+       	 	response = rest.postForEntity(url,removeNotification,RemoveNotificationResultDto.class);
+       	 }
+       	 catch (Exception e) {
+       		 System.out.println(e);
+       	 }
+    	
+    	RemoveNotificationResultDto removeNotificationResult = null;
+    	if ( response != null ){
+    		
+    	   removeNotificationResult = response.getBody();	
+    	}
+    	else{
+    	
+    	   removeNotificationResult = new RemoveNotificationResultDto();
+    	}
+    	
+    	removeNotificationResult.setId(23);
+    	removeNotificationResult.setError("Invalid notification id");
+    	
+       if(userId==1){
+    	   removeNotificationResult.setError("EroorHappens");
+    	   
+       }
+       else
+       {
+    	   removeNotificationResult.setError("");
+       }
+       RemoveNotificationReturnDto removeResponse = null;
+
+		if(removeNotificationResult.getError().length()>0){
+			ErrorDto error = new ErrorDto();
+			error.setError(removeNotificationResult.getError());
+			
+			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		else{
+		    removeResponse = new RemoveNotificationReturnDto ();	
+		    removeResponse.setId(removeNotificationResult.getId());
+		      
+			return new ResponseEntity<>((ResponseInterfaceDto)removeResponse, HttpStatus.OK);
+		}
+		}
+    
     
 }
