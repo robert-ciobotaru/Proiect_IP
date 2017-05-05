@@ -7,7 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="interfata.ip.notifier.Login"
     tools:showIn="@layout/activity_login">
-
     <TextView
         android:id="@+id/login"
         android:layout_width="113dp"
@@ -70,8 +69,7 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:background="@color/colorBlue"
-        tools:layout_editor_absoluteY="327dp"
+        tools:layout_editor_absoluteY="308dp"
         tools:layout_editor_absoluteX="179dp" />
-
 
 </android.support.constraint.ConstraintLayout>
