@@ -1,6 +1,9 @@
 package com.usermanagement.controllers;
 
 import java.util.List;
+
+import javax.xml.ws.Response;
+
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.usermanagement.DTO.AddNotificationDto;
-import com.usermanagement.DTO.GetTriggeredNotificationsDto;
+import com.usermanagement.DTO.ErrorDto;
+import com.usermanagement.DTO.GetNotificationsDto;
+import com.usermanagement.DTO.GetNotificationsResultDto;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRequestDto;
@@ -27,14 +32,15 @@ import com.usermanagement.DTO.UserDto;
 @RequestMapping("v1/users")
 public class UsersRestController {
 
-    @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
+/*    @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getNotifications(@PathVariable("userId") Long userId) {
     	UserDto user = new UserDto();
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    
-    @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
-    public ResponseEntity<NotificationDto> postNotifications(@PathVariable("userId") Long userId,@RequestBody NotificationCreateDto notificationCreate){
+*/
+  
+	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
+    public ResponseEntity<NotificationDto> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
     	NotificationDto notification = new NotificationDto();
     	AddNotificationDto addNotification = new AddNotificationDto();
     	 String url = new String("https://www.youtube.com/");
@@ -48,40 +54,69 @@ public class UsersRestController {
     	 catch (Exception e) {
     		 System.out.println(e);
     	 }
-    	 notification.setDay_timestamp(notificationCreate.getDay_timestamp());
+    	 notification.setTime(notificationCreate.getTime());
     	 notification.setId(3);
-    	 notification.setPeriod(notificationCreate.getPeriod());
+    	 notification.setInterval(notificationCreate.getInterval());
     	 notification.setText(notificationCreate.getText());
+    	 notification.setRepeatable(notificationCreate.isRepeatable());
     	return new ResponseEntity<>(notification, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/{userId}/notifications/triggered-notifications", method = RequestMethod.GET)
-    public ResponseEntity<NotificationsListDto> getTriggeredNotifications(@PathVariable("userId") Long userId){
-    	GetTriggeredNotificationsDto getTriggeredNotification = new GetTriggeredNotificationsDto();
+    @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
+    public ResponseEntity<GetNotificationsResultDto> getNotifications(@PathVariable("userId") Integer userId){
+    	GetNotificationsDto getNotifications = new GetNotificationsDto();
     	String url = new String("https://www.triburile.ro/");
     	RestTemplate rest = new RestTemplate();
-    	getTriggeredNotification.setId(userId);
+    	getNotifications.setId(userId);
+    	ResponseEntity<GetNotificationsResultDto> response = null;
     	
     	try{
-       	 ResponseEntity<NotificationDto> response = rest.postForEntity(url,getTriggeredNotification,NotificationDto.class);
+       	  response = rest.postForEntity(url,getNotifications,GetNotificationsResultDto.class);
        	 }
        	 catch (Exception e) {
        		 System.out.println(e);
-       	 }  
+       	 }
+  
     	
-    	NotificationsListDto notificationsList = new NotificationsListDto();
-    	NotificationCreateDto notification1 = new NotificationCreateDto();
-    	NotificationCreateDto notification2 = new NotificationCreateDto();
-    	notification1.setText("Trezirea de dimineata");
-    	notification2.setText("Alarma de la 9:15");
-    	notification1.setPeriod("none");
-    	notification2.setPeriod("daily");
-    	notification1.setDay_timestamp(2315);
-    	notification2.setDay_timestamp(2315);
-    	notificationsList.notifications.add(notification1);
-    	notificationsList.notifications.add(notification2);
+    	GetNotificationsResultDto notificationsResult=null;
     	
-        return new ResponseEntity<>(notificationsList, HttpStatus.OK);
+    	List<NotificationDto> notificationsList = new ArrayList<>();
+    	
+    	if(response !=null)
+    	notificationsResult = response.getBody();
+    	else
+    		 notificationsResult = new GetNotificationsResultDto();
+    	
+    	
+    	NotificationDto notification1 = new NotificationDto();
+    	NotificationDto notification2 = new NotificationDto();
+    	
+    	notification1.setId(23);
+    	notification2.setId(24);
+    	notification1.setText("Wake me up");
+    	notification2.setText("Get the kid");
+    	notification1.setInterval(300);
+    	notification2.setInterval(400);
+    	notification1.setTime(1231245);;
+    	notification2.setTime(123245);
+    	notification1.setRepeatable(true);
+    	notification2.setRepeatable(false);
+    	
+    	notificationsList.add(notification1);
+    	notificationsList.add(notification2);
+    	
+    	notificationsResult.setError("");
+    	notificationsResult.setNotifications(notificationsList);
+    	
+    	
+    
+
+    		if(notificationsResult.getError().equals("Input criteria not correct"))
+    			return new ResponseEntity<>(notificationsResult, HttpStatus.BAD_REQUEST );
+    		else if(notificationsResult.getError().equals("Invalid User"))
+    			return new ResponseEntity<>(notificationsResult, HttpStatus.UNPROCESSABLE_ENTITY);
+    		else
+    			return new ResponseEntity<>(notificationsResult, HttpStatus.OK);
     }
     
     

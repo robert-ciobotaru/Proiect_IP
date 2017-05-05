@@ -2,10 +2,11 @@ package com.usermanagement.DTO;
 
 public class NotificationDto {
 	
-	public Integer id = 2;
-	public String text = "Trezirea de dimineata";
-	public String period = "none";
-	public Integer day_timestamp = 2315;
+	public Integer id;
+	public String text;
+	public Integer time;
+	public boolean repeatable;
+	public Integer interval;
 	
 	public Integer getId() {
 		return id;
@@ -19,16 +20,24 @@ public class NotificationDto {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public String getPeriod() {
-		return period;
+	public Integer getTime() {
+		return time;
 	}
-	public void setPeriod(String period) {
-		this.period = period;
+	public void setTime(Integer time) {
+		this.time = time;
 	}
-	public Integer getDay_timestamp() {
-		return day_timestamp;
+	public boolean isRepeatable() {
+		return repeatable;
 	}
-	public void setDay_timestamp(Integer day_timestamp) {
-		this.day_timestamp = day_timestamp;
+	public void setRepeatable(boolean repeatable) {
+		this.repeatable = repeatable;
 	}
+	public Integer getInterval() {
+		return interval;
+	}
+	public void setInterval(Integer interval) {
+		this.interval = interval;
+	}
+	
+	
 }

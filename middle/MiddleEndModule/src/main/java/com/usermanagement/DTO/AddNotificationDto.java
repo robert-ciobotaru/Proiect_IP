@@ -3,7 +3,7 @@ package com.usermanagement.DTO;
 public class AddNotificationDto {
 	
 	String method = "addNotification";
-	Long id = 2L;
+	Integer id;
 	NotificationCreateDto notification;
 	
 	public String getMethod() {
@@ -12,10 +12,10 @@ public class AddNotificationDto {
 	public void setMethod(String method) {
 		this.method = method;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public NotificationCreateDto getNotification() {
@@ -24,5 +24,7 @@ public class AddNotificationDto {
 	public void setNotification(NotificationCreateDto notification) {
 		this.notification = notification;
 	}
+	
+	
 	
 }
