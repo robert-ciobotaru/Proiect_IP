@@ -8,6 +8,17 @@
     tools:context="interfata.ip.notifier.Login"
     tools:showIn="@layout/activity_login">
 
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="113dp"
+        android:layout_height="34dp"
+        android:text="Log In"
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="92dp" />
+
     <EditText
         android:id="@+id/editText"
         android:layout_width="wrap_content"
@@ -19,31 +30,48 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintVertical_bias="0.366" />
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
+        android:inputType="textPassword|textVisiblePassword"
         android:text="Password"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintVertical_bias="0.408" />
+        app:layout_constraintVertical_bias="0.498" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:background="@color/colorBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617" />
+        app:layout_constraintVertical_bias="0.67"
+        app:layout_constraintHorizontal_bias="0.232" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:background="@color/colorBlue"
+        tools:layout_editor_absoluteY="327dp"
+        tools:layout_editor_absoluteX="179dp" />
+
+
 </android.support.constraint.ConstraintLayout>
