@@ -102,3 +102,7 @@ instiintati de Crawler-ul respectiv, si trimiterea fisierelor spre Central.
 P.S : Datele scrise mai sus sunt subiective si vor fi schimbate in viitorul apropiat, adaptandu-se la
 nevoile/capacitatile echipei respectiv al intregului proiect.
 \ No newline at end of file
+
+***LATER***
+CrawlerServer
+	Am pus validare pe fiecare camp din JSON-urile primite de Crawlere(validare dupa tipul de camp si fiecare camp l-am pus sa fie obligatoriu ca sa nu procesam JSON-uri inutile cu campuri goale)
