@@ -21,6 +21,7 @@ import com.usermanagement.DTO.AddNotificationDto;
 import com.usermanagement.DTO.ErrorDto;
 import com.usermanagement.DTO.GetNotificationsDto;
 import com.usermanagement.DTO.GetNotificationsResultDto;
+import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRemoveDto;
@@ -67,29 +68,30 @@ public class UsersRestController {
     }
     
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
-    public ResponseEntity<GetNotificationsResultDto> getNotifications(@PathVariable("userId") Integer userId){
+    public ResponseEntity<ResponseInterfaceDto> getNotifications(@PathVariable("userId") Integer userId){
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
     	String url = new String("https://www.triburile.ro/");
     	RestTemplate rest = new RestTemplate();
     	getNotifications.setId(userId);
-    	ResponseEntity<GetNotificationsResultDto> response = null;
+    	ResponseEntity<GetNotificationsResultFromBackEnd> response = null;
     	
     	try{
-       	  response = rest.postForEntity(url,getNotifications,GetNotificationsResultDto.class);
+       	  response = rest.postForEntity(url,getNotifications,GetNotificationsResultFromBackEnd.class);
        	 }
        	 catch (Exception e) {
        		 System.out.println(e);
        	 }
   
     	
-    	GetNotificationsResultDto notificationsResult=null;
+    	GetNotificationsResultFromBackEnd notificationsResult=null;
     	
     	List<NotificationDto> notificationsList = new ArrayList<>();
     	
     	if(response !=null)
-    	notificationsResult = response.getBody();
+    	
+    		notificationsResult = response.getBody();
     	else
-    		 notificationsResult = new GetNotificationsResultDto();
+    		 notificationsResult = new GetNotificationsResultFromBackEnd();
     	
     	
     	NotificationDto notification1 = new NotificationDto();
@@ -109,18 +111,34 @@ public class UsersRestController {
     	notificationsList.add(notification1);
     	notificationsList.add(notification2);
     	
-    	notificationsResult.setError("");
+    
     	notificationsResult.setNotifications(notificationsList);
     	
     	 
     
 
-    		if(notificationsResult.getError().equals("Input criteria not correct"))
-    			return new ResponseEntity<>(notificationsResult, HttpStatus.BAD_REQUEST );
-    		else if(notificationsResult.getError().equals("Invalid User"))
-    			return new ResponseEntity<>(notificationsResult, HttpStatus.UNPROCESSABLE_ENTITY);
-    		else
-    			return new ResponseEntity<>(notificationsResult, HttpStatus.OK);
+    	if(userId==1){
+    		notificationsResult.setError("EroorHappens");
+     	   
+        }
+        else
+        {
+        	notificationsResult.setError("");
+        }
+        GetNotificationsResultDto getNotificantionsResultForFrontEnd = null;
+
+ 		if(notificationsResult.getError().length()>0){
+ 			ErrorDto error = new ErrorDto();
+ 			error.setError(notificationsResult.getError());
+ 			
+ 			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+ 		}
+ 		else{
+ 			getNotificantionsResultForFrontEnd = new GetNotificationsResultDto ();	
+ 			getNotificantionsResultForFrontEnd.setNotifications(notificationsResult.getNotifications());
+ 		      
+ 			return new ResponseEntity<>((ResponseInterfaceDto)getNotificantionsResultForFrontEnd, HttpStatus.OK);
+ 		}
     }
     
     
