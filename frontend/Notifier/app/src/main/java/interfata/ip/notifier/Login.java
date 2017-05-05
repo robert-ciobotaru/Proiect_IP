@@ -35,10 +35,7 @@ public class Login extends AppCompatActivity {
                     startActivity(categories);
                 }
                 else{
-
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Username sau parola sunt incorecte!", Snackbar.LENGTH_LONG);
-
+                    Snackbar snackbar = Snackbar.make(view, "Username sau parola sunt incorecte!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
