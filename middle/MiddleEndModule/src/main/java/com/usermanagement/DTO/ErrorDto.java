@@ -1,6 +1,6 @@
 package com.usermanagement.DTO;
 
-public class ErrorDto {
+public class ErrorDto implements ResponseInterfaceDto  {
 	public String error;
 
 	public String getError() {
