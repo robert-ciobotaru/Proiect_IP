@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="D:\AnII-SemestruII\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_31b6b29b5cf10f0a4f9d3455b04f580afb8940e6\classes.dex" />
+        <dex dex="D:\AnII-SemestruII\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_e85f9ec386c10f2dc40f4efc871ad698feffe15a\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="D:\AnII-SemestruII\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="e3422a9c36083b662ba82099495982a3599fad7d">
-        <dex dex="D:\Google Drive\FACULTATE\PROIECTE\ANUL 2\SEMESTRUL 2\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_8f817cded90b9acbbe3749ae5efb2df8df8e7d41\classes.dex" />
+        sha1="c81fb53e467b84cd30da189b7b813f9fc3962434">
+        <dex dex="D:\AnII-SemestruII\IP\Proiect_IP\frontend\Notifier\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_d1292f778cc958de5d45148be98b216f5df0be71\classes.dex" />
     </item>
 
 </items>
