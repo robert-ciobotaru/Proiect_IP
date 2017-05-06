@@ -1,0 +1,25 @@
+ news crawler colecteaza informatii de la :https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=e013828a660644e7b531f916f38a0f86
+ dupa fiecare request la api se trimit 3 sau 4 json care contin atricolele
+ 
+ Structura jsonului:
+ 
+ {
+		Type: 'News'
+		
+		Data:  {
+					author: ....
+					
+					title : .....
+					
+					description : ....
+					
+					url : ....
+					
+					urlToImage : ......
+					
+					publishedAt : .....
+				
+				}
+		
+		error: ....
+}
