@@ -43,22 +43,22 @@ def earthquakes(past, url, log):
                 timestamp = int(cutremur['properties']['time'])
                 city_country = cutremur['properties']['place'].split(' of ')[1]
                 dictionar['Data'] = { 
-                                        'Type' : 'earthquake', 
-                                        'Magnitude': cutremur['properties']['mag'],
-                                        'Location': { 
-                                                        'City' : city_country.split(', ')[0],
-                                                        'Country' : city_country.split(', ')[1]
+                                        'type' : 'earthquake', 
+                                        'magnitude': cutremur['properties']['mag'],
+                                        'location': { 
+                                                        'city' : city_country.split(', ')[0],
+                                                        'country' : city_country.split(', ')[1]
                                                     },
-                                        'Time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
-                                        'URL' : cutremur['properties']['url'],
-                                        'Title' : cutremur['properties']['title']
+                                        'time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
+                                        'url' : cutremur['properties']['url'],
+                                        'title' : cutremur['properties']['title']
                                     }
                 json_to_send = json.dumps(dictionar)
                 log.write(json_to_send + '\n\n')
                 handle = urlopen(url,data = json_to_send)
                 handle.close()
  
-                already_sent_earthquakes[cutremur['id']] = dictionar['Data']['Time']
+                already_sent_earthquakes[cutremur['id']] = dictionar['Data']['time']
 
 def other_hazzards(past, url, type, log):
     global already_sent_hazzards
@@ -79,13 +79,13 @@ def other_hazzards(past, url, type, log):
         if dezastru['_id'] in already_sent_hazzards:
             continue
         dictionar['Data'] = {
-                                'Type' : type,
-                                'Alert-level' : dezastru['crisis_alertLevel'],
-                                'Country' : dezastru['gn_parentCountry'][0].title(),
-                                'Time' : starttime,
-                                'URL' : dezastru['rdfs_seeAlso'],
-                                'Title' : dezastru['dc_title'],
-                                'Description' : dezastru['dc_description']
+                                'type' : type,
+                                'alert-level' : dezastru['crisis_alertLevel'],
+                                'country' : dezastru['gn_parentCountry'][0].title(),
+                                'time' : starttime,
+                                'url' : dezastru['rdfs_seeAlso'],
+                                'title' : dezastru['dc_title'],
+                                'description' : dezastru['dc_description']
                             }
         json_to_send = json.dumps(dictionar)
         log.write(json_to_send + '\n\n')
