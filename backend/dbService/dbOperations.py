@@ -1,0 +1,190 @@
+from urllib import urlopen
+import json
+import threading
+import thread
+import mysql.connector
+import time
+
+dataCrawler=[]
+
+def send():
+	global dataCrawler
+	db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+	cursor=db.cursor()
+	verificare=json.dumps({'check':'Notificare'})
+	url='http://students.info.uaic.ro:8769'
+	handle=urlopen(url,verificare)
+	raspuns=json.loads(handle.read())
+	#print "am ajuns aici"
+	if raspuns['method']=='addNotification':
+		try:
+			#print "am intrat in addNotification"
+			cursor.execute("SELECT MIN(t1.id + 1) FROM notificari t1 LEFT JOIN notificari t2 ON t1.id + 1 = t2.id WHERE t2.ID IS NULL")
+			linie=cursor.fetchone()
+			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(linie[0],raspuns['data']['repeatable'],raspuns['data']['interval'],raspuns['data']['time'],raspuns['data']['text'],raspuns['id']))
+			db.commit()
+			date=json.dumps({'id':linie[0],'error':""})
+			handle=urlopen(url,date)
+			#print "am trimis handle"
+			cursor.close()
+			db.close()
+		except:
+			db.rollback()
+			date=json.dumps({'id':raspuns['id'],'error':"Eroare la addNotification"})
+			handle=urlopen(url,date)
+	elif raspuns['method']=='getNotifications':
+		cursor.execute("Select * from notificari where user_id = %s",(raspuns['id'], ))
+		linie=cursor.fetchone()
+		if linie is None:
+			#print "nothing fetched"
+			date=json.dumps({'error':'No notifications fetched'})
+			handle=urlopen(url,date)
+			cursor.close()
+			db.close()
+		else:
+			#print "lets see"
+			current=0
+			date={}
+			date['error']=""
+			date['data']=[]
+			date['data'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+			while linie is not None:
+				linie=cursor.fetchone()
+				if linie is not None:
+					date['data'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+			datee=json.dumps(date)
+			handle=urlopen(url,datee)
+	elif raspuns['method']=='addUser':
+		try:
+			#print "am ajuns in addUser"
+			cursor.execute("SELECT MIN(t1.id + 1) FROM useri t1 LEFT JOIN useri t2 ON t1.id + 1 = t2.id WHERE t2.ID IS NULL")
+			linie=cursor.fetchone()
+			#print linie
+			if linie[0] is None:
+				interm=1
+			else:
+				interm=linie[0]
+			cursor.execute("INSERT INTO useri VALUES (%s,%s,%s,%s,%s,%s,%s)",(interm,raspuns['data']['country'],raspuns['data']['city'],raspuns['data']['newsCrawler'],raspuns['data']['hazzardCrawler'],raspuns['data']['weatherCrawler'],raspuns['data']['email']))
+			date=json.dumps({'id':interm,'error':""})
+			handle=urlopen(url,date)
+			db.commit()
+			#print "am trimis handle in addUser"
+			cursor.close()
+			db.close()
+		except:
+			#print "what happened"
+			db.rollback()
+			date=json.dumps({'id':interm,'error':'Eroare la addUser'})
+			handle=urlopen(url,date)
+	elif raspuns['method']=='removeNotification':
+		try:
+			#print "am intrat in removeNotifications"
+			cursor.execute("DELETE FROM notificari WHERE id=%s",(raspuns['id'], ))
+			db.commit()
+			date=json.dumps({'id':raspuns['id'],'error':""})
+			handle=urlopen(url,date)
+			cursor.close()
+			db.close()
+		except:
+			#print "ups la remove"
+			db.rollback()
+			date=json.dumps({'id':raspuns['id'],'error':"Eroare la removeNotification"})
+			handle=urlopen(url,date)
+	elif raspuns['method']=='removeUser':
+		try:
+			#print "am intrat in removeUser"
+			cursor.execute("DELETE FROM notificari where user_id=%s",(raspuns['id'], ))
+			cursor.execute("DELETE FROM useri where id=%s",(raspuns['id'], ))
+			db.commit()
+			date=json.dumps({'id':raspuns['id'],'error':""})
+			handle=urlopen(url,date)
+		except:
+			#print "ups la removeUser"
+			db.rollback()
+			date=json.dumps({'id':raspuns['id'],'error':"Eroare la removeUser"})
+			handle=urlopne(url,date)
+	elif raspuns['method']=='getExpiredNotifications':
+		try:
+			cursor.execute("SELECT text FROM notificari where user_id=%s and Repeatable>0 and Time<(select now() from dual)",(raspuns['id'], ))
+			linie=cursor.fetchone()
+			#print "lets see"
+			current=0
+			date=[]
+			date.append({'type':"User_Notification",'data':linie[0],'error':""})
+			while linie is not None:
+				linie=cursor.fetchone()
+				if linie is not None:
+					date.append({'type':"User_Notification",'data':linie[0],'error':""})
+			for i in range(0,len(dataCrawler)):
+				if dataCrawler[i]['id']==raspuns['id']:
+					date.append({'type':dataCrawler[i]['type'],'data':dataCrawler[i]['data'],'error':""})
+					dateCrawler.pop(i)
+			#format actual al json-ului trimis inapoi [{'type':"User_notification",'data':"db_notification_text",'error':""},
+			#{'type':"User_notification",'data':"db_notification_text",'error':""},
+			#{'type':"Hazzard",'data':"crawler_data_received in sendCrawler",'error':""},...]
+			datee=json.dumps(date)
+			handle=urlopen(ulr,datee)
+			cursor.close()
+			db.close()
+		except:
+			date=json.dumps({'error':'Eroare la fetching notificare expirata'})
+			handle=urlopen(url,date)
+		
+	send()
+
+def sendCrawler():
+	db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+	cursor=db.cursor()
+	verificare=json.dumps({'check':'Notificare'})
+	url='http://students.info.uaic.ro:8769'
+	handle=urlopen(url,verificare)
+	raspuns=json.loads(handle.read())
+	if raspuns['Type']=="":
+		time.wait(1800)
+	elif raspuns['Type']=="Hazzard":
+		if raspuns['Data']['location']['country']!="":
+			if raspuns['Data']['location']['country']!="":
+				cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
+			else:
+				cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
+		elif raspuns['Data']['location']['city']!="":
+			cursor.execute("SELECT id from useri where hazzardCrawler=1 and City=%s",(raspuns['Data']['location']['city'], ))
+		else:
+			cursor.execute("SELECT id from useri where hazzardCrawler=1")
+	elif raspuns['Type']=="Weather":
+		if raspuns['Data']['location']['country']!="":
+			if raspuns['Data']['location']['country']!="":
+				cursor.execute("SELECT id from useri where weatherCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
+			else:
+				cursor.execute("SELECT id from useri where weatherCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
+		elif raspuns['Data']['location']['city']!="":
+			cursor.execute("SELECT id from useri where weatherCrawler=1 and City=%s",(raspuns['Data']['location']['city'], ))
+		else:
+			cursor.execute("SELECT id from useri where weatherCrawler=1")
+	elif raspuns['Type']=="News":
+		if raspuns['Data']['location']['country']!="":
+			if raspuns['Data']['location']['country']!="":
+				cursor.execute("SELECT id from useri where newsCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
+			else:
+				cursor.execute("SELECT id from useri where newsCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
+		elif raspuns['Data']['location']['city']!="":
+			cursor.execute("SELECT id from useri where newsCrawler=1 and City=%s",(raspuns['Data']['location']['city'], ))
+		else:
+			cursor.execute("SELECT id from useri where newsCrawler=1")
+	linie=cursor.fetchone()
+	dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']})
+	while linie is not None:
+		linie=cursor.fetchone()
+		if linie is not None:
+			dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']})
+		cursor.close()
+		db.close()
+	
+		
+
+def main():
+	sendCrawler()
+	send()
+
+if __name__=="__main__":
+	main()

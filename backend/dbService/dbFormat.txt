@@ -1,0 +1,29 @@
+Format utilizat in dbService
+
+notificari:
+
+'''
+CREATE TABLE `proiectip_a2`.`notificari` (
+  `id` INT NOT NULL,
+  `Repeatable` TINYINT NOT NULL,
+  `Interval` BIGINT UNSIGNED NULL,
+  `Time` TIMESTAMP NOT NULL,
+  `Text` VARCHAR(1000) NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`));
+'''
+
+
+useri:
+
+'''
+CREATE TABLE `proiectip_a2`.`useri` (
+  `id` INT NOT NULL,
+  `Country` VARCHAR(255) NOT NULL,
+  `City` VARCHAR(255) NOT NULL,
+  `newsCrawler` TINYINT NOT NULL,
+  `hazzardCrawler` TINYINT NOT NULL,
+  `weatherCrawler` TINYINT NOT NULL,
+  `email` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`));
+'''
