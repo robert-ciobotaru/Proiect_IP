@@ -27,9 +27,12 @@ import org.springframework.web.context.request.WebRequest;
 import com.usermanagement.DTO.AddNotificationDto;
 import com.usermanagement.DTO.AddUserDto;
 import com.usermanagement.DTO.ErrorDto;
+import com.usermanagement.DTO.GetNotificationTriggeredDto;
+import com.usermanagement.DTO.GetNotificationTriggeredResultDto;
 import com.usermanagement.DTO.GetNotificationsDto;
 import com.usermanagement.DTO.GetNotificationsResultDto;
 import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
+import com.usermanagement.DTO.GetTriggeredNotificationMethodDto;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRemoveDto;
@@ -419,5 +422,75 @@ public class UsersRestController {
      			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
      		}
     }
-       
+    @RequestMapping(value = "/{userId}/notifications/triggered-notifications", method = RequestMethod.GET)
+    public ResponseEntity<Object> triggeredNotification(@PathVariable("userId") Integer userId){
+    	
+    	GetTriggeredNotificationMethodDto triggeredNotificationMethod = new GetTriggeredNotificationMethodDto();
+    	String url = new String("http://localhost:9000");
+    	RestTemplate rest = new RestTemplate();
+    	triggeredNotificationMethod.setId(userId);
+    	triggeredNotificationMethod.setMethod("getExpiredNotifications");
+    	
+    	ResponseEntity<GetNotificationTriggeredDto> responseFromBackend = null;
+    	try{
+    		responseFromBackend = rest.postForEntity(url,triggeredNotificationMethod,GetNotificationTriggeredDto.class);
+    	}
+    	catch (Exception e){
+    		System.out.println(e);
+    		ErrorDto error =  new ErrorDto();
+    		error.setError("The server is currently unavailable");
+    		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+    	}
+    	
+    	GetNotificationTriggeredDto notification = null;
+    	if (responseFromBackend != null){
+    		notification = responseFromBackend.getBody();
+    		if(notification.getType() == null || notification.getData() ==  null || notification.getData().getId() == null || notification.getData().getInterval() == null
+    				|| notification.getData().getText() == null || notification.getData().getTime() == null || notification.getData().isRepeatable() == false ){
+    			ErrorDto error =  new ErrorDto();
+        		error.setError("Internal server error");
+    			return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+    		}
+    		
+    	}
+    	
+    	else{
+    	ErrorDto error = new ErrorDto();
+   		error.setError("Internal Server Error");
+   		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    	
+    	if(notification.getError().length() >= 0){
+    	 
+    		if (notification.getError().equals("Invalid User")){
+    			ErrorDto error =  new ErrorDto();
+        		error.setError("Invalid User");
+    			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    		}
+    	
+    		if (notification.getError().equals("Input criteria not correct")){
+    			ErrorDto error =  new ErrorDto();
+        		error.setError("Input criteria not correct");
+    			return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    		}
+    	
+    		if (notification.getError().equals("Internal server error")){
+    			ErrorDto error =  new ErrorDto();
+        		error.setError("Internal server error");
+    			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    		}
+    		if (notification.getError().equals("The server is currently unavailable")){
+    			ErrorDto error =  new ErrorDto();
+        		error.setError("The server is currently unavailable");
+    			return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+    		}
+    		
+    	}
+    	
+		GetNotificationTriggeredResultDto result = new GetNotificationTriggeredResultDto();
+		result.setType(notification.getType());
+		result.setData(notification.getData());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+
+    }  
 }
