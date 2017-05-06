@@ -9,7 +9,9 @@ OUTPUT
 {
     0:NOTIFICATION_DATA
     1:NOTIFICATION_DATA
-    ...
+    .
+    .
+    .
     (number-1):NOTIFICATION_DATA
     error:(string) // field that will be completed should any problems occur
 }
@@ -37,9 +39,15 @@ INPUT
 }
 OUTPUT
 {
-    type :(string) 'News' or 'Hazzard' or 'Weather' or 'User_Notification'
-    data:{json with data} or NOTIFICATION_DATA[NOTIFICATION_TEXT]
-    error:(string) // field that will be completed should any problems occur
+    0:[type :(string) 'News' or 'Hazzard' or 'Weather' or 'User_Notification'
+    data:CRAWLER_DATA or NOTIFICATION_DATA[NOTIFICATION_TEXT]
+    error:(string) // field that will be completed should any problems occur]
+   
+    1:[.....]
+    .
+    .
+    .
+    n-1:[....]
 }
 
 
@@ -87,6 +95,10 @@ NOTIFICATION_DATA : {
        repeatable:(BOOL)
        interval:(int) REPEAT_INTERVAL_IN_SECONDS // field that will be completed should result : True
 }
+
+CRAWLER_DATA :you may find each crawler's json format in their respective folders
+    EXAMPLE: https://github.com/robert-ciobotaru/Proiect_IP/blob/master/backend/NewsCrawler/NewsCrawler.txt
+
 USER_DATA : {
        country:(string)
        city:(string)
@@ -95,8 +107,9 @@ USER_DATA : {
        weatherCrawler:(bool) // user wants..
        [e-mail]:(string) 
 }
+
 e-mail field is currently optional and USER_DATA will change depending on what information FRONT_END
 decides to gather from the user, country & city are neede for the crawlers(News/Hazzard/Weather)
 and can be obtained through geo-location
 
-Edited at the 3rd of Aprill 2017(3/5/2017) and may be subject to change
+Edited at the 6th of Aprill 2017(6/5/2017) and may be subject to change
