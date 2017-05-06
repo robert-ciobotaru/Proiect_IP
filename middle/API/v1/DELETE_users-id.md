@@ -36,6 +36,13 @@
   * **Code:** 422 Unprocessable Entity <br />
     **Content:** `{ error : "Invalid User" }`
 
+  * **Code:** 500 Internal Server Error <br /> 
+    **Content:** `{ error : "Internal server error" }`
+
+  * **Code:** 503 Service Unavailable <br />
+    **Content:** `{ error : "The server is currently unavailable" }`
+
+
 * **Notes:**
 
   _No aditional info available_

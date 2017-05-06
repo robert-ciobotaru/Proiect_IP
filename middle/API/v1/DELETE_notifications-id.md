@@ -37,6 +37,9 @@
   * **Code:** 422 Unprocessable Entity <br />
     **Content:** `{ error : "Invalid notification id / Invalid Notification user" }`
 
+* **Code:** 500 Internal Server Error <br />
+    **Content:** `{ error : "Internal server error" }`
+
 * **Notes:**
 
   _No aditional info available_

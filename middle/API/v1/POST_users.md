@@ -46,6 +46,11 @@ _No Url params requested_
   * **Code:** 400 Bad Request <br />
     **Content:** `{ error : "Data for creating new user is invalid" }`
 
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ error : "Internal server error" }`
+
+  * **Code:** 503 Service Unavailable <br />
+    **Content:** `{ error : "The server is currently unavailable" }`
 
 * **Notes:**
   _No aditional info available_
