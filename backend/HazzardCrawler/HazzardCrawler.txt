@@ -1,0 +1,31 @@
+HazzardCrawler -> pentru preluarea datelor despre cutremure: https://earthquake.usgs.gov/fdsnws/event/1/
+				  pentru preluarea datelor despre inundatii si cicloni: https://api.sigimera.org/v1/crises
+
+Structura json:
+
+
+1. Earthquakes
+	
+	Type : 'Hazzard'
+	Data :
+			Type : 'earthquake'
+			Magnitude : ...
+			Location : 
+					City : ...
+					Country : ...
+			Time : in formatul an-luna-ziTore:minute:secunde (ex: '2017-05-06T00:21:40')
+			URL : catre detalii despre cutremur
+			Title : ...
+
+
+2. Floods and cyclones
+
+	Type : 'Hazzard'
+	Data : 
+			Type : 'floods' sau 'cyclones'
+			Alert-level : ...
+			Country : ...
+			Time : in formatul an-luna-ziTore:minute:secunde (ex: '2017-05-06T00:21:40')
+			URL : catre detalii despre eveniment
+			Title : ...
+			Description : ...
