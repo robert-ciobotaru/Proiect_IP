@@ -13,12 +13,20 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Button button1 = (Button) findViewById(R.id.button1);
-
+        Button button2 = (Button) findViewById(R.id.button2);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ChangeCategories = new Intent(getApplicationContext(), SettingsCategories.class);
+                startActivity(ChangeCategories);
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ChangeCategories = new Intent(getApplicationContext(), ChangeUsername.class);
                 startActivity(ChangeCategories);
             }
         });
