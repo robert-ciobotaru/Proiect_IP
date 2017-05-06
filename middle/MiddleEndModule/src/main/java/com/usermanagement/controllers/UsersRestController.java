@@ -323,6 +323,12 @@ public class UsersRestController {
      
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ResponseInterfaceDto> postUser(@RequestBody UserCreateDto userCreate){
+    	 if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null || userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
+    		ErrorDto error1 = new ErrorDto();
+			error1.setError("Data for creating new user is invalid");
+			return new ResponseEntity<>((ResponseInterfaceDto)error1,HttpStatus.BAD_REQUEST);
+    	 }
+			
     	 AddUserDto addUser = new AddUserDto();
     	 String url = new String("http://localhost:9000");
     	 RestTemplate rest = new RestTemplate();
@@ -332,20 +338,28 @@ public class UsersRestController {
     	     response = rest.postForEntity(url,addUser,UserCreateResponseFromBackEnd.class);
     	 }
     	 catch (Exception e) {
-    		 System.out.println(e);
+             ErrorDto error2 = new ErrorDto();
+             error2.setError("The server is currently unavailable");
+             return new ResponseEntity<>(error2, HttpStatus.SERVICE_UNAVAILABLE);
     	 }
     	 
     	 UserCreateResponseFromBackEnd userCreateResponse = null;
     	 
     	 if ( response != null ){
      		
-    		 userCreateResponse = response.getBody();   	
+    		 userCreateResponse = response.getBody();
+    		 if(userCreateResponse.getError() == null || userCreateResponse.getUser().getCity() == null || userCreateResponse.getUser().getCountry() == null || userCreateResponse.getUser().getEmail() == null || userCreateResponse.getUser().isHazzardCrawler() == null || userCreateResponse.getUser().isNewsCrawler() == null || userCreateResponse.getUser().isWeatherCrawler() == null){
+    	    		ErrorDto error3 = new ErrorDto();
+    				error3.setError("Internal server error");
+    				return new ResponseEntity<>((ResponseInterfaceDto)error3,HttpStatus.INTERNAL_SERVER_ERROR);
+    	    	 }
       	 }
       	 else{
-      	
-      		userCreateResponse = new UserCreateResponseFromBackEnd();
+	    	ErrorDto error3 = new ErrorDto();
+			error3.setError("Internal server error");
+			return new ResponseEntity<>((ResponseInterfaceDto)error3,HttpStatus.INTERNAL_SERVER_ERROR);
       	 }
-    	userCreateResponse.setUser(new UserDto());
+   /* 	userCreateResponse.setUser(new UserDto());
     	userCreateResponse.setError("");
     	userCreateResponse.getUser().setId(23);
     	userCreateResponse.getUser().setCity(userCreate.getCity());
@@ -353,7 +367,7 @@ public class UsersRestController {
     	userCreateResponse.getUser().setEmail(userCreate.getEmail());
     	userCreateResponse.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
     	userCreateResponse.getUser().setNewsCrawler(userCreate.isNewsCrawler());
-    	userCreateResponse.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
+    	userCreateResponse.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());  */
     	
         if(userCreateResponse.getUser().getEmail().equals("manole.catalin@gmail.com")){
         	userCreateResponse.setError("Data for creating new user is invalid");

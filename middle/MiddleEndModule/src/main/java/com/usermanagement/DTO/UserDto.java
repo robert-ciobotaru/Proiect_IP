@@ -4,9 +4,9 @@ public class UserDto {
 	public Integer id;
     public String country;
     public String city;
-    public boolean newsCrawler;
-    public boolean hazzardCrawler;
-    public boolean weatherCrawler;
+    public Boolean newsCrawler;
+    public Boolean hazzardCrawler;
+    public Boolean weatherCrawler;
     public String email;
 
 	public Integer getId() {
@@ -27,19 +27,19 @@ public class UserDto {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public boolean isNewsCrawler() {
+	public Boolean isNewsCrawler() {
 		return newsCrawler;
 	}
 	public void setNewsCrawler(boolean newsCrawler) {
 		this.newsCrawler = newsCrawler;
 	}
-	public boolean isHazzardCrawler() {
+	public Boolean isHazzardCrawler() {
 		return hazzardCrawler;
 	}
 	public void setHazzardCrawler(boolean hazzardCrawler) {
 		this.hazzardCrawler = hazzardCrawler;
 	}
-	public boolean isWeatherCrawler() {
+	public Boolean isWeatherCrawler() {
 		return weatherCrawler;
 	}
 	public void setWeatherCrawler(boolean weatherCrawler) {
