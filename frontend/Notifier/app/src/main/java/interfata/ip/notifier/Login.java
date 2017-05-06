@@ -31,13 +31,20 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(editText.length()>3 && editText2.length()>3) {
-                    Intent categories = new Intent(Login.this, NotificationSend.class);
+                    Intent categories = new Intent(getApplicationContext(), NotificationSend.class);
                     startActivity(categories);
                 }
                 else{
                     Snackbar snackbar = Snackbar.make(view, "Username sau parola sunt incorecte!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

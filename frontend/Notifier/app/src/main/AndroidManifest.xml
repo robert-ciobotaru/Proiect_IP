@@ -30,7 +30,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NotificationSend" />
         <activity android:name=".NotificationView" />
-        <activity android:name=".Register"></activity>
+        <activity android:name=".Register" />
+        <activity android:name=".Test"></activity>
     </application>
 
 </manifest>
