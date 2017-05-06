@@ -203,6 +203,8 @@ public class UsersRestController {
        		 
        	 }
     	
+    	
+    	
     	RemoveNotificationResultDto removeNotificationResult = null;
     	if ( response != null ){
     		
@@ -219,6 +221,7 @@ public class UsersRestController {
     		ErrorDto error = new ErrorDto();
        		error.setError("Internal Server Error");
        		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    	
     	}
     
        RemoveNotificationReturnDto removeResponse = null;
@@ -280,7 +283,7 @@ public class UsersRestController {
     	}
     }
     
-    
+     
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ResponseInterfaceDto> postUser(@RequestBody UserCreateDto userCreate){
     	 AddUserDto addUser = new AddUserDto();

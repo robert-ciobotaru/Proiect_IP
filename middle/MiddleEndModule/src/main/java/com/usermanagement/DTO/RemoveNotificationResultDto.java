@@ -6,6 +6,7 @@ public class RemoveNotificationResultDto{
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(int user_id) {
 		this.id = user_id;
 	}
