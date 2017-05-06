@@ -15,17 +15,17 @@ def send():
 	url='http://students.info.uaic.ro:8769'
 	handle=urlopen(url,verificare)
 	raspuns=json.loads(handle.read())
-	print "am ajuns aici"
+	#print "am ajuns aici"
 	if raspuns['method']=='addNotification':
 		try:
-			print "am intrat in addNotification"
+			#print "am intrat in addNotification"
 			cursor.execute("SELECT MIN(t1.id + 1) FROM notificari t1 LEFT JOIN notificari t2 ON t1.id + 1 = t2.id WHERE t2.ID IS NULL")
 			linie=cursor.fetchone()
 			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(linie[0],raspuns['data']['repeatable'],raspuns['data']['interval'],raspuns['data']['time'],raspuns['data']['text'],raspuns['id']))
 			db.commit()
 			date=json.dumps({'id':linie[0],'error':""})
 			handle=urlopen(url,date)
-			print "am trimis handle"
+			#print "am trimis handle"
 			cursor.close()
 			db.close()
 		except:
@@ -36,13 +36,13 @@ def send():
 		cursor.execute("Select * from notificari where user_id = %s",(raspuns['id'], ))
 		linie=cursor.fetchone()
 		if linie is None:
-			print "nothing fetched"
+			#print "nothing fetched"
 			date=json.dumps({'error':'No notifications fetched'})
 			handle=urlopen(url,date)
 			cursor.close()
 			db.close()
 		else:
-			print "lets see"
+			#print "lets see"
 			current=0
 			date={}
 			date['error']=""
@@ -56,10 +56,10 @@ def send():
 			handle=urlopen(url,datee)
 	elif raspuns['method']=='addUser':
 		try:
-			print "am ajuns in addUser"
+			#print "am ajuns in addUser"
 			cursor.execute("SELECT MIN(t1.id + 1) FROM useri t1 LEFT JOIN useri t2 ON t1.id + 1 = t2.id WHERE t2.ID IS NULL")
 			linie=cursor.fetchone()
-			print linie
+			#print linie
 			if linie[0] is None:
 				interm=1
 			else:
@@ -68,17 +68,17 @@ def send():
 			date=json.dumps({'id':interm,'error':""})
 			handle=urlopen(url,date)
 			db.commit()
-			print "am trimis handle in addUser"
+			#print "am trimis handle in addUser"
 			cursor.close()
 			db.close()
 		except:
-			print "what happened"
+			#print "what happened"
 			db.rollback()
 			date=json.dumps({'id':interm,'error':'Eroare la addUser'})
 			handle=urlopen(url,date)
 	elif raspuns['method']=='removeNotification':
 		try:
-			print "am intrat in removeNotifications"
+			#print "am intrat in removeNotifications"
 			cursor.execute("DELETE FROM notificari WHERE id=%s",(raspuns['id'], ))
 			db.commit()
 			date=json.dumps({'id':raspuns['id'],'error':""})
@@ -86,20 +86,20 @@ def send():
 			cursor.close()
 			db.close()
 		except:
-			print "ups la remove"
+			#print "ups la remove"
 			db.rollback()
 			date=json.dumps({'id':raspuns['id'],'error':"Eroare la removeNotification"})
 			handle=urlopen(url,date)
 	elif raspuns['method']=='removeUser':
 		try:
-			print "am intrat in removeUser"
+			#print "am intrat in removeUser"
 			cursor.execute("DELETE FROM notificari where user_id=%s",(raspuns['id'], ))
 			cursor.execute("DELETE FROM useri where id=%s",(raspuns['id'], ))
 			db.commit()
 			date=json.dumps({'id':raspuns['id'],'error':""})
 			handle=urlopen(url,date)
 		except:
-			print "ups la removeUser"
+			#print "ups la removeUser"
 			db.rollback()
 			date=json.dumps({'id':raspuns['id'],'error':"Eroare la removeUser"})
 			handle=urlopne(url,date)
@@ -107,7 +107,7 @@ def send():
 		try:
 			cursor.execute("SELECT text FROM notificari where user_id=%s and Repeatable>0 and Time<(select now() from dual)",(raspuns['id'], ))
 			linie=cursor.fetchone()
-			print "lets see"
+			#print "lets see"
 			current=0
 			date=[]
 			date.append({'type':"User_Notification",'data':linie[0],'error':""})
@@ -119,6 +119,9 @@ def send():
 				if dataCrawler[i]['id']==raspuns['id']:
 					date.append({'type':dataCrawler[i]['type'],'data':dataCrawler[i]['data'],'error':""})
 					dateCrawler.pop(i)
+			#format actual al json-ului trimis inapoi [{'type':"User_notification",'data':"db_notification_text",'error':""},
+			#{'type':"User_notification",'data':"db_notification_text",'error':""},
+			#{'type':"Hazzard",'data':"crawler_data_received in sendCrawler",'error':""},...]
 			datee=json.dumps(date)
 			handle=urlopen(ulr,datee)
 			cursor.close()
