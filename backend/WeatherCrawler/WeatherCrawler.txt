@@ -4,9 +4,9 @@ Structura json
 
  'Type': 'Weather',
  'Data': {
-          'Location': {
-                       'City': 
-                       'Country': 
+          'location': {
+                       'city': 
+                       'country': 
                       }
-          'Text': 
+          'text': 
          }

@@ -18,9 +18,9 @@ while True:
             weatherJson = json.load(weatherHandle)
             jsonToProxy = json.dumps({'Type': 'Weather',
                                       'Data': {
-                                          'Location': {'City': weatherJson['name'],
-                                                       'Country': weatherJson['sys']['country']},
-                                          'Text': weatherJson['weather'][0]['description']}})
+                                          'location': {'city': weatherJson['name'],
+                                                       'country': weatherJson['sys']['country']},
+                                          'text': weatherJson['weather'][0]['description']}})
 
             # send weather json to proxy
             proxyHandle = urlopen(urlProxy, data=jsonToProxy)
