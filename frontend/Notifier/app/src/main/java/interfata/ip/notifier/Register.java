@@ -60,15 +60,12 @@ public class Register extends AppCompatActivity {
                     email.requestFocus();
                 }
 
-
-
                 String filename = "user.txt";
                 FileOutputStream outputStream;
 
                 try {
                     outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    String str = "test data";
-                    outputStream.write(str.getBytes());
+                    outputStream.write(username.getText().toString().getBytes());
                     outputStream.close();
                 } catch (Exception e) {
                     e.printStackTrace();
