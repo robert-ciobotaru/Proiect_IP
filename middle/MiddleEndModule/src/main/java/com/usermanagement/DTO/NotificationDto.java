@@ -5,7 +5,7 @@ public class NotificationDto {
 	public Integer id;
 	public String text;
 	public Integer time;
-	public boolean repeatable;
+	public Boolean repeatable;
 	public Integer interval;
 	
 	public Integer getId() {
@@ -26,7 +26,7 @@ public class NotificationDto {
 	public void setTime(Integer time) {
 		this.time = time;
 	}
-	public boolean isRepeatable() {
+	public Boolean isRepeatable() {
 		return repeatable;
 	}
 	public void setRepeatable(boolean repeatable) {

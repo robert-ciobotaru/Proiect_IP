@@ -4,7 +4,7 @@ public class NotificationCreateDto {
 		
 	public String text;
 	public Integer time;
-	public boolean repeatable;
+	public Boolean repeatable;
 	public Integer interval;
 	
 	public String getText() {
@@ -19,7 +19,7 @@ public class NotificationCreateDto {
 	public void setTime(Integer time) {
 		this.time = time;
 	}
-	public boolean isRepeatable() {
+	public Boolean isRepeatable() {
 		return repeatable;
 	}
 	public void setRepeatable(boolean repeatable) {

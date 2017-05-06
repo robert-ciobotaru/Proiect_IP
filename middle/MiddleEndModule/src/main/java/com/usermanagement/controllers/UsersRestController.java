@@ -335,7 +335,7 @@ public class UsersRestController {
     	 }
 			
     	 AddUserDto addUser = new AddUserDto();
-    	 String url = new String("http://localhost:9000");
+    	 String url = new String("http://fenrir.info.uaic.ro:8765");
     	 RestTemplate rest = new RestTemplate();
     	 addUser.setUser(userCreate);
     	 ResponseEntity<UserCreateResponseFromBackEnd> response = null;
