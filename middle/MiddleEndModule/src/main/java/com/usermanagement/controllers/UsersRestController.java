@@ -184,7 +184,7 @@ public class UsersRestController {
 //     
 //    }
     @RequestMapping(value ="/{userId}/notifications/{notificationId}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseInterfaceDto> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
+    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
     	String url = new String("http://localhost:9000");
     	RestTemplate rest = new RestTemplate();
@@ -197,43 +197,43 @@ public class UsersRestController {
        	 	response = rest.postForEntity(url,removeNotification,RemoveNotificationResultDto.class);
        	 }
        	 catch (Exception e) {
-       		 System.out.println(e);
+       		ErrorDto error = new ErrorDto();
+    		error.setError("The server is currently unavailable");
+    		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+       		 
        	 }
     	
     	RemoveNotificationResultDto removeNotificationResult = null;
     	if ( response != null ){
     		
-    	   removeNotificationResult = response.getBody();	
+    	   removeNotificationResult = response.getBody();
+    	   if(removeNotificationResult.getError() ==null || removeNotificationResult.getId()==null){
+    		   ErrorDto error = new ErrorDto();
+       		error.setError("Internal Server Error");
+       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    		   
+    	   }
     	}
     	else{
     	
-    	   removeNotificationResult = new RemoveNotificationResultDto();
+    		ErrorDto error = new ErrorDto();
+       		error.setError("Internal Server Error");
+       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     	}
-    	
-    	removeNotificationResult.setId(23);
-    	removeNotificationResult.setError("Invalid notification id");
-    	
-       if(userId==1){
-    	   removeNotificationResult.setError("EroorHappens");
-    	   
-       }
-       else
-       {
-    	   removeNotificationResult.setError("");
-       }
+    
        RemoveNotificationReturnDto removeResponse = null;
 
 		if(removeNotificationResult.getError().length()>0){
 			ErrorDto error = new ErrorDto();
 			error.setError(removeNotificationResult.getError());
 			
-			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		else{
-		    removeResponse = new RemoveNotificationReturnDto ();	
+		    removeResponse = new RemoveNotificationReturnDto();	
 		    removeResponse.setId(removeNotificationResult.getId());
 		      
-			return new ResponseEntity<>((ResponseInterfaceDto)removeResponse, HttpStatus.OK);
+			return new ResponseEntity<>(removeResponse, HttpStatus.OK);
 		}
 	}
     

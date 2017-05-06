@@ -1,9 +1,9 @@
 package com.usermanagement.DTO;
 
 public class RemoveNotificationResultDto{
-	private int id;
-	private String error="";
-	public int getId() {
+	private Integer id;
+	private String error;
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int user_id) {

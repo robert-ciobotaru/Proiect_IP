@@ -1,9 +1,9 @@
 package com.usermanagement.DTO;
 
 public class NotificationRemoveDto {
-	private int id;
+	private Integer id;
 	private String method;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
