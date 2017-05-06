@@ -29,6 +29,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(login);
             }
         });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent register = new Intent(getApplicationContext(), Register.class);
+                startActivity(register);
+            }
+        });
+
     }
 
 
