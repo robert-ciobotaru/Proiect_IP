@@ -31,7 +31,6 @@
         <activity android:name=".NotificationSend" />
         <activity android:name=".NotificationView" />
         <activity android:name=".Register" />
-        <activity android:name=".Test"></activity>
     </application>
 
 </manifest>
