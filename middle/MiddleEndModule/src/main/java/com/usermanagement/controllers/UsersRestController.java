@@ -35,6 +35,7 @@ import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRemoveDto;
 import com.usermanagement.DTO.NotificationRequestDto;
 import com.usermanagement.DTO.NotificationsListDto;
+import com.usermanagement.DTO.PostNotificationResultDto;
 import com.usermanagement.DTO.RemoveNotificationResultDto;
 import com.usermanagement.DTO.RemoveNotificationReturnDto;
 import com.usermanagement.DTO.RemoveUserDto;
@@ -68,28 +69,64 @@ public class UsersRestController {
 */
   
 	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
-    public ResponseEntity<NotificationDto> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
-    	NotificationDto notification = new NotificationDto();
+    public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
     	AddNotificationDto addNotification = new AddNotificationDto();
     	 String url = new String("http://localhost:9000");
     	 RestTemplate rest = new RestTemplate();
-    	 
     	 addNotification.setId(userId);
     	 addNotification.setNotification(notificationCreate);
+    	 ResponseEntity<PostNotificationResultDto> response =null;
     	 try{
-    	 ResponseEntity<NotificationDto> response = rest.postForEntity(url,addNotification,NotificationDto.class);
+         response = rest.postForEntity(url,addNotification,PostNotificationResultDto.class);
     	 }
     	 catch (Exception e) {
     		 System.out.println(e);
     	 }
-    	 notification.setTime(notificationCreate.getTime());
-    	 notification.setId(3);
-    	 notification.setInterval(notificationCreate.getInterval());
-    	 notification.setText(notificationCreate.getText());
-    	 notification.setRepeatable(notificationCreate.isRepeatable());
-    	return new ResponseEntity<>(notification, HttpStatus.OK);
+    	 PostNotificationResultDto backendResult=null;
+    	 if(response != null)
+    	 {
+    		 backendResult=response.getBody();
+    	 }
+    	 else
+    	 {
+    		 backendResult= new PostNotificationResultDto();
+    	 }
+    	 
+    	 backendResult.setId(23);
+    	 
+    	 
+    	 if(userId==1){
+    		 backendResult.setError("EroorHappens");
+      	   
+         }
+         else
+         {
+        	 backendResult.setError("");
+         }
+    	 
+    	NotificationDto frontendResult= null;
+    	 if(backendResult.getError().length()>0)
+    	 {
+    		 ErrorDto error = new ErrorDto();
+  			error.setError(backendResult.getError());
+  			
+  			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+  		}
+  		else
+  		{
+  			frontendResult = new NotificationDto ();	
+  			frontendResult.setId(backendResult.getId());
+  			frontendResult.setInterval(notificationCreate.getInterval());
+  			frontendResult.setRepeatable(notificationCreate.isRepeatable());
+  			frontendResult.setText(notificationCreate.getText());
+  			frontendResult.setTime(notificationCreate.getTime());
+  		      
+  			return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.OK);
+  		}
+    	 
+    	
+    	
     }
-    
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<ResponseInterfaceDto> getNotifications(@PathVariable("userId") Integer userId){
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
