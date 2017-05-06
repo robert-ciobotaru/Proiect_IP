@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="interfata.ip.notifier.Settings">
 
+<<<<<<< Updated upstream
     <Button
         android:id="@+id/button1"
         android:layout_width="170dp"
@@ -35,5 +36,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintVertical_bias="0.498" />
+=======
+
+
+>>>>>>> Stashed changes
 
 </android.support.constraint.ConstraintLayout>

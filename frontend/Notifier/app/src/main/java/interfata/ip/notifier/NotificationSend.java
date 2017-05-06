@@ -11,35 +11,41 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Random;
+import java.util.zip.Inflater;
 
 
 public class NotificationSend extends AppCompatActivity {
 
     private Button button;
     private EditText editText;
+    private TextView user;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    public EditText getEditText() {
-        return editText;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notification_send);
+       // setContentView(R.layout.notification_send);
+
+        Intent login = getIntent();
+        String username = login.getExtras().getString("username");
+
 
         editText = (EditText) this.findViewById(R.id.editText);
         button = (Button) this.findViewById(R.id.button);
-        drawerLayout= (DrawerLayout) findViewById(R.id.drawerLayout);
-        actionBarDrawerToggle =new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        //drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,7 +55,7 @@ public class NotificationSend extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                if(text.length()==0){
+                if(text.length()== 0){
                     Snackbar snackbar = Snackbar.make(v, "Introduceti un text", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }

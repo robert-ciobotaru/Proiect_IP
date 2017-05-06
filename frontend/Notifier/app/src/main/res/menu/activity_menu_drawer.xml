@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/profile"
+        android:icon="@mipmap/ic_person_black_24dp"
+        android:title="Profile" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@mipmap/ic_clear_black_24dp"
+            android:title="Logout" />
+    </group>
+
+    <item android:title="Options">
+        <menu>
+            <item
+                android:id="@+id/setting"
+                android:icon="@mipmap/ic_settings_black_24dp"
+                android:title="Setting" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_menu_send"
+                android:title="About" />
+        </menu>
+    </item>
+
+</menu>
