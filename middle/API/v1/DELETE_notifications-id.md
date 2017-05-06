@@ -37,10 +37,10 @@
   * **Code:** 422 Unprocessable Entity <br />
     **Content:** `{ error : "Invalid notification id / Invalid Notification user" }`
 
- * **Code:** 500 Internal Server Error <br />
+  * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal server error" }`
 
- * **Code:** 503 Service Unavailable <br />
+  * **Code:** 503 Service Unavailable <br />
     **Content:** `{ error : "The server is currently unavailable" }`
 
 * **Notes:**
