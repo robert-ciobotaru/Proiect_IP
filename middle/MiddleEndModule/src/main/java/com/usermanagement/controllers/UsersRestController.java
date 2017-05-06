@@ -452,29 +452,10 @@ public class UsersRestController {
     	}
     	
     	if(notification.getError().length() >= 0){
-    	 
-    		if (notification.getError().equals("Invalid User")){
-    			ErrorDto error =  new ErrorDto();
-        		error.setError("Invalid User");
-    			return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-    		}
-    	
-    		if (notification.getError().equals("Input criteria not correct")){
-    			ErrorDto error =  new ErrorDto();
-        		error.setError("Input criteria not correct");
-    			return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    		}
-    	
-    		if (notification.getError().equals("Internal server error")){
-    			ErrorDto error =  new ErrorDto();
-        		error.setError("Internal server error");
-    			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    		}
-    		if (notification.getError().equals("The server is currently unavailable")){
-    			ErrorDto error =  new ErrorDto();
-        		error.setError("The server is currently unavailable");
-    			return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
-    		}
+    		
+    		ErrorDto error = new ErrorDto();
+ 			error.setError(notification.getError());
+ 			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
     		
     	}
     	
