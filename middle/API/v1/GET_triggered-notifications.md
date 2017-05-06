@@ -35,8 +35,7 @@
         "time" : 1231245,
         "repeatable" : true,
         "interval" : 300
-    },
-    "error": "Error whatever"
+    }
 }
 ```
  
