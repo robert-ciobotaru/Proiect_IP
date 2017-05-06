@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="interfata.ip.notifier.Categories">
+    tools:context="interfata.ip.notifier.Register">
 
-    <CheckBox
-        android:id="@+id/checkBox"
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categorie 1"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintVertical_bias="0.100" />
 
-    <CheckBox
-        android:id="@+id/checkBox2"
+    <EditText
+        android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categorie 2"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.200" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintVertical_bias="0.19" />
 
-    <CheckBox
-        android:id="@+id/checkBox3"
+    <EditText
+        android:id="@+id/editText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categorie 3"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Repet password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.300" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintVertical_bias="0.28" />
 
-    <CheckBox
-        android:id="@+id/checkBox4"
+    <EditText
+        android:id="@+id/editText4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categorie 4"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.400" />
-
-    <CheckBox
-        android:id="@+id/checkBox5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Categorie 5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.500" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintVertical_bias="0.37" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Urmatorul"
+        android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.758" />
+        app:layout_constraintVertical_bias="0.719" />
+
+
 </android.support.constraint.ConstraintLayout>
