@@ -86,29 +86,52 @@ public class UsersRestController {
     	 if(response != null)
     	 {
     		 backendResult=response.getBody();
+    		 if(backendResult.getId()==null)
+    		 {
+    			 ErrorDto error =  new ErrorDto();
+    	          error.setError("Internal server error");
+    	       return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+    		 }
     	 }
     	 else
     	 {
-    		 backendResult= new PostNotificationResultDto();
+    		 ErrorDto error =  new ErrorDto();
+             error.setError("Internal server error");
+             return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     	 }
     	 
-    	 backendResult.setId(23);
-    	 
-    	 
-    	 if(userId==1){
-    		 backendResult.setError("EroorHappens");
-      	   
-         }
-         else
-         {
-        	 backendResult.setError("");
-         }
+    	
+    	
     	 
     	NotificationDto frontendResult= null;
+    	
     	 if(backendResult.getError().length()>0)
     	 {
     		 ErrorDto error = new ErrorDto();
-  			error.setError(backendResult.getError());
+  			 error.setError(backendResult.getError());
+  			
+  			 if (error.equals("Invalid User")){
+  		       
+  		          error.setError("Invalid User");
+  		       return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+  		      }
+  		     
+  		      if (error.equals("Input criteria not correct")){
+  		       
+  		          error.setError("Input criteria not correct");
+  		       return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  		      }
+  		     
+  		      if (error.equals("Internal server error")){
+  		      
+  		          error.setError("Internal server error");
+  		       return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+  		      }
+  		      if (error.equals("The server is currently unavailable")){
+  		      
+  		          error.setError("The server is currently unavailable");
+  		       return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+  		      }
   			
   			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
   		}
