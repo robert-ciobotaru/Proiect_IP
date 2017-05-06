@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +24,8 @@ public class NotificationSend extends AppCompatActivity {
 
     private Button button;
     private EditText editText;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     public EditText getEditText() {
         return editText;
@@ -32,6 +38,12 @@ public class NotificationSend extends AppCompatActivity {
 
         editText = (EditText) this.findViewById(R.id.editText);
         button = (Button) this.findViewById(R.id.button);
+        drawerLayout= (DrawerLayout) findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle =new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,5 +73,14 @@ public class NotificationSend extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
