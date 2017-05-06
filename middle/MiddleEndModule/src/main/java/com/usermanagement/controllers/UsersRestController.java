@@ -277,8 +277,9 @@ public class UsersRestController {
 		}
 	}
     
+
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseInterfaceDto> removeUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<Object> removeUser(@PathVariable("userId") Integer userId) {
     	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
     	String url = new String("http://localhost:9000");
    	 	RestTemplate rest = new RestTemplate();
@@ -289,34 +290,38 @@ public class UsersRestController {
    	 		response = rest.postForEntity(url,removeUserMethod,RemoveUserDto.class);
        	}
        	catch (Exception e) {
-       		 System.out.println(e);
+       		ErrorDto error = new ErrorDto();
+    		error.setError("The server is currently unavailable");
+    		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+       		 
        	}
     	RemoveUserDto removeUser = null;
     	if(response != null){
     		removeUser = response.getBody();
+    		if(removeUser.getError()==null || removeUser.getId()==null){
+    			ErrorDto error = new ErrorDto();
+        		error.setError("Internal Server Error");
+        		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    		}
     	}
     	else{
     		removeUser = new RemoveUserDto();
+    		ErrorDto error = new ErrorDto();
+    		error.setError("Internal Server Error");
+    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     	}
-    	removeUser.setError("Invalid User");
-    	removeUser.setId(userId);
-    	if(userId==1){
-    		removeUser.setError("Invalid User");
-    	}
-    	else{
-    		removeUser.setError("");
-    	}
+    	
     	RemoveUserReturnDto removeResponse = null;
     	
     	if(removeUser.getError().length()>0){
     		ErrorDto error = new ErrorDto();
     		error.setError(removeUser.getError());
-    		return new ResponseEntity<>((ResponseInterfaceDto)error, HttpStatus.UNPROCESSABLE_ENTITY);
+    		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     	}
     	else{
     		removeResponse = new RemoveUserReturnDto ();	
     		removeResponse.setId(removeUser.getId());
-    		return new ResponseEntity<>((ResponseInterfaceDto)removeResponse, HttpStatus.OK);
+    		return new ResponseEntity<>(removeResponse, HttpStatus.OK);
     	}
     }
     
