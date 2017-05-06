@@ -81,7 +81,9 @@ def other_hazzards(past, url, type, log):
         dictionar['Data'] = {
                                 'type' : type,
                                 'alert-level' : dezastru['crisis_alertLevel'],
-                                'country' : dezastru['gn_parentCountry'][0].title(),
+                                'location': {
+                                                'country' : dezastru['gn_parentCountry'][0].title()
+                                            },
                                 'time' : starttime,
                                 'url' : dezastru['rdfs_seeAlso'],
                                 'title' : dezastru['dc_title'],
@@ -101,7 +103,7 @@ def main():
     already_sent_earthquakes = {}
     already_sent_hazzards = {}
     log = open ('log_hazzard.txt', 'w')
-    url='http://fenrir.info.uaic.ro:8991'
+    url='http://fenrir.info.uaic.ro:8992'
 
     now_minus_5_hours = datetime.datetime.now() - datetime.timedelta(hours=5)
     past = now_minus_5_hours.strftime("%Y-%m-%dT%H:%M:%S")
