@@ -7,6 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
+import interfata.ip.notifier.messenger.GetNotifications;
+import interfata.ip.notifier.messenger.Messenger;
+import interfata.ip.notifier.messenger.NetworkTask;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        Messenger m = new GetNotifications("104.198.253.69", 8080, "v1", 2);
+        NetworkTask t = new NetworkTask();
+        t.execute(m);
     }
-
-
 }
