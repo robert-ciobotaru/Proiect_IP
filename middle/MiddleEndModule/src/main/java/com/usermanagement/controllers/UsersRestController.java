@@ -322,11 +322,11 @@ public class UsersRestController {
     
      
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<ResponseInterfaceDto> postUser(@RequestBody UserCreateDto userCreate){
+    public ResponseEntity<Object> postUser(@RequestBody UserCreateDto userCreate){
     	 if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null || userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
     		ErrorDto error1 = new ErrorDto();
 			error1.setError("Data for creating new user is invalid");
-			return new ResponseEntity<>((ResponseInterfaceDto)error1,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(error1,HttpStatus.BAD_REQUEST);
     	 }
 			
     	 AddUserDto addUser = new AddUserDto();
@@ -351,13 +351,13 @@ public class UsersRestController {
     		 if(userCreateResponse.getError() == null || userCreateResponse.getUser().getCity() == null || userCreateResponse.getUser().getCountry() == null || userCreateResponse.getUser().getEmail() == null || userCreateResponse.getUser().isHazzardCrawler() == null || userCreateResponse.getUser().isNewsCrawler() == null || userCreateResponse.getUser().isWeatherCrawler() == null){
     	    		ErrorDto error3 = new ErrorDto();
     				error3.setError("Internal server error");
-    				return new ResponseEntity<>((ResponseInterfaceDto)error3,HttpStatus.INTERNAL_SERVER_ERROR);
+    				return new ResponseEntity<>(error3,HttpStatus.INTERNAL_SERVER_ERROR);
     	    	 }
       	 }
       	 else{
 	    	ErrorDto error3 = new ErrorDto();
 			error3.setError("Internal server error");
-			return new ResponseEntity<>((ResponseInterfaceDto)error3,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(error3,HttpStatus.INTERNAL_SERVER_ERROR);
       	 }
    /* 	userCreateResponse.setUser(new UserDto());
     	userCreateResponse.setError("");
@@ -382,13 +382,13 @@ public class UsersRestController {
      			ErrorDto error = new ErrorDto();
      			error.setError(userCreateResponse.getError());
      			
-     			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.BAD_REQUEST);
+     			return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
      		}
      		else{
      			UserCreateReturn returnUser = new UserCreateReturn();
      			returnUser.setUser(userCreateResponse.getUser());
      		      
-     			return new ResponseEntity<>((ResponseInterfaceDto)returnUser, HttpStatus.CREATED);
+     			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
      		}
     }
        
