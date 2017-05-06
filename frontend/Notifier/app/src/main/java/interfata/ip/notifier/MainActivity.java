@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
 import interfata.ip.notifier.messenger.GetNotifications;
+import interfata.ip.notifier.messenger.GetTriggeredNotifications;
 import interfata.ip.notifier.messenger.Messenger;
 import interfata.ip.notifier.messenger.NetworkTask;
 
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Messenger m = new GetNotifications("104.198.253.69", 8080, "v1", 2);
+        Messenger m = new GetTriggeredNotifications("104.198.253.69", 8080, "v1", 2);
         NetworkTask t = new NetworkTask();
         t.execute(m);
         try {
