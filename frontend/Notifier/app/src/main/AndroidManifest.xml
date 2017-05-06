@@ -31,6 +31,11 @@
         <activity android:name=".NotificationSend" />
         <activity android:name=".NotificationView" />
         <activity android:name=".Register" />
+<<<<<<< Updated upstream
+=======
+        <activity android:name=".Test" />
+        <activity android:name=".SettingsCategories"></activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>
