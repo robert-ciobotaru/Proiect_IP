@@ -1,5 +1,6 @@
 package interfata.ip.notifier;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Register extends AppCompatActivity {
 
@@ -49,7 +60,46 @@ public class Register extends AppCompatActivity {
                     email.requestFocus();
                 }
 
+
+
+                String filename = "user.txt";
+                FileOutputStream outputStream;
+
+                try {
+                    outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    String str = "test data";
+                    outputStream.write(str.getBytes());
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
+
+        TextView tv;
+        String selectedfile = "user.txt";
+        tv = (TextView)findViewById(R.id.textView2);
+        try {
+            FileReader fr=new FileReader(selectedfile);
+            BufferedReader br=new BufferedReader(fr);
+            String line = null;
+            try {
+                while(br.readLine()!=null)
+                {
+                    line =br.readLine();
+                    tv.append(line);
+                    tv.append("\n");
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }
