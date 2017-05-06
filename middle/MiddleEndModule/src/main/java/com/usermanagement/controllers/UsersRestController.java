@@ -188,7 +188,7 @@ public class UsersRestController {
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
     	String url = new String("http://localhost:9000");
     	RestTemplate rest = new RestTemplate();
-    	removeNotification.setId(userId);
+    	removeNotification.setId(notificationId);
     	removeNotification.setMethod("removeNotification");
     	
     	ResponseEntity<RemoveNotificationResultDto> response = null;
