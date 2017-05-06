@@ -3,9 +3,9 @@ package com.usermanagement.DTO;
 public class UserCreateDto {
     public String country;
     public String city;
-    public boolean newsCrawler;
-    public boolean hazzardCrawler;
-    public boolean weatherCrawler;
+    public Boolean newsCrawler;
+    public Boolean hazzardCrawler;
+    public Boolean weatherCrawler;
     public String email;
     
 	public String getCountry() {

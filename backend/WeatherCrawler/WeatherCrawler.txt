@@ -1,0 +1,12 @@
+WeatherCrawler -> preluare datelor pentru vreme http://api.openweathermap.org/data/2.5/weather?/
+
+Structura json
+
+ 'Type': 'Weather',
+ 'Data': {
+          'Location': {
+                       'City': 
+                       'Country': 
+                      }
+          'Text': 
+         }
