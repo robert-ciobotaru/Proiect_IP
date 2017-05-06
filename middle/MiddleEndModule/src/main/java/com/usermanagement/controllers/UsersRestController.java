@@ -154,7 +154,7 @@ public class UsersRestController {
     	
     }
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
-    public ResponseEntity<ResponseInterfaceDto> getNotifications(@PathVariable("userId") Integer userId){
+    public ResponseEntity<Object> getNotifications(@PathVariable("userId") Integer userId){
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
     	String url = new String("http://localhost:9000");
     	RestTemplate rest = new RestTemplate();
@@ -165,7 +165,9 @@ public class UsersRestController {
        	  response = rest.postForEntity(url,getNotifications,GetNotificationsResultFromBackEnd.class);
        	 }
        	 catch (Exception e) {
-       		 System.out.println(e);
+       		 ErrorDto error = new ErrorDto();
+       		 error.setError("The server is currently unavailable");
+       		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
        	 }
   
     	
@@ -173,10 +175,21 @@ public class UsersRestController {
     	
     	List<NotificationDto> notificationsList = new ArrayList<>();
     	
-    	if(response !=null)
+    	if(response !=null){
     	
     		notificationsResult = response.getBody();
-    	else
+    	
+	    	if(notificationsResult.getError()==null || notificationsResult.getNotifications() == null){
+	    		ErrorDto error = new ErrorDto();
+	    		error.setError("Internal Server Error");
+	    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+	    	}
+    	}
+    	else{
+    		ErrorDto error = new ErrorDto();
+    		error.setError("Internal Server Error");
+    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
     		 notificationsResult = new GetNotificationsResultFromBackEnd();
     	
     	
