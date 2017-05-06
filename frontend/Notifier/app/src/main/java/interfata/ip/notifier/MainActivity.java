@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.concurrent.ExecutionException;
 
 import interfata.ip.notifier.messenger.GetNotifications;
 import interfata.ip.notifier.messenger.Messenger;
@@ -49,5 +50,11 @@ public class MainActivity extends AppCompatActivity {
         Messenger m = new GetNotifications("104.198.253.69", 8080, "v1", 2);
         NetworkTask t = new NetworkTask();
         t.execute(m);
+        try {
+            System.out.println(t.get());
+        } catch (InterruptedException | ExecutionException e) {
+            System.out.println("EXCEPTIONNN");
+            e.printStackTrace();
+        }
     }
 }

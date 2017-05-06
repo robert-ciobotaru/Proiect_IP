@@ -1,5 +1,8 @@
 package interfata.ip.notifier.messenger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 
@@ -10,6 +13,7 @@ public abstract class Messenger {
     protected String baseServerURL;
     protected String host;
     protected String version;
+    String requestURL;
     protected int port;
 
 
@@ -35,5 +39,5 @@ public abstract class Messenger {
         return port;
     }
 
-    public abstract String makeRequest() throws IOException;
+    public abstract JSONObject makeRequest() throws IOException, JSONException;
 }

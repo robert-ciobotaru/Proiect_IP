@@ -2,18 +2,19 @@ package interfata.ip.notifier.messenger;
 
 import android.os.AsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 
-public class NetworkTask extends AsyncTask<Messenger, Void, String> {
+public class NetworkTask extends AsyncTask<Messenger, Void, JSONObject> {
 
     @Override
-    protected String doInBackground(Messenger... params) {
+    protected JSONObject doInBackground(Messenger... params) {
         try {
-            String s = params[0].makeRequest();
-            System.out.println(s);
-            return s;
-        } catch (IOException e) {
+            return params[0].makeRequest();
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }
