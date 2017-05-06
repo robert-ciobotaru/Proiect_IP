@@ -76,35 +76,39 @@ public class UsersRestController {
     	AddNotificationDto addNotification = new AddNotificationDto();
     	 String url = new String("http://localhost:9000");
     	 RestTemplate rest = new RestTemplate();
+    	  if(notificationCreate.getInterval()==null || notificationCreate.getText()==null || notificationCreate.getTime()==null || notificationCreate.isRepeatable()== null)
+    	  {
+    		      ErrorDto error = new ErrorDto();
+    			  error.setError("Input criteria not correct");
+    		      return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    	  }
+    	 
     	 addNotification.setId(userId);
     	 addNotification.setNotification(notificationCreate);
     	 ResponseEntity<PostNotificationResultDto> response =null;
+    	 
     	 try{
          response = rest.postForEntity(url,addNotification,PostNotificationResultDto.class);
     	 }
     	 catch (Exception e) {
     		 System.out.println(e);
+    		 ErrorDto error =  new ErrorDto();
+             error.setError("The server is currently unavailable");
+             return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE );
+    		 
     	 }
     	 PostNotificationResultDto backendResult=null;
+    	 
     	 if(response != null)
     	 {
     		 backendResult=response.getBody();
-    		 if(backendResult.getId()==null)
+    		 if(backendResult.getId() == null || backendResult.getError() == null )
     		 {
     			 ErrorDto error =  new ErrorDto();
-    	          error.setError("Internal server error");
+    	         error.setError("Internal server error");
     	       return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     		 }
     	 }
-    	 else
-    	 {
-    		 ErrorDto error =  new ErrorDto();
-             error.setError("Internal server error");
-             return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
-    	 }
-    	 
-    	
-    	
     	 
     	NotificationDto frontendResult= null;
     	
@@ -113,45 +117,18 @@ public class UsersRestController {
     		 ErrorDto error = new ErrorDto();
   			 error.setError(backendResult.getError());
   			
-  			 if (error.equals("Invalid User")){
-  		       
-  		          error.setError("Invalid User");
-  		       return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-  		      }
-  		     
-  		      if (error.equals("Input criteria not correct")){
-  		       
-  		          error.setError("Input criteria not correct");
-  		       return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-  		      }
-  		     
-  		      if (error.equals("Internal server error")){
-  		      
-  		          error.setError("Internal server error");
-  		       return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-  		      }
-  		      if (error.equals("The server is currently unavailable")){
-  		      
-  		          error.setError("The server is currently unavailable");
-  		       return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
-  		      }
-  			
   			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
   		}
-  		else
-  		{
-  			frontendResult = new NotificationDto ();	
-  			frontendResult.setId(backendResult.getId());
-  			frontendResult.setInterval(notificationCreate.getInterval());
-  			frontendResult.setRepeatable(notificationCreate.isRepeatable());
-  			frontendResult.setText(notificationCreate.getText());
-  			frontendResult.setTime(notificationCreate.getTime());
-  		      
-  			return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.OK);
-  		}
-    	 
-    	
-    	
+  		
+		frontendResult = new NotificationDto ();	
+		frontendResult.setId(backendResult.getId());
+		frontendResult.setInterval(notificationCreate.getInterval());
+		frontendResult.setRepeatable(notificationCreate.isRepeatable());
+		frontendResult.setText(notificationCreate.getText());
+		frontendResult.setTime(notificationCreate.getTime());    
+		return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.OK);
+  	
+ 
     }
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> getNotifications(@PathVariable("userId") Integer userId){
@@ -167,7 +144,9 @@ public class UsersRestController {
        	 catch (Exception e) {
        		 ErrorDto error = new ErrorDto();
        		 error.setError("The server is currently unavailable");
+       		
        		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+       		 
        	 }
   
     	
@@ -235,7 +214,6 @@ public class UsersRestController {
  		else{
  			getNotificantionsResultForFrontEnd = new GetNotificationsResultDto ();	
  			getNotificantionsResultForFrontEnd.setNotifications(notificationsResult.getNotifications());
- 		      
  			return new ResponseEntity<>((ResponseInterfaceDto)getNotificantionsResultForFrontEnd, HttpStatus.OK);
  		}
     }

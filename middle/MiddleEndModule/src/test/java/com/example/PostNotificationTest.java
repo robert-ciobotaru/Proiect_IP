@@ -43,8 +43,7 @@ public class PostNotificationTest {
 	public void test1() throws Exception {
 		NotificationDto response = null;
 		try {
-			this.mockMvc.perform(post("v1/users/{userId}/notifications").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-					    + "\"userId\" : 2,"
+			this.mockMvc.perform(post("v1/users/2/notifications").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 						+ "\"text\":\"Wake me up\","
 						+ "\"time\":\"1231245\","
 						+ "\"repeatable\":\"true\","
