@@ -34,7 +34,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class GetNotificationsTest {
 	private MockMvc mockMvc;
     private UsersRestController controllers= new UsersRestController();
-	@BeforeClass
+	
+    @BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
 
@@ -49,6 +50,8 @@ public class GetNotificationsTest {
 
 	@After
 	public void tearDown() throws Exception {
+		mockMvc = null;
+		controllers= null;
 	}
 
 	@Test

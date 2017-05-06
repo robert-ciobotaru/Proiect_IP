@@ -1,6 +1,11 @@
 package com.usermanagement.DTO;
 
+import javax.validation.constraints.Size;
+
+
 public class AddUserDto {
+	
+	@Size(max=1024)
 	public String method = "addUser";
 	public UserCreateDto user;	
 

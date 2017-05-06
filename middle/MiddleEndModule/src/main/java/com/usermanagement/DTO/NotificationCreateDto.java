@@ -1,7 +1,10 @@
 package com.usermanagement.DTO;
 
+import javax.validation.constraints.Size;
+
 public class NotificationCreateDto {
-		
+	
+	@Size(max=1024)
 	public String text;
 	public Integer time;
 	public Boolean repeatable;

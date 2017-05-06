@@ -1,7 +1,12 @@
 package com.usermanagement.DTO;
 
+import javax.validation.constraints.Size;
+
+
 public class RemoveUserMethodDto{
+	
 	public Integer id;
+	@Size(max=1024)
 	public String method;
 	
 	public Integer getId() {

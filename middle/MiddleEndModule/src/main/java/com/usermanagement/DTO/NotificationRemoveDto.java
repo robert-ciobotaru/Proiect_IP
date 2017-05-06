@@ -1,8 +1,14 @@
 package com.usermanagement.DTO;
 
+import javax.validation.constraints.Size;
+
+
 public class NotificationRemoveDto {
+	
 	private Integer id;
+	@Size(max=1024)
 	private String method;
+	
 	public Integer getId() {
 		return id;
 	}

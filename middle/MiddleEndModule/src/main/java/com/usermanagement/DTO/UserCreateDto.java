@@ -1,11 +1,20 @@
 package com.usermanagement.DTO;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
 public class UserCreateDto {
-    public String country;
+    
+	
+	@Size(max=255)
+	public String country;
+    @Size(max=255)
     public String city;
     public Boolean newsCrawler;
     public Boolean hazzardCrawler;
     public Boolean weatherCrawler;
+    @Email
     public String email;
     
 	public String getCountry() {

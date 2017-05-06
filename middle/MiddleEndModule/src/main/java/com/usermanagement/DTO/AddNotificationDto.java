@@ -1,7 +1,13 @@
 package com.usermanagement.DTO;
 
+
+import javax.validation.constraints.Size;
+
+
+
 public class AddNotificationDto {
 	
+	@Size(max=1024)
 	String method = "addNotification";
 	Integer id;
 	NotificationCreateDto notification;

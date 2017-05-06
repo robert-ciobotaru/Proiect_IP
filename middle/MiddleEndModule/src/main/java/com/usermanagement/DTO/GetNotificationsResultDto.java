@@ -13,4 +13,5 @@ public class GetNotificationsResultDto implements ResponseInterfaceDto {
 		this.notifications = notifications;
 	}
 	
+	
 }
