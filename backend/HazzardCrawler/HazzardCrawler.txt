@@ -1,7 +1,7 @@
-HazzardCrawler -> pentru preluarea datelor despre cutremure: https://earthquake.usgs.gov/fdsnws/event/1/
-				  pentru preluarea datelor despre inundatii si cicloni: https://api.sigimera.org/v1/crises
+	HazzardCrawler -> pentru preluarea datelor despre cutremure: https://earthquake.usgs.gov/fdsnws/event/1/
+				  	  pentru preluarea datelor despre inundatii si cicloni: https://api.sigimera.org/v1/crises
 
-Structura json:
+	Structura json:
 
 
 1. Earthquakes
@@ -29,3 +29,5 @@ Structura json:
 			URL : catre detalii despre eveniment
 			Title : ...
 			Description : ...
+
+Din ora in ora, verificam ce evenimente au aparut in ultimele 5 ore fata de momentul curent. Bineinteles, procedand in acest fel, va trebui sa ne asiguram ca nu trimitem de mai multe ori acelasi eveniment. Astfel, pastram intr-un dictionar evenimentele deja trimise, cheile fiind id-urile evenimentelor, iar valorile fiind timpul evenimentelor. Ca sa evitam pastrarea a foarte multe informatii in acest dictionar, din ora in ora, vom sterge evenimentele care nu mai au sanse sa fie duplicate (adica cele care au aparut in urma cu 6 ore fata de momentul curent). Iar cand dorim sa trimitem un nou eveniment, va trebui sa verificam ca id-ul lui nu apare deja in acest dictionar.
