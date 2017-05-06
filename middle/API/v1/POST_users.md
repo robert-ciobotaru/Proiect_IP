@@ -21,7 +21,7 @@ _No Url params requested_
     "newsCrawler" : false,
     "hazzardCrawle" : false,
     "weatherCrawler" : true,
-    "e-mail" : "example@gmail.com"
+    "email" : "example@gmail.com"
 }
 ```
 
@@ -37,7 +37,7 @@ _No Url params requested_
     "newsCrawler" : false,
     "hazzardCrawle" : false,
     "weatherCrawler" : true,
-    "e-mail" : "example@gmail.com"
+    "email" : "example@gmail.com"
 }
 ```
  
