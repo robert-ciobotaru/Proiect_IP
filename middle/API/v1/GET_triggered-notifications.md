@@ -43,7 +43,7 @@
             "repeatable" : false,
             "interval" : 400
         }
-    ],
+    ]
 }
 ```
  
