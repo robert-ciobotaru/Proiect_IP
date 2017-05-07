@@ -28,14 +28,22 @@
 
 ```json
 {
-    "type" : "User_Notification",
-    "data" : {
-        "id": 23,
-        "text": "Wake me up",
-        "time" : 1231245,
-        "repeatable" : true,
-        "interval" : 300
-    }
+    "notificationsList" : [
+        {
+            "id": 23,
+            "text": "Wake me up",
+            "time" : 1231245,
+            "repeatable" : true,
+            "interval" : 300
+        },
+        {
+            "id": 24,
+            "text": "Get the kid",
+            "time" : 123245,
+            "repeatable" : false,
+            "interval" : 400
+        }
+    ],
 }
 ```
  
