@@ -42,8 +42,7 @@
             "repeatable" : false,
             "interval" : 400
         }
-    ],
-    "error" : "Whatever error string"
+    ]
 }
 ```
  
