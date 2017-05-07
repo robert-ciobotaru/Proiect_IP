@@ -59,8 +59,8 @@
            "text": "The weather is bad"
         }
     ],
-    "hazzardNotificationsList" : {
-        "earthquakes" : [
+    "hazzardNotifications" : {
+        "earthquakesList" : [
             {
                 "magnitude" : 2,
                 "location" : {
@@ -74,7 +74,7 @@
         ],
         "hazzard" : {
 
-            "floods" : [
+            "floodsList" : [
                 {
                     "alert-level" : "BIG",
                     "location" : {
@@ -86,7 +86,7 @@
                     "description" : "Description for the flood"
                 }
             ],
-            "cyclones" : [
+            "cyclonesList" : [
                  {
                     "alert-level" : "BIG",
                     "location" : {
