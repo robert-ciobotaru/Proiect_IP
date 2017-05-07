@@ -27,7 +27,7 @@
     **Content:** 
 ```json
 {
-    "notificationsList" : [
+    "userNotificationsList" : [
         {
             "id": 23,
             "text": "Wake me up",
@@ -42,13 +42,88 @@
             "repeatable" : false,
             "interval" : 400
         }
-    ]
+    ],
+    "weatherNotificationsList" : [
+        {
+            "location" : {
+                       "city" : "Iasi",
+                       "country" : "Romania"
+                      },
+           "text': "The weather is bad"
+        },
+         {
+            "location" : {
+                       "city" : "Iasi",
+                       "country" : "Romania"
+                      },
+           "text': "The weather is bad"
+        }
+    ],
+    "hazzardNotificationsList" : [
+        "earthquakes" : [
+            {
+                "magnitude" : 2
+                "location" : {
+                        city : "Iasi",
+                        country : "Romania"
+                },
+                "time" : "2017-05-06T00:21:40",
+                "url" :  "http://link.ro",
+                "title" : "The amaizing earthquake"
+            }
+        ],
+        "hazzard" : [
+
+            "floods" : [
+                {
+                    "alert-level" : "BIG"
+                    location : {
+                            country : "Romania"
+                    }
+                    "time" : "2017-05-06T00:21:40",
+                    "url" :  "http://link.ro",
+                    "title" : "The amaizing earthquake"
+                    description : "Description for the flood"
+                }
+            ],
+            "cyclones" : [
+                 {
+                    "alert-level" : "BIG"
+                    location : {
+                            country : "Romania"
+                    }
+                    "time" : "2017-05-06T00:21:40",
+                    "url" :  "http://link.ro",
+                    "title" : "The amaizing earthquake"
+                    description : "Description for the cyclone"
+                }
+            ]
+        ]
+    ],
+    "newsNotificationsList" : [
+        {
+            author: "Some guy",
+            title : "The weather is bad",
+            description : "The weaher is really bad",
+            url : "http://link.ro",
+            urlToImage : "http://..."
+            publishedAt : "some location"
+        },
+        {
+            author: "Some guy",
+            title : "The weather is bad",
+            description : "The weaher is really bad",
+            url : "http://link.ro",
+            urlToImage : "http://..."
+            publishedAt : "some location"
+        }
+    ]   
 }
 ```
  
 * **Error Response:**
 
-  * **Code:** 422 Unprocessable Entry <br />
+  * **Code:** 422 Unprocessable Entity <br />
     **Content:** `{ error : "Invalid User" }`
 
   * **Code:** 400 Bad Request <br />
@@ -62,5 +137,4 @@
 
 * **Notes:**
 
-  _No aditional info available_
  
