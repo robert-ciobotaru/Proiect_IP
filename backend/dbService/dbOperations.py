@@ -50,12 +50,12 @@ def send():
 			current=0
 			date={}
 			date['error']=""
-			date['data']=[]
-			date['data'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+			date['notificationsList']=[]
+			date['notificationsList'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
 			while linie is not None:
 				linie=cursor.fetchone()
 				if linie is not None:
-					date['data'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+					date['notificationsList'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
 			datee=json.dumps(date)
 			handle=urlopen(url,datee)
 	elif raspuns['method']=='addUser':
