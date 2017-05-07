@@ -59,7 +59,7 @@
            "text": "The weather is bad"
         }
     ],
-    "hazzardNotificationsList" : [
+    "hazzardNotificationsList" : {
         "earthquakes" : [
             {
                 "magnitude" : 2
@@ -72,7 +72,7 @@
                 "title" : "The amaizing earthquake"
             }
         ],
-        "hazzard" : [
+        "hazzard" : {
 
             "floods" : [
                 {
@@ -98,8 +98,8 @@
                     "description" : "Description for the cyclone"
                 }
             ]
-        ]
-    ],
+        }
+    },
     "newsNotificationsList" : [
         {
             "author": "Some guy",
