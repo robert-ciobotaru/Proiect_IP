@@ -38,14 +38,14 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 			"id": 23,
 			"text": "Get the kid",
 			"time": 213141,
-			"repeatable": false,
+			"repeatable": 1,
 			"interval": 234
 		},
 		{
 			"id": 24,
 			"text": "Burn the house",
 			"time": 54234,
-			"repeatable": false,
+			"repeatable": 1,
 			"interval": 234
 		}
 	],
@@ -133,7 +133,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
         "id" : 23,
         "text": "Get the kid",
         "time": 213141,
-        "repeatable": false,
+        "repeatable": 0,
         "interval" : 234
     }
 }
@@ -162,9 +162,9 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
     "data": {
         "country" : "Romania",
         "city" : "Iasi",
-        "newsCrawler" : false,
-        "hazzardCrawler" : false,
-        "weatherCrawler" : true,
+        "newsCrawler" : 0,
+        "hazzardCrawler" : 1,
+        "weatherCrawler" : 0,
         "email" : "example@gmail.com"
     }
 }
