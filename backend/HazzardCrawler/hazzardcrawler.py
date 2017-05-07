@@ -44,10 +44,10 @@ def earthquakes(past, url, log):
                 city_country = cutremur['properties']['place'].split(' of ')[1]
                 dictionar['Data'] = { 
                                         'type' : 'earthquake', 
-                                        'magnitude': cutremur['properties']['mag'],
+                                        'magnitude': format(cutremur['properties']['mag'], '.2f'),
                                         'location': { 
                                                         'city' : city_country.split(', ')[0],
-                                                        'country' : city_country.split(', ')[1]
+                                                        'country' : city_country.split(', ')[1] 
                                                     },
                                         'time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
                                         'url' : cutremur['properties']['url'],
