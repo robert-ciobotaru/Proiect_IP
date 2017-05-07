@@ -1,10 +1,10 @@
-**DELETE_users-id**
+**DELETE_remiders-id**
 ----
   
 
 * **URL**
 
-  _v1/users/{userId}/notifications/{notificationId}_
+  _v1/users/{userId}/reminders/{reminderId}_
 
 * **Method:**
   
@@ -15,7 +15,7 @@
    **Required:**
  
    `userId=[integer]`
-   `notificationId=[integer]`
+   `reminderId=[integer]`
 
 
 * **Data Params**
@@ -28,8 +28,8 @@
 
 ```json
  { 
-      "id": 23
-  }
+      "reminderId": 23
+ }
 ```
  
 * **Error Response:**
