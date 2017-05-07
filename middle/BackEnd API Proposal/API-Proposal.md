@@ -17,6 +17,44 @@ Every response will contain a field called _"error"_ that will be a non empty st
 No guarantee is offerend for the other fields if the _"error"_ field is set. It is middle-ends responsability to first check the _"error"_ field.
 
 ####
+**Method:** _getUserNotifications_
+
+**Description:** _Obtain from the back-end only the notifications that were inserted by the user_
+
+####
+**Request body:**
+```json
+{
+    "userId" : 23,
+    "method": "getUserNotifications"
+}
+```
+
+**Response body:**
+```json
+{
+   "notificationsList" : [
+         {
+             "id": 23,
+             "text": "Wake me up",
+             "time" : 1231245,
+             "repeatable" : 1,
+             "interval" : 300
+         },
+         {
+             "id": 24,
+             "text": "Get the kid",
+             "time" : 123245,
+             "repeatable" : 0,
+             "interval" : 400
+         }
+     ],
+     "error" : "Whatever error string"
+}
+```
+
+
+####
 **Method:** _getNotifications_
 
 **Description:** _Obtain from the back-end the notifications that should be displayed to the specified user_
