@@ -62,7 +62,7 @@
     "hazzardNotificationsList" : {
         "earthquakes" : [
             {
-                "magnitude" : 2
+                "magnitude" : 2,
                 "location" : {
                         "city" : "Iasi",
                         "country" : "Romania"
