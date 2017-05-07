@@ -370,7 +370,7 @@ public class UsersRestController {
     	 if ( response != null ){
      		
     		 userCreateResponse = response.getBody();
-    		 if(userCreateResponse.getError() == null || userCreateResponse.getUser().getCity() == null || userCreateResponse.getUser().getCountry() == null || userCreateResponse.getUser().getEmail() == null || userCreateResponse.getUser().isHazzardCrawler() == null || userCreateResponse.getUser().isNewsCrawler() == null || userCreateResponse.getUser().isWeatherCrawler() == null){
+    		 if(userCreateResponse.getError() == null || userCreateResponse.getId() == null){
     	    		ErrorDto error3 = new ErrorDto();
     				error3.setError("Internal server error");
     				return new ResponseEntity<>(error3,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -381,17 +381,9 @@ public class UsersRestController {
 			error3.setError("Internal server error");
 			return new ResponseEntity<>(error3,HttpStatus.INTERNAL_SERVER_ERROR);
       	 }
-   /* 	userCreateResponse.setUser(new UserDto());
-    	userCreateResponse.setError("");
-    	userCreateResponse.getUser().setId(23);
-    	userCreateResponse.getUser().setCity(userCreate.getCity());
-    	userCreateResponse.getUser().setCountry(userCreate.getCountry());
-    	userCreateResponse.getUser().setEmail(userCreate.getEmail());
-    	userCreateResponse.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
-    	userCreateResponse.getUser().setNewsCrawler(userCreate.isNewsCrawler());
-    	userCreateResponse.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());  */
+
     	
-        if(userCreateResponse.getUser().getEmail().equals("manole.catalin@gmail.com")){
+        if(userCreate.getEmail().equals("manole.catalin@gmail.com")){
         	userCreateResponse.setError("Data for creating new user is invalid");
      	   
         }
@@ -408,7 +400,13 @@ public class UsersRestController {
      		}
      		else{
      			UserCreateReturn returnUser = new UserCreateReturn();
-     			returnUser.setUser(userCreateResponse.getUser());
+     			returnUser.getUser().setId(userCreateResponse.getId());
+     			returnUser.getUser().setCity(userCreate.getCity());
+     			returnUser.getUser().setCountry(userCreate.getCountry());
+     			returnUser.getUser().setEmail(userCreate.getEmail());
+     			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
+     			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
+     			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
      		      
      			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
      		}

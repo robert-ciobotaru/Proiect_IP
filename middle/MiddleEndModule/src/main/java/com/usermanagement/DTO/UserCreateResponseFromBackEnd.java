@@ -1,14 +1,14 @@
 package com.usermanagement.DTO;
 
 public class UserCreateResponseFromBackEnd {
-	public UserDto user;
+	public Integer id;
 	public String error;
 
-	public UserDto getUser() {
-		return user;
+	public Integer getId() {
+		return id;
 	}
-	public void setUser(UserDto user) {
-		this.user = user;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getError() {
 		return error;
