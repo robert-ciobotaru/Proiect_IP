@@ -49,14 +49,14 @@
                        "city" : "Iasi",
                        "country" : "Romania"
                       },
-           "text': "The weather is bad"
+           "text": "The weather is bad"
         },
          {
             "location" : {
                        "city" : "Iasi",
                        "country" : "Romania"
                       },
-           "text': "The weather is bad"
+           "text": "The weather is bad"
         }
     ],
     "hazzardNotificationsList" : [
@@ -64,8 +64,8 @@
             {
                 "magnitude" : 2
                 "location" : {
-                        city : "Iasi",
-                        country : "Romania"
+                        "city" : "Iasi",
+                        "country" : "Romania"
                 },
                 "time" : "2017-05-06T00:21:40",
                 "url" :  "http://link.ro",
@@ -76,46 +76,46 @@
 
             "floods" : [
                 {
-                    "alert-level" : "BIG"
-                    location : {
-                            country : "Romania"
-                    }
+                    "alert-level" : "BIG",
+                    "location" : {
+                            "country" : "Romania"
+                    },
                     "time" : "2017-05-06T00:21:40",
                     "url" :  "http://link.ro",
-                    "title" : "The amaizing earthquake"
-                    description : "Description for the flood"
+                    "title" : "The amaizing earthquake",
+                    "description" : "Description for the flood"
                 }
             ],
             "cyclones" : [
                  {
-                    "alert-level" : "BIG"
-                    location : {
-                            country : "Romania"
-                    }
+                    "alert-level" : "BIG",
+                    "location" : {
+                            "country" : "Romania"
+                    },
                     "time" : "2017-05-06T00:21:40",
                     "url" :  "http://link.ro",
-                    "title" : "The amaizing earthquake"
-                    description : "Description for the cyclone"
+                    "title" : "The amaizing earthquake",
+                    "description" : "Description for the cyclone"
                 }
             ]
         ]
     ],
     "newsNotificationsList" : [
         {
-            author: "Some guy",
-            title : "The weather is bad",
-            description : "The weaher is really bad",
-            url : "http://link.ro",
-            urlToImage : "http://..."
-            publishedAt : "some location"
+            "author": "Some guy",
+            "title" : "The weather is bad",
+            "description" : "The weaher is really bad",
+            "url" : "http://link.ro",
+            "urlToImage" : "http://...",
+            "publishedAt" : "some location"
         },
         {
-            author: "Some guy",
-            title : "The weather is bad",
-            description : "The weaher is really bad",
-            url : "http://link.ro",
-            urlToImage : "http://..."
-            publishedAt : "some location"
+            "author": "Some guy",
+            "title" : "The weather is bad",
+            "description" : "The weaher is really bad",
+            "url" : "http://link.ro",
+            "urlToImage" : "http://...",
+            "publishedAt" : "some location"
         }
     ]   
 }
