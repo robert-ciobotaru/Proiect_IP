@@ -16,9 +16,12 @@ API Methods
 Every response will contain a field called _"error"_ that will be a non empty string if the opperation requested failed or an empty string (_""_) if the operation was successful
 No guarantee is offerend for the other fields if the _"error"_ field is set. It is middle-ends responsability to first check the _"error"_ field.
 
+####
 **Method:** _getNotifications_
+
 **Description:** _Obtain from the back-end the notifications that should be displayed to the specified user_
 
+####
 **Request body:**
 ```json
 {
@@ -26,7 +29,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
     "method": "getNotifications"
 }
 ```
-
+####
 **Response body:**
 
 ```json
@@ -114,10 +117,13 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 	"error": "Error message"
 }
 ```
-
+####
 **Method:** addNotification
+
+
 **Description:**  Register the notification for the specified user
 
+####
 **Request body:**
 ```json
 {
@@ -127,12 +133,13 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
         "id" : 23,
         "text": "Get the kid",
         "time": 213141,
-        "repeatable: "false",
+        "repeatable: false,
         "interval" : 234
     }
 }
 ```
 
+####
 **Response body:**
 ```json
 {
@@ -141,10 +148,13 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 }
 ```
 
-
+####
 **Method:** addUser
+
+
 **Description:** Register a new user
 
+####
 **Request body:**
 ```json
 {   
@@ -159,7 +169,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
     }
 }
 ```
-
+####
 **Response body:**
 ```json
 {
@@ -167,11 +177,13 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
     "error": "Error info"
 }
 ```
-
+####
 **Method:** removeNotification
+
 **Description:**  Removes the notification with the specified id
 Clarification required: Should middle-end provide the userId for this aswell ?
 
+####
 **Request body:**
 ```json
 {
@@ -180,16 +192,19 @@ Clarification required: Should middle-end provide the userId for this aswell ?
 }
 ```
 
+####
 **Response body:**
 ```json
 {
     "error": "Error info"
 }
 ```
-
+####
 **Method:** removeUser
+
 **Description:**  Removes the user with the specified id
 
+####
 **Request body:**
 ```json
 {
@@ -197,7 +212,7 @@ Clarification required: Should middle-end provide the userId for this aswell ?
     "method": "removeUser"
 }
 ```
-
+####
 **Response body:**
 ```json
 {
