@@ -6,7 +6,8 @@ Context
 
 Willing to obtain a better comutincation API with the back-end, the middle-end team decided to make a proposal that aims to disambiguate by providing examples.
 
-Back-end will expose and HTTP Server. For an Http Reqeust with the header containing the "Content-Type" attribute set to "application/json" and an appropriate body an resposne with the header "application/json" will be returned.
+Back-end will expose an HTTP Server. For an Http Reqeust with the header containing the "Content-Type" attribute set to "application/json" and an appropriate body an resposne with the header "application/json" will be returned. The response will
+always have the *_Status code_* : 200 OK.
 
 API Methods
 ------
@@ -15,10 +16,10 @@ API Methods
 Every response will contain a field called _"error"_ that will be a non empty string if the opperation requested failed or an empty string (_""_) if the operation was successful
 No guarantee is offerend for the other fields if the _"error"_ field is set. It is middle-ends responsability to first check the _"error"_ field.
 
-*Method:* _getNotifications_
-*Description:* _Obtain from the back-end the notifications that should be displayed to the specified user_
+**Method:** _getNotifications_
+**Description:** _Obtain from the back-end the notifications that should be displayed to the specified user_
 
-*Request body:*
+**Request body:**
 ```json
 {
     "userid" : 23,
@@ -26,7 +27,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 }
 ```
 
-*Response body:*
+**Response body:**
 
 ```json
 {
@@ -114,25 +115,25 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 }
 ```
 
-*Method:* addNotification
-*Description:*  Register the notification for the specified user
+**Method:** addNotification
+**Description:**  Register the notification for the specified user
 
-*Request body:*
+**Request body:**
 ```json
 {
     "userid" : 2,
     "method" : "addNotification",
     "notification" : {
-        "id" : 23
-        "text": "Get the kid"
-        "time": 213141
-        "repeatable: "false"
+        "id" : 23,
+        "text": "Get the kid",
+        "time": 213141,
+        "repeatable: "false",
         "interval" : 234
     }
 }
 ```
 
-*Response body:*
+**Response body:**
 ```json
 {
     "userid" : 2,
@@ -141,13 +142,13 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 ```
 
 
-*Method:* addUser
-*Description:* Register a new user
+**Method:** addUser
+**Description:** Register a new user
 
-*Request body:*
+**Request body:**
 ```json
 {   
-    "method": "addUser"
+    "method": "addUser",
     "data": {
         "country" : "Romania",
         "city" : "Iasi",
@@ -159,7 +160,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 }
 ```
 
-*Response body:*
+**Response body:**
 ```json
 {
     "userid" : 2,
@@ -167,11 +168,11 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 }
 ```
 
-*Method:* removeNotification
-*Description:*  Removes the notification with the specified id
+**Method:** removeNotification
+**Description:**  Removes the notification with the specified id
 Clarification required: Should middle-end provide the userId for this aswell ?
 
-*Request body:*
+**Request body:**
 ```json
 {
     "notificationId": 23,
@@ -179,17 +180,17 @@ Clarification required: Should middle-end provide the userId for this aswell ?
 }
 ```
 
-*Response body:*
+**Response body:**
 ```json
 {
     "error": "Error info"
 }
 ```
 
-*Method:* removeUser
-*Description:*  Removes the user with the specified id
+**Method:** removeUser
+**Description:**  Removes the user with the specified id
 
-*Request body:*
+**Request body:**
 ```json
 {
     "userId": 2,
@@ -197,7 +198,7 @@ Clarification required: Should middle-end provide the userId for this aswell ?
 }
 ```
 
-*Response body:*
+**Response body:**
 ```json
 {
     "error": "Error info"
