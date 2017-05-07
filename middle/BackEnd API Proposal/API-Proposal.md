@@ -1,0 +1,205 @@
+Backend API proposal
+======
+
+Context
+------
+
+Willing to obtain a better comutincation API with the back-end, the middle-end team decided to make a proposal that aims to disambiguate by providing examples.
+
+Back-end will expose and HTTP Server. For an Http Reqeust with the header containing the "Content-Type" attribute set to "application/json" and an appropriate body an resposne with the header "application/json" will be returned.
+
+API Methods
+------
+
+### Response format for every method
+Every response will contain a field called _"error"_ that will be a non empty string if the opperation requested failed or an empty string (_""_) if the operation was successful
+No guarantee is offerend for the other fields if the _"error"_ field is set. It is middle-ends responsability to first check the _"error"_ field.
+
+*Method:* _getNotifications_
+*Description:* _Obtain from the back-end the notifications that should be displayed to the specified user_
+
+*Request body:*
+```json
+{
+    "userid" : 23,
+    "method": "getNotifications"
+}
+```
+
+*Response body:*
+
+```json
+{
+	"userNotifications": [{
+			"id": 23,
+			"text": "Get the kid",
+			"time": 213141,
+			"repeatable": false,
+			"interval": 234
+		},
+		{
+			"id": 24,
+			"text": "Burn the house",
+			"time": 54234,
+			"repeatable": false,
+			"interval": 234
+		}
+	],
+
+	"weatherNotificationsList": [{
+			"location": {
+				"city": "Iasi",
+				"country": "Romania"
+			},
+			"text": "The weather is bad"
+		},
+		{
+			"location": {
+				"city": "Iasi",
+				"country": "Romania"
+			},
+			"text": "The weather is bad"
+		}
+	],
+
+	"earthquakesList": [{
+		"magnitude": 2,
+		"location": {
+			"city": "Iasi",
+			"country": "Romania"
+		},
+		"time": "2017-05-06T00:21:40",
+		"url": "http://link.ro",
+		"title": "The amaizing earthquake"
+	}],
+
+	"floodsList": [{
+		"alert-level": "BIG",
+		"location": {
+			"country": "Romania"
+		},
+		"time": "2017-05-06T00:21:40",
+		"url": "http://link.ro",
+		"title": "The amaizing earthquake",
+		"description": "Description for the flood"
+	}],
+	"cyclonesList": [{
+		"alert-level": "BIG",
+		"location": {
+			"country": "Romania"
+		},
+		"time": "2017-05-06T00:21:40",
+		"url": "http://link.ro",
+		"title": "The amaizing earthquake",
+		"description": "Description for the cyclone"
+	}],
+	"newsNotificationsList": [{
+			"author": "Some guy",
+			"title": "The weather is bad",
+			"description": "The weaher is really bad",
+			"url": "http://link.ro",
+			"urlToImage": "http://...",
+			"publishedAt": "some location"
+		},
+		{
+			"author": "Some guy",
+			"title": "The weather is bad",
+			"description": "The weaher is really bad",
+			"url": "http://link.ro",
+			"urlToImage": "http://...",
+			"publishedAt": "some location"
+		}
+	],
+	"error": "Error message"
+}
+```
+
+*Method:* addNotification
+*Description:*  Register the notification for the specified user
+
+*Request body:*
+```json
+{
+    "userid" : 2,
+    "method" : "addNotification",
+    "notification" : {
+        "id" : 23
+        "text": "Get the kid"
+        "time": 213141
+        "repeatable: "false"
+        "interval" : 234
+    }
+}
+```
+
+*Response body:*
+```json
+{
+    "userid" : 2,
+    "error" : "" 
+}
+```
+
+
+*Method:* addUser
+*Description:* Register a new user
+
+*Request body:*
+```json
+{   
+    "method": "addUser"
+    "data": {
+        "country" : "Romania",
+        "city" : "Iasi",
+        "newsCrawler" : false,
+        "hazzardCrawle" : false,
+        "weatherCrawler" : true,
+        "email" : "example@gmail.com"
+    }
+}
+```
+
+*Response body:*
+```json
+{
+    "userid" : 2,
+    "error": "Error info"
+}
+```
+
+*Method:* removeNotification
+*Description:*  Removes the notification with the specified id
+Clarification required: Should middle-end provide the userId for this aswell ?
+
+*Request body:*
+```json
+{
+    "notificationId": 23,
+    "method": "removeNotification"
+}
+```
+
+*Response body:*
+```json
+{
+    "error": "Error info"
+}
+```
+
+*Method:* removeUser
+*Description:*  Removes the user with the specified id
+
+*Request body:*
+```json
+{
+    "userId": 2,
+    "method": "removeUser"
+}
+```
+
+*Response body:*
+```json
+{
+    "error": "Error info"
+}
+```
