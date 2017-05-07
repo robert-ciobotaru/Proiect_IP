@@ -19,7 +19,7 @@ _No Url params requested_
     "country" : "Romania",
     "city" : "Iasi",
     "newsCrawler" : false,
-    "hazzardCrawle" : false,
+    "hazzardCrawler" : false,
     "weatherCrawler" : true,
     "email" : "example@gmail.com"
 }
@@ -35,7 +35,7 @@ _No Url params requested_
     "country" : "Romania",
     "city" : "Iasi",
     "newsCrawler" : false,
-    "hazzardCrawle" : false,
+    "hazzardCrawler" : false,
     "weatherCrawler" : true,
     "email" : "example@gmail.com"
 }
