@@ -1,6 +1,5 @@
 package interfata.ip.notifier.messenger;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,31 +9,30 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetNotifications extends Messenger {
+/**
+ * Created by cschifirnet on 07-May-17.
+ */
 
-    private static final String specificURL = "users/{userId}/notifications";
+abstract class DeleteRequest extends Messenger {
 
-    public GetNotifications(String host, int port, String version, int userId) {
+    DeleteRequest(String host, int port, String version) {
         super(host, port, version);
-        this.requestURL = baseServerURL + specificURL.replace("{userId}", String.valueOf(userId));
     }
 
     @Override
     public JSONObject makeRequest() throws IOException, JSONException {
         URL url = new URL(requestURL);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestMethod("GET");
         urlConnection.setRequestProperty("Content-Type", "application/json");
         urlConnection.setRequestProperty("charset", "utf-8");
-        urlConnection.setUseCaches(false);
+        urlConnection.setRequestMethod("DELETE");
+        urlConnection.setUseCaches (false);
         urlConnection.setDoOutput(true);
+
         int res = urlConnection.getResponseCode();
 
-        if (400 == res) {
-            return new JSONObject("{error: 'Input criteria not correct'}");
-        }
         if (422 == res) {
-            return new JSONObject("{error: 'Invalid User'}");
+            return new JSONObject("{error: 'Invalid notification id / Invalid Notification user'}");
         }
         if (500 == res) {
             return new JSONObject("{error: 'Internal server error'}");
@@ -52,7 +50,6 @@ public class GetNotifications extends Messenger {
             }
             br.close();
 
-            System.out.print(sb);
             return new JSONObject(sb.toString());
         }
         return new JSONObject("{error: 'Unknown error'}");

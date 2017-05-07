@@ -1,6 +1,5 @@
 package interfata.ip.notifier.messenger;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,13 +9,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetNotifications extends Messenger {
+/**
+ * Created by cschifirnet on 07-May-17.
+ */
 
-    private static final String specificURL = "users/{userId}/notifications";
+abstract class GetRequest extends Messenger {
 
-    public GetNotifications(String host, int port, String version, int userId) {
+    GetRequest(String host, int port, String version) {
         super(host, port, version);
-        this.requestURL = baseServerURL + specificURL.replace("{userId}", String.valueOf(userId));
     }
 
     @Override
@@ -52,7 +52,6 @@ public class GetNotifications extends Messenger {
             }
             br.close();
 
-            System.out.print(sb);
             return new JSONObject(sb.toString());
         }
         return new JSONObject("{error: 'Unknown error'}");
