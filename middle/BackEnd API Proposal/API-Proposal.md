@@ -25,7 +25,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Request body:**
 ```json
 {
-    "userid" : 23,
+    "userId" : 23,
     "method": "getNotifications"
 }
 ```
@@ -74,27 +74,27 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 		},
 		"time": "2017-05-06T00:21:40",
 		"url": "http://link.ro",
-		"title": "The amaizing earthquake"
+		"title": "The amazing earthquake"
 	}],
 
 	"floodsList": [{
-		"alert-level": "BIG",
+		"alertLevel": "BIG",
 		"location": {
 			"country": "Romania"
 		},
 		"time": "2017-05-06T00:21:40",
 		"url": "http://link.ro",
-		"title": "The amaizing earthquake",
+		"title": "The amazing earthquake",
 		"description": "Description for the flood"
 	}],
 	"cyclonesList": [{
-		"alert-level": "BIG",
+		"alertLevel": "BIG",
 		"location": {
 			"country": "Romania"
 		},
 		"time": "2017-05-06T00:21:40",
 		"url": "http://link.ro",
-		"title": "The amaizing earthquake",
+		"title": "The amazing cyclone",
 		"description": "Description for the cyclone"
 	}],
 	"newsNotificationsList": [{
@@ -127,7 +127,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Request body:**
 ```json
 {
-    "userid" : 2,
+    "userId" : 2,
     "method" : "addNotification",
     "notification" : {
         "id" : 23,
@@ -143,7 +143,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Response body:**
 ```json
 {
-    "userid" : 2,
+    "userId" : 2,
     "error" : "" 
 }
 ```
@@ -163,7 +163,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
         "country" : "Romania",
         "city" : "Iasi",
         "newsCrawler" : false,
-        "hazzardCrawle" : false,
+        "hazzardCrawler" : false,
         "weatherCrawler" : true,
         "email" : "example@gmail.com"
     }
@@ -173,7 +173,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Response body:**
 ```json
 {
-    "userid" : 2,
+    "userId" : 2,
     "error": "Error info"
 }
 ```
@@ -181,7 +181,8 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Method:** removeNotification
 
 **Description:**  Removes the notification with the specified id
-Clarification required: Should middle-end provide the userId for this aswell ?
+
+**Clarification required:** Should middle-end provide the userId for this aswell ?
 
 ####
 **Request body:**
