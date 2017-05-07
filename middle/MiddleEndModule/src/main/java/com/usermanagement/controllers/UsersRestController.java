@@ -8,7 +8,6 @@ import javax.xml.ws.Response;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +54,12 @@ import com.usermanagement.DTO.UserDto;
 @RequestMapping("v1/users")
 public class UsersRestController {
 	
+	String backEndUrlPath = "http://localhost:9001";
+	
+	public void setBackEndUrlPath(String backEndUrlPath) {
+		this.backEndUrlPath = backEndUrlPath; 
+	}
+	
 	@ExceptionHandler({HttpMessageNotReadableException.class})
 	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
 	  
@@ -74,7 +79,7 @@ public class UsersRestController {
 	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
     public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
     	AddNotificationDto addNotification = new AddNotificationDto();
-    	 String url = new String("http://localhost:9000");
+    	 String url = new String(backEndUrlPath);
     	 RestTemplate rest = new RestTemplate();
     	  if(notificationCreate.getInterval()==null || notificationCreate.getText()==null || notificationCreate.getTime()==null || notificationCreate.isRepeatable()== null)
     	  {
@@ -133,7 +138,7 @@ public class UsersRestController {
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> getNotifications(@PathVariable("userId") Integer userId){
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	getNotifications.setId(userId);
     	ResponseEntity<GetNotificationsResultFromBackEnd> response = null;
@@ -240,7 +245,7 @@ public class UsersRestController {
     @RequestMapping(value ="/{userId}/notifications/{notificationId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	removeNotification.setId(notificationId);
     	removeNotification.setMethod("removeNotification");
@@ -298,7 +303,7 @@ public class UsersRestController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeUser(@PathVariable("userId") Integer userId) {
     	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
    	 	removeUserMethod.setId(userId);
    	 	removeUserMethod.setMethod("removeUser");
@@ -352,7 +357,7 @@ public class UsersRestController {
     	 }
 			
     	 AddUserDto addUser = new AddUserDto();
-    	 String url = new String("http://fenrir.info.uaic.ro:8765");
+    	 String url = new String(backEndUrlPath);
     	 RestTemplate rest = new RestTemplate();
     	 addUser.setUser(userCreate);
     	 ResponseEntity<UserCreateResponseFromBackEnd> response = null;
@@ -360,6 +365,7 @@ public class UsersRestController {
     	     response = rest.postForEntity(url,addUser,UserCreateResponseFromBackEnd.class);
     	 }
     	 catch (Exception e) {
+    		 System.out.println("CATCH PATH:" + e);
              ErrorDto error2 = new ErrorDto();
              error2.setError("The server is currently unavailable");
              return new ResponseEntity<>(error2, HttpStatus.SERVICE_UNAVAILABLE);
@@ -383,39 +389,38 @@ public class UsersRestController {
       	 }
 
     	
-        if(userCreate.getEmail().equals("manole.catalin@gmail.com")){
-        	userCreateResponse.setError("Data for creating new user is invalid");
-     	   
-        }
-        else
-        {
-        	userCreateResponse.setError("");
-        }
+//        if(userCreate.getEmail().equals("manole.catalin@gmail.com")){
+//        	userCreateResponse.setError("Data for creating new user is invalid");
+//     	   
+//        }
+//        else
+//        {
+//        	userCreateResponse.setError("");
+//        }
 
      	if(userCreateResponse.getError().length()>0){
-     			ErrorDto error = new ErrorDto();
-     			error.setError(userCreateResponse.getError());
-     			
-     			return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
-     		}
-     		else{
-     			UserCreateReturn returnUser = new UserCreateReturn();
-     			returnUser.getUser().setId(userCreateResponse.getId());
-     			returnUser.getUser().setCity(userCreate.getCity());
-     			returnUser.getUser().setCountry(userCreate.getCountry());
-     			returnUser.getUser().setEmail(userCreate.getEmail());
-     			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
-     			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
-     			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
-     		      
-     			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
-     		}
+ 			ErrorDto error = new ErrorDto();
+ 			error.setError(userCreateResponse.getError());		
+ 			return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+ 		}
+ 		else{
+ 			UserCreateReturn returnUser = new UserCreateReturn();
+ 			returnUser.getUser().setId(userCreateResponse.getId());
+ 			returnUser.getUser().setCity(userCreate.getCity());
+ 			returnUser.getUser().setCountry(userCreate.getCountry());
+ 			returnUser.getUser().setEmail(userCreate.getEmail());
+ 			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
+ 			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
+ 			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
+ 		      
+ 			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
+ 		}
     }
     @RequestMapping(value = "/{userId}/notifications/triggered-notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> triggeredNotification(@PathVariable("userId") Integer userId){
     	
     	GetTriggeredNotificationMethodDto triggeredNotificationMethod = new GetTriggeredNotificationMethodDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	triggeredNotificationMethod.setId(userId);
     	triggeredNotificationMethod.setMethod("getExpiredNotifications");
