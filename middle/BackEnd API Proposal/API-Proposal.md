@@ -6,7 +6,7 @@ Context
 
 Willing to obtain a better comutincation API with the back-end, the middle-end team decided to make a proposal that aims to disambiguate by providing examples.
 
-Back-end will expose an HTTP Server. For an Http Reqeust with the header containing the "Content-Type" attribute set to "application/json" and an appropriate body an resposne with the header "application/json" will be returned. The response will
+Back-end will expose an HTTP Server. For an Http **reqeust** with the header containing the "Content-Type" attribute set to "application/json" and an appropriate body a **response** with the header containing the "Content-Type" "application/json"and an json compliant response will be returned. The response will
 always have the *_Status code_* : 200 OK.
 
 API Methods
