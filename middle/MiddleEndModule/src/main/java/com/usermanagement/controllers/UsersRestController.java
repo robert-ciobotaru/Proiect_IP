@@ -34,6 +34,8 @@ import com.usermanagement.DTO.GetNotificationsResultDto;
 import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
 import com.usermanagement.DTO.GetRemindersMethodDto;
 import com.usermanagement.DTO.GetRemindersResponseFromBackend;
+import com.usermanagement.DTO.HazzardDto;
+import com.usermanagement.DTO.HazzardNotificationsDto;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRemoveDto;
@@ -193,12 +195,6 @@ public class UsersRestController {
     		}
     		
     	}
-    	else{
-    		ErrorDto error = new ErrorDto();
-       		error.setError("Internal Server Error");
-       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    		
-    	}
     	if(getNotificationResponse.getError().length()>0){
     		 ErrorDto error = new ErrorDto();
 	       		error.setError("Internal Server Error");
@@ -206,11 +202,17 @@ public class UsersRestController {
     	}
     	
     	GetNotificationResponseDto getNotificationReturn = new GetNotificationResponseDto();
+    	HazzardDto getHazzardNotificationReturn2 = new HazzardDto();
+    	getHazzardNotificationReturn2.setCyclonesList(getNotificationResponse.getCyclonesList());
+    	getHazzardNotificationReturn2.setFloodsList(getNotificationResponse.getFloodsList());
+    	
+    	HazzardNotificationsDto getHazzardNotificationReturn = new HazzardNotificationsDto();
+    	getHazzardNotificationReturn.setEarthquakesList(getNotificationResponse.getEarthquakesList());
+    	getHazzardNotificationReturn.setHazzard(getHazzardNotificationReturn2);
+    	
     	getNotificationReturn.setUserNotificationsList(getNotificationResponse.getUserNotifications());
     	getNotificationReturn.setWeatherNotificationsList(getNotificationResponse.getWeatherNotificationsList());
-    	getNotificationReturn.getHazzardNotifications().setEarthquakesList(getNotificationResponse.getEarthquakesList());
-    	getNotificationReturn.getHazzardNotifications().getHazzard().setCyclonesList(getNotificationResponse.getCyclonesList());
-    	getNotificationReturn.getHazzardNotifications().getHazzard().setFloodsList(getNotificationResponse.getFloodsList());
+    	getNotificationReturn.setHazzardNotifications(getHazzardNotificationReturn);
     	getNotificationReturn.setNewsNotificationsList(getNotificationResponse.getNewsNotificationsList());
     	return new ResponseEntity<>(getNotificationReturn, HttpStatus.OK);
     	

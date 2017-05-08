@@ -57,7 +57,7 @@ public class GetReminderTest {
 	}
 
 	@Test
-	public void test1() {
+	public void testStatusOk() {
 		
         wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
@@ -105,7 +105,7 @@ public class GetReminderTest {
 	}
 	
 	@Test
-	public void test2() {
+	public void testUnprocessableEntity() {
 		
         wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
@@ -143,7 +143,7 @@ public class GetReminderTest {
 	}
 	
 	@Test
-	public void test3() {
+	public void testInternalServerError() {
 		
         wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
@@ -181,7 +181,7 @@ public class GetReminderTest {
 	}
 	
 	@Test
-	public void test4() {
+	public void testServiceUnavailable() {
 		
 		try {
 			this.mockMvc.perform(get("/v1/users/20/reminders"))
