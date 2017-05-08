@@ -387,7 +387,7 @@ public class UsersRestController {
    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     	}
     	
-    	if(notification.getError().length() >= 0){
+    	if(notification.getError().length() > 0){
     		
     		ErrorDto error = new ErrorDto();
  			error.setError(notification.getError());
