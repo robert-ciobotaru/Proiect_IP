@@ -32,14 +32,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NotificationSend" />
         <activity android:name=".NotificationView" />
-        <activity android:name=".Register"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Register"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingsCategories" />
         <activity
             android:name=".Meniu"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".CreateNotification"></activity>
     </application>
 
 </manifest>
