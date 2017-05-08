@@ -4,7 +4,7 @@ import javax.validation.constraints.Size;
 
 public class NotificationCreateDto {
 	
-	@Size(max=1024)
+	@Size(max=1024, message="Invalid Length")
 	public String text;
 	public Integer time;
 	public Boolean repeatable;

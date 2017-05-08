@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class NotificationRemoveDto {
 	
 	private Integer id;
-	@Size(max=1024)
+	@Size(max=1024, message="Invalid Length")
 	private String method = "removeNotification";
 	
 	public Integer getId() {

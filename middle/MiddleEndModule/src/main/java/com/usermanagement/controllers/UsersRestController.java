@@ -395,9 +395,9 @@ public class UsersRestController {
     		
     	}
     	
-    	NotificationsListDto result = new NotificationsListDto();
-		result.setNotifications(notification.getNotifications());
-		return new ResponseEntity<>(result, HttpStatus.OK);
+    	NotificationsListDto remindersList = new NotificationsListDto();
+    	remindersList.setNotifications(notification.getNotifications());
+		return new ResponseEntity<>(remindersList, HttpStatus.OK);
 
     }  
 }

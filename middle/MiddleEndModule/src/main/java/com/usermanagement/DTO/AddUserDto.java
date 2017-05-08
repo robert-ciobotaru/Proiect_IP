@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 public class AddUserDto {
 	
-	@Size(max=1024)
+	@Size(max=1024, message="Invalid Length")
 	private String method = "addUser";
 	private UserCreateDto user;	
 

@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 public class GetRemindersMethodDto {
  
 	public Integer id;
-	@Size(max=1024)
+	@Size(max=1024, message="Invalid Length")
 	public String method;
 
  public Integer getId() {

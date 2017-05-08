@@ -1,7 +1,10 @@
 package com.usermanagement.DTO;
 
+import javax.validation.constraints.Size;
+
 public class UserCreateResponseFromBackEnd {
 	private Integer id;
+	@Size(max=1024, message="Invalid Length")
 	private String error;
 
 	public Integer getId() {

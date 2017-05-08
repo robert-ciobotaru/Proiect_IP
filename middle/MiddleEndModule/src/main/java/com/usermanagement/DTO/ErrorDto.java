@@ -4,7 +4,7 @@ import javax.validation.constraints.Size;
 
 public class ErrorDto implements ResponseInterfaceDto  {
 	
-	@Size(max=1024)
+	@Size(max=1024, message="Invalid Length")
 	public String error;
 
 	public String getError() {

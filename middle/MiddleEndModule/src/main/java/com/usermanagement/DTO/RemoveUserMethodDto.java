@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class RemoveUserMethodDto{
 	
     Integer id;
-	@Size(max=1024)
+    @Size(max=1024, message="Invalid Length")
 	String method = "removeUser";
 	
 	public Integer getId() {

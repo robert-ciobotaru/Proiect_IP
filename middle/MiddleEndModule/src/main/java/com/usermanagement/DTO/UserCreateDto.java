@@ -7,9 +7,9 @@ import org.hibernate.validator.constraints.Email;
 public class UserCreateDto {
     
 	
-	@Size(max=255)
+	@Size(max=255, message="Invalid Length")
 	public String country;
-    @Size(max=255)
+	@Size(max=255, message="Invalid Length")
     public String city;
     public Boolean newsCrawler;
     public Boolean hazzardCrawler;

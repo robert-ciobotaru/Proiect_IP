@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 public class AddNotificationDto {
 	
-	@Size(max=1024)
+	@Size(max=1024, message="Invalid Length")
 	String method = "addNotification";
 	Integer id;
 	NotificationCreateDto notification;
