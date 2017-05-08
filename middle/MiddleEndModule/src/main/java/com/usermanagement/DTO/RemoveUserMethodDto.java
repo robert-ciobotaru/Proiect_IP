@@ -5,9 +5,9 @@ import javax.validation.constraints.Size;
 
 public class RemoveUserMethodDto{
 	
-	public Integer id;
+    Integer id;
 	@Size(max=1024)
-	public String method;
+	String method = "removeUser";
 	
 	public Integer getId() {
 		return id;
@@ -20,9 +20,4 @@ public class RemoveUserMethodDto{
 	public String getMethod() {
 		return method;
 	}
-
-	public void setMethod(String method) {
-		this.method = method;
-	}
-
 }

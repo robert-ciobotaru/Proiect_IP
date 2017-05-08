@@ -7,7 +7,7 @@ public class NotificationRemoveDto {
 	
 	private Integer id;
 	@Size(max=1024)
-	private String method;
+	private String method = "removeNotification";
 	
 	public Integer getId() {
 		return id;

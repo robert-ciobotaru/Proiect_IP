@@ -248,8 +248,6 @@ public class UsersRestController {
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	removeNotification.setId(notificationId);
-    	removeNotification.setMethod("removeNotification");
-    	
     	ResponseEntity<RemoveNotificationResultDto> response = null;
     	
     	try{
@@ -268,9 +266,9 @@ public class UsersRestController {
     	if ( response != null ){
     		
     	   removeNotificationResult = response.getBody();
-    	   if(removeNotificationResult.getError() ==null || removeNotificationResult.getId()==null){
+    	   if(removeNotificationResult.getError()==null ){
     		   ErrorDto error = new ErrorDto();
-       		error.setError("Internal Server Error");
+       		 error.setError("Internal Server Error");
        		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		   
     	   }
@@ -288,13 +286,11 @@ public class UsersRestController {
 		if(removeNotificationResult.getError().length()>0){
 			ErrorDto error = new ErrorDto();
 			error.setError(removeNotificationResult.getError());
-			
 			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		else{
 		    removeResponse = new RemoveNotificationReturnDto();	
-		    removeResponse.setId(removeNotificationResult.getId());
-		      
+		    removeResponse.setId(notificationId);  
 			return new ResponseEntity<>(removeResponse, HttpStatus.OK);
 		}
 	}
@@ -306,43 +302,44 @@ public class UsersRestController {
     	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
    	 	removeUserMethod.setId(userId);
-   	 	removeUserMethod.setMethod("removeUser");
+   	 
    	 	ResponseEntity<RemoveUserDto> response = null;
    	 	try{
    	 		response = rest.postForEntity(url,removeUserMethod,RemoveUserDto.class);
-       	}
+       	    }
        	catch (Exception e) {
        		ErrorDto error = new ErrorDto();
     		error.setError("The server is currently unavailable");
     		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
        		 
        	}
+   	 	
     	RemoveUserDto removeUser = null;
+    	
     	if(response != null){
     		removeUser = response.getBody();
-    		if(removeUser.getError()==null || removeUser.getId()==null){
+    		
+    		if(removeUser.getError() == null ){
     			ErrorDto error = new ErrorDto();
         		error.setError("Internal Server Error");
         		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		}
     	}
-    	else{
-    		removeUser = new RemoveUserDto();
-    		ErrorDto error = new ErrorDto();
-    		error.setError("Internal Server Error");
-    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    	}
+    	
     	
     	RemoveUserReturnDto removeResponse = null;
     	
     	if(removeUser.getError().length()>0){
+    		
     		ErrorDto error = new ErrorDto();
     		error.setError(removeUser.getError());
     		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    		
     	}
     	else{
+    		
     		removeResponse = new RemoveUserReturnDto ();	
-    		removeResponse.setId(removeUser.getId());
+    		removeResponse.setId(userId);
     		return new ResponseEntity<>(removeResponse, HttpStatus.OK);
     	}
     }
