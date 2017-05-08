@@ -20,14 +20,16 @@ import static android.content.Context.MODE_PRIVATE;
 public class FileIO {
     String file_name;
     String info;
-    public FileIO(String file_name){
+    Context context;
+    public FileIO(String file_name, Context con){
         this.file_name=file_name;
+        this.context=con;
     }
 
-    public void saveInfo(String info, Context c) throws FileNotFoundException {
+    public void saveInfo(String info) throws FileNotFoundException {
 
         try {
-            FileOutputStream file= c.openFileOutput(this.file_name,MODE_PRIVATE);
+            FileOutputStream file= context.openFileOutput(this.file_name,MODE_PRIVATE);
             file.write(info.getBytes());
             file.close();
 
@@ -40,9 +42,9 @@ public class FileIO {
 
 
 
-    public void loadInfo( Context c) throws IOException {
+    public void loadInfo( ) throws IOException {
         String info2;
-        FileInputStream file= c.openFileInput(this.file_name);
+        FileInputStream file= context.openFileInput(this.file_name);
         InputStreamReader inputStreamReader= new InputStreamReader(file);
         BufferedReader bufferReader= new BufferedReader(inputStreamReader);
         StringBuffer stringBuffer= new StringBuffer();
