@@ -165,7 +165,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Request body:**
 ```json
 {
-    "userId" : 2,
+    "notificationId" : 2,
     "method" : "addNotification",
     "notification" : {
         "id" : 23,
@@ -181,7 +181,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Response body:**
 ```json
 {
-    "userId" : 2,
+    "notificationId" : 2,
     "error" : "" 
 }
 ```
