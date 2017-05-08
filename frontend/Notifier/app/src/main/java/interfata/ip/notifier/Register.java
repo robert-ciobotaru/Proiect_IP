@@ -38,6 +38,10 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 if(first.getText().length()>3 && second.getText().length()>3 && email.getText().length()>3 && city.getText().length()>2) {
                     Intent categories = new Intent(getApplicationContext(), Categories.class);
+                    categories.putExtra("first", first.getText().toString());
+                    categories.putExtra("second", second.getText().toString());
+                    categories.putExtra("country", country.getText().toString());
+                    categories.putExtra("email", email.getText().toString());
                     startActivity(categories);
                 }
                 else if(first.getText().length()<=3){
