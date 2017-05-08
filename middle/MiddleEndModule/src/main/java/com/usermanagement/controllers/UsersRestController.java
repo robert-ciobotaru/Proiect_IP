@@ -32,7 +32,8 @@ import com.usermanagement.DTO.GetNotificationTriggeredResultDto;
 import com.usermanagement.DTO.GetNotificationsDto;
 import com.usermanagement.DTO.GetNotificationsResultDto;
 import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
-import com.usermanagement.DTO.GetTriggeredNotificationMethodDto;
+import com.usermanagement.DTO.GetRemindersMethodDto;
+import com.usermanagement.DTO.GetRemindersResponseFromBackend;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRemoveDto;
@@ -349,18 +350,18 @@ public class UsersRestController {
 		 }
     }
     
-    @RequestMapping(value = "/{userId}/notifications/triggered-notifications", method = RequestMethod.GET)
-    public ResponseEntity<Object> triggeredNotification(@PathVariable("userId") Integer userId){
+    @RequestMapping(value = "/{userId}/reminders", method = RequestMethod.GET)
+    public ResponseEntity<Object> getReminders(@PathVariable("userId") Integer userId){
     	
-    	GetTriggeredNotificationMethodDto triggeredNotificationMethod = new GetTriggeredNotificationMethodDto();
+    	GetRemindersMethodDto getRemindersMethod = new GetRemindersMethodDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	triggeredNotificationMethod.setId(userId);
-    	triggeredNotificationMethod.setMethod("getExpiredNotifications");
+    	getRemindersMethod.setId(userId);
+    	getRemindersMethod.setMethod("getReminders");
     	
-    	ResponseEntity<GetNotificationTriggeredDto> responseFromBackend = null;
+    	ResponseEntity<GetRemindersResponseFromBackend> responseFromBackend = null;
     	try{
-    		responseFromBackend = rest.postForEntity(url,triggeredNotificationMethod,GetNotificationTriggeredDto.class);
+    		responseFromBackend = rest.postForEntity(url,getRemindersMethod,GetRemindersResponseFromBackend.class);
     	}
     	catch (Exception e){
     		System.out.println(e);
@@ -369,11 +370,10 @@ public class UsersRestController {
     		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
     	}
     	
-    	GetNotificationTriggeredDto notification = null;
+    	GetRemindersResponseFromBackend notification = null;
     	if (responseFromBackend != null){
     		notification = responseFromBackend.getBody();
-    		if(notification.getType() == null || notification.getData() ==  null || notification.getData().getId() == null || notification.getData().getInterval() == null
-    				|| notification.getData().getText() == null || notification.getData().getTime() == null || notification.getData().isRepeatable() == false ){
+    		if(notification.validate() == false){
     			ErrorDto error =  new ErrorDto();
         		error.setError("Internal server error");
     			return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -395,9 +395,8 @@ public class UsersRestController {
     		
     	}
     	
-		GetNotificationTriggeredResultDto result = new GetNotificationTriggeredResultDto();
-		result.setType(notification.getType());
-		result.setData(notification.getData());
+    	NotificationsListDto result = new NotificationsListDto();
+		result.setNotifications(notification.getNotifications());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 
     }  

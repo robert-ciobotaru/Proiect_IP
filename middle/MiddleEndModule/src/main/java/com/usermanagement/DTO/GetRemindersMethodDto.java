@@ -4,7 +4,7 @@ package com.usermanagement.DTO;
 import javax.validation.constraints.Size;
 
 
-public class GetTriggeredNotificationMethodDto {
+public class GetRemindersMethodDto {
  
 	public Integer id;
 	@Size(max=1024)
