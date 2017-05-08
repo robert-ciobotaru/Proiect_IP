@@ -50,12 +50,24 @@ import com.usermanagement.DTO.UserCreateDto;
 import com.usermanagement.DTO.UserCreateResponseFromBackEnd;
 import com.usermanagement.DTO.UserCreateReturn;
 import com.usermanagement.DTO.UserDto;
+import com.usermanagement.requestmonitor.RequestMonitor;
 
 //@RefreshScope
 @RestController
 @RequestMapping("v1/users")
 public class UsersRestController {
 	
+
+	 
+	 private void setRequestMonitor(RequestMonitor monitor){
+		 this.requestMonitor = monitor;
+	 }
+	 private RequestMonitor getRequestMonitor(){
+		 return requestMonitor;
+	 }
+	 
+	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
+	 RequestMonitor requestMonitor = new RequestMonitor(5);
 	String backEndUrlPath = "http://localhost:9001";
 	
 	public void setBackEndUrlPath(String backEndUrlPath) {
@@ -79,7 +91,14 @@ public class UsersRestController {
 */
   
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
-    public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto createReminders){
+    public ResponseEntity<Object> postNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto createReminders){
+		if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+		
 		AddNotificationDto addNotification = new AddNotificationDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
@@ -138,7 +157,15 @@ public class UsersRestController {
 		  	 
     }
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
-    public ResponseEntity<Object> getNotifications(@PathVariable("userId") Integer userId){
+    public ResponseEntity<Object> getNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
@@ -192,7 +219,15 @@ public class UsersRestController {
     }
   
     @RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
+    public ResponseEntity<Object> removeNotification(HttpServletRequest request, @PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
@@ -239,7 +274,15 @@ public class UsersRestController {
     
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
     	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
@@ -288,7 +331,15 @@ public class UsersRestController {
     
      
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Object> postUser(@RequestBody UserCreateDto userCreate){
+    public ResponseEntity<Object> postUser(HttpServletRequest request, @RequestBody UserCreateDto userCreate){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null 
     			|| userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
 			
@@ -351,7 +402,14 @@ public class UsersRestController {
     }
     
     @RequestMapping(value = "/{userId}/reminders", method = RequestMethod.GET)
-    public ResponseEntity<Object> getReminders(@PathVariable("userId") Integer userId){
+    public ResponseEntity<Object> getReminders(HttpServletRequest request, @PathVariable("userId") Integer userId){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
     	
     	GetRemindersMethodDto getRemindersMethod = new GetRemindersMethodDto();
     	String url = new String(backEndUrlPath);
