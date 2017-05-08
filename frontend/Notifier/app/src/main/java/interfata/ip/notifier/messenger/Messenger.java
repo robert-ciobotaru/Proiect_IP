@@ -8,19 +8,16 @@ import java.io.IOException;
 
 public abstract class Messenger {
 
+    private static final int port = 8080;
+    private static final String host = "104.198.253.69";
+    private static final String version = "v1";
     private static final String urlPattern = "http://{host}:{port}/{version}/";
 
     protected String baseServerURL;
-    protected String host;
-    protected String version;
     String requestURL;
-    protected int port;
 
 
-    public Messenger(String host, int port, String version) {
-        this.host = host;
-        this.port = port;
-        this.version = version;
+    public Messenger() {
         this.baseServerURL = urlPattern
                 .replace("{host}", host)
                 .replace("{port}", String.valueOf(port))

@@ -27,9 +27,7 @@ public class PostNotifications extends Messenger {
 
     private JSONObject obj;
 
-    public PostNotifications(String host, int port, String version, int userId,
-                             String text, int time, boolean repeatable, int interval) {
-        super(host, port, version);
+    public PostNotifications(int userId, String text, int time, boolean repeatable, int interval) {
         this.text = text;
         this.time = time;
         this.repeatable = repeatable;

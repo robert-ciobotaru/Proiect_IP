@@ -14,8 +14,7 @@ public class GetNotifications extends Messenger {
 
     private static final String specificURL = "users/{userId}/notifications";
 
-    public GetNotifications(String host, int port, String version, int userId) {
-        super(host, port, version);
+    public GetNotifications(int userId) {
         this.requestURL = baseServerURL + specificURL.replace("{userId}", String.valueOf(userId));
     }
 

@@ -15,9 +15,7 @@ import java.net.URL;
 
 abstract class DeleteRequest extends Messenger {
 
-    DeleteRequest(String host, int port, String version) {
-        super(host, port, version);
-    }
+    public DeleteRequest() {}
 
     @Override
     public JSONObject makeRequest() throws IOException, JSONException {
