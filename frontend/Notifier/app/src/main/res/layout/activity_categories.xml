@@ -7,41 +7,79 @@
     tools:context="interfata.ip.notifier.Categories"
     android:background="@color/blue">
 
+    <RelativeLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintVertical_bias="0.400">
+    </RelativeLayout>
+
+    <RelativeLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintVertical_bias="0.520">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.640"></RelativeLayout>
+
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="News"
+        android:buttonTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.100" />
+        app:layout_constraintHorizontal_bias="0.176"
+        app:layout_constraintVertical_bias="0.40" />
 
     <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hazard"
+        android:buttonTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.200" />
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintVertical_bias="0.52" />
 
     <CheckBox
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wheater"
+        android:buttonTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintVertical_bias="0.300" />
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintVertical_bias="0.64" />
 
 
 
@@ -56,4 +94,21 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.89" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/notifier"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_bias="0.079">
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
 </android.support.constraint.ConstraintLayout>

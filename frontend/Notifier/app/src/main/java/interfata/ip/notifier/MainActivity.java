@@ -41,11 +41,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(menu);
         }
 
+        Button b = (Button) findViewById(R.id.button2);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),Register.class);
+                startActivity(intent);
+            }
+        });
         /*Read and write from file test */
-        System.out.println("Test");
+       /* System.out.println("Test");
         FileIO file= new FileIO("test.file",getApplicationContext());
         try {
-            file.saveInfo("Informatii");
+            file.saveInfo("Informatii exemplu");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -55,6 +63,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         System.out.println(file.getInfo());
-
+*/
     }
 }
