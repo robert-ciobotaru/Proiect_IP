@@ -9,7 +9,7 @@ public class AddNotificationDto {
 	
 	@Size(max=1024, message="Invalid Length")
 	String method = "addNotification";
-	Integer id;
+	Integer userId;
 	NotificationCreateDto notification;
 	
 	public String getMethod() {
@@ -18,11 +18,11 @@ public class AddNotificationDto {
 	public void setMethod(String method) {
 		this.method = method;
 	}
-	public Integer getId() {
-		return id;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	public NotificationCreateDto getNotification() {
 		return notification;

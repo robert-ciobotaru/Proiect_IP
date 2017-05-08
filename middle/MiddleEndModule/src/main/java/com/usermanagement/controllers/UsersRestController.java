@@ -78,21 +78,21 @@ public class UsersRestController {
     }
 */
   
-	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
-    public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
+	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
+    public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto createReminders){
 		AddNotificationDto addNotification = new AddNotificationDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	if(notificationCreate.getInterval()==null || notificationCreate.getText()==null || notificationCreate.getTime()==null || 
-    			notificationCreate.isRepeatable()== null){
+    	if(createReminders.getInterval()==null || createReminders.getText()==null || createReminders.getTime()==null || 
+    			createReminders.isRepeatable()== null){
 		      
     		ErrorDto error = new ErrorDto();
     		error.setError("Input criteria not correct");
     		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     	}
  
-    	addNotification.setId(userId);
-    	addNotification.setNotification(notificationCreate);
+    	addNotification.setUserId(userId);
+    	addNotification.setNotification(createReminders);
     	ResponseEntity<PostNotificationResultDto> response =null;
  
     	try{
@@ -110,7 +110,7 @@ public class UsersRestController {
     	
     	if(response != null){
     		backendResult=response.getBody();
-    		if(backendResult.getId() == null || backendResult.getError() == null ){
+    		if(backendResult.getNotificationId() == null || backendResult.getError() == null ){
 				 
     			ErrorDto error =  new ErrorDto();
 			    error.setError("Internal server error");
@@ -128,11 +128,11 @@ public class UsersRestController {
     	}
 
 		frontendResult = new NotificationDto ();	
-		frontendResult.setId(backendResult.getId());
-		frontendResult.setInterval(notificationCreate.getInterval());
-		frontendResult.setRepeatable(notificationCreate.isRepeatable());
-		frontendResult.setText(notificationCreate.getText());
-		frontendResult.setTime(notificationCreate.getTime());    
+		frontendResult.setId(backendResult.getNotificationId());
+		frontendResult.setInterval(createReminders.getInterval());
+		frontendResult.setRepeatable(createReminders.isRepeatable());
+		frontendResult.setText(createReminders.getText());
+		frontendResult.setTime(createReminders.getTime());    
 		
 		return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.CREATED);
 		  	 
@@ -320,7 +320,7 @@ public class UsersRestController {
 		 if ( response != null ){
  		
 			userCreateResponse = response.getBody();
-			if(userCreateResponse.getError() == null || userCreateResponse.getId() == null){
+			if(userCreateResponse.getError() == null || userCreateResponse.getUserId() == null){
 		    	
 				ErrorDto error = new ErrorDto();
 				error.setError("Internal server error");
@@ -337,14 +337,14 @@ public class UsersRestController {
 			 return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
 		 }
 		 else{
-			UserCreateReturn returnUser = new UserCreateReturn();
-			returnUser.getUser().setId(userCreateResponse.getId());
-			returnUser.getUser().setCity(userCreate.getCity());
-			returnUser.getUser().setCountry(userCreate.getCountry());
-			returnUser.getUser().setEmail(userCreate.getEmail());
-			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
-			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
-			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
+			UserDto returnUser = new UserDto();
+			returnUser.setId(userCreateResponse.getUserId());
+			returnUser.setCity(userCreate.getCity());
+			returnUser.setCountry(userCreate.getCountry());
+			returnUser.setEmail(userCreate.getEmail());
+			returnUser.setHazzardCrawler(userCreate.isHazzardCrawler());
+			returnUser.setNewsCrawler(userCreate.isNewsCrawler());
+			returnUser.setWeatherCrawler(userCreate.isWeatherCrawler());
 		      
 			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
 		 }
