@@ -6,14 +6,14 @@ import java.util.List;
 
 public class GetRemindersResponseFromBackend {
 
-	public List<NotificationDto> notifications = new ArrayList<NotificationDto>();
+	public List<NotificationDto> notificationsList = new ArrayList<NotificationDto>();
 	public String error;
 	
 	public List<NotificationDto> getNotifications() {
-		return notifications;
+		return notificationsList;
 	}
 	public void setNotifications(List<NotificationDto> notifications) {
-		this.notifications = notifications;
+		this.notificationsList = notifications;
 	}
 	public String getError() {
 		return error;
@@ -23,7 +23,7 @@ public class GetRemindersResponseFromBackend {
 	}
 	
 	public boolean validate(){
-		Iterator<NotificationDto> itr = notifications.iterator();
+		Iterator<NotificationDto> itr = notificationsList.iterator();
 		while (itr.hasNext()) {
 			if(itr.next().validate()==false)
 				return false;

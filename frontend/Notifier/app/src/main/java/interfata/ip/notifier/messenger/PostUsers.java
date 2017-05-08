@@ -28,8 +28,7 @@ public class PostUsers extends Messenger {
     private JSONObject obj;
 
 
-    public PostUsers(String host, int port, String version, String city, String country, String email, boolean news, boolean hazards, boolean weather) {
-        super(host, port, version);
+    public PostUsers(String city, String country, String email, boolean news, boolean hazards, boolean weather) {
         this.city = city;
         this.country = country;
         this.email = email;

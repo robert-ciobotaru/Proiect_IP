@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationsListDto {
-	public List<NotificationDto> notifications = new ArrayList<NotificationDto>();
+	public List<NotificationDto> remindersList = new ArrayList<NotificationDto>();
 
 	public List<NotificationDto> getNotifications() {
-		return notifications;
+		return remindersList;
 	}
 
 	public void setNotifications(List<NotificationDto> notifications) {
-		this.notifications = notifications;
+		this.remindersList = notifications;
 	}
 	
 }

@@ -1,15 +1,15 @@
 package com.usermanagement.DTO;
 
 public class EarthquakesDto {
-	public String magnitude;
+	public Integer magnitude;
 	public LocationDto location;
 	public String time;
 	public String url;
 	public String title;
-	public String getMagnitude() {
+	public Integer getMagnitude() {
 		return magnitude;
 	}
-	public void setMagnitude(String magnitude) {
+	public void setMagnitude(Integer magnitude) {
 		this.magnitude = magnitude;
 	}
 	public LocationDto getLocation() {

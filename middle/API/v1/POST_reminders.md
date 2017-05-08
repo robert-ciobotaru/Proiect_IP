@@ -4,7 +4,7 @@
 
 * **URL**
 
-  _v1/users/{userId}/reminders
+  _v1/users/{userId}/reminders_
 
 * **Method:**
   

@@ -2,16 +2,15 @@ package com.usermanagement.DTO;
 
 public class PostNotificationResultDto {
  
-  public Integer id;
+  public Integer notificationId;
   public String error;
   
-  
-public Integer getId() {
-	return id;
+public Integer getNotificationId() {
+	return notificationId;
 }
 
-public void setId(Integer id) {
-	this.id = id;
+public void setNotificationId(Integer notificationId) {
+	this.notificationId = notificationId;
 }
 
 public String getError() {

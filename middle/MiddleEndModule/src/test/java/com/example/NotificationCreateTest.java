@@ -28,7 +28,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 
-public class CreateUserTest {
+public class NotificationCreateTest
+{
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
 	
@@ -37,7 +38,7 @@ public class CreateUserTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
-
+ 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
@@ -48,12 +49,12 @@ public class CreateUserTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
 	}
 
+	
 	@After
 	public void tearDown() throws Exception {
 		mockMvc = null;
 		controllers = null;
 	}
-	
 
 	@Test
 	public void createdTest() {
@@ -63,20 +64,18 @@ public class CreateUserTest {
                 .withHeader("Content-Type", "application/json")
 				.withBody(
 					 "{"
-						   + "\"userId\" : 24,"
+						   + "\"notificationId\" : 23,"
 						   + "\"error\" : \"\""
 					+ "}")
 				
 				));
 		
 		try {
-			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-						+ "\"country\":\"Romania\","
-						+ "\"city\":\"Iasi\","
-						+ "\"newsCrawler\":\"false\","
-						+ "\"hazzardCrawler\":\"false\","
-						+ "\"weatherCrawler\":\"true\","
-						+ "\"email\":\"valentin.damoc@gmail.com\""
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"text\":\"Wake me up\","
+						+ "\"time\":1231245,"
+						+ "\"repeatable\":\"true\","
+						+ "\"interval\":300"
 						+ "}"))
 			           .andExpect(status().isCreated())
 			            ;
@@ -94,23 +93,20 @@ public class CreateUserTest {
                 .withHeader("Content-Type", "application/json")
 				.withBody(
 					 "{"
-						   + "\"userId\" : 23,"
+						   + "\"notificationId\": 23,"
 						   + "\"error\" : \"Eroare a avut loc Romania\""
 					
 					+ "}")
 				));
 		
 		try {
-			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-						+ "\"country\":\"Romania\","
-						+ "\"city\":\"Iasi\","
-						+ "\"newsCrawler\":\"false\","
-						+ "\"hazzardCrawler\":\"false\","
-						+ "\"weatherCrawler\":\"true\","
-						+ "\"email\":\"manole.catalin@gmail.com\""
-						+ "}"))
-			            .andExpect(status().isBadRequest())
-			            
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\": 123456,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
+			        .andExpect(status().isUnprocessableEntity())
 			            ;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -124,20 +120,18 @@ public class CreateUserTest {
                 .withHeader("Content-Type", "application/json")
 				.withBody(
 					 "{"
-						   + "\"id\" :,"
+						   + "\"notificationId\" :2,"
 						   + "\"error\" : \"Eroare\""
 					
 					+ "}")
 				));
 		
 		try {
-			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-						+ "\"country\":\"Romania\","
-						+ "\"newsCrawler\":\"false\","
-						+ "\"hazzardCrawler\":\"false\","
-						+ "\"weatherCrawler\":\"true\","
-						+ "\"email\":\"manole.catalin@gmail.com\""
-						+ "}"))
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
 			            .andExpect(status().isBadRequest())
 			            
 			            ;
@@ -153,21 +147,19 @@ public class CreateUserTest {
                 .withHeader("Content-Type", "application/json")
                 .withBody(
       					 "{"
-      							 + "\"idf\" :12," 
+      							 + "\"idf\" :12,"
      						   + "\"errobr\" : \"Eroare\""
       							
       					+ "}")
 				));
 		
 		try {
-			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-						+ "\"country\":\"Romania\","
-						+ "\"city\":\"Iasi\","
-						+ "\"newsCrawler\":\"false\","
-						+ "\"hazzardCrawler\":\"false\","
-						+ "\"weatherCrawler\":\"true\","
-						+ "\"email\":\"manole.catalin@gmail.com\""
-						+ "}"))
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\":1231245,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
 			            .andExpect(status().isInternalServerError())
 			            
 			            ;
@@ -178,17 +170,15 @@ public class CreateUserTest {
 	}
 	@Test
 	public void serviceUnavaible() {
-		
+	
 		
 		try {
-			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-						+ "\"country\":\"Romania\","
-						+ "\"city\":\"Iasi\","
-						+ "\"newsCrawler\":\"false\","
-						+ "\"hazzardCrawler\":\"false\","
-						+ "\"weatherCrawler\":\"true\","
-						+ "\"email\":\"manole.catalin@gmail.com\""
-						+ "}"))
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\":1231245,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
 			            .andExpect(status().isServiceUnavailable())
 			            
 			            ;

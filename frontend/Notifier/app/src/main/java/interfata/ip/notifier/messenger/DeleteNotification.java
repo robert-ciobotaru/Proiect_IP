@@ -17,8 +17,7 @@ public class DeleteNotification extends DeleteRequest {
 
     private static final String specificURL = "users/{userId}/notifications/{notificationId}";
 
-    public DeleteNotification(String host, int port, String version, int userId, int notificationId) {
-        super(host, port, version);
+    public DeleteNotification(int userId, int notificationId) {
         this.requestURL = baseServerURL + specificURL
                         .replace("{userId}", String.valueOf(userId))
                         .replace("{notificationId}", String.valueOf(notificationId));

@@ -34,6 +34,8 @@ import com.usermanagement.DTO.GetNotificationsResultDto;
 import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
 import com.usermanagement.DTO.GetRemindersMethodDto;
 import com.usermanagement.DTO.GetRemindersResponseFromBackend;
+import com.usermanagement.DTO.HazzardDto;
+import com.usermanagement.DTO.HazzardNotificationsDto;
 import com.usermanagement.DTO.NotificationCreateDto;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.DTO.NotificationRemoveDto;
@@ -50,12 +52,24 @@ import com.usermanagement.DTO.UserCreateDto;
 import com.usermanagement.DTO.UserCreateResponseFromBackEnd;
 import com.usermanagement.DTO.UserCreateReturn;
 import com.usermanagement.DTO.UserDto;
+import com.usermanagement.requestmonitor.RequestMonitor;
 
 //@RefreshScope
 @RestController
 @RequestMapping("v1/users")
 public class UsersRestController {
 	
+
+	 
+	 private void setRequestMonitor(RequestMonitor monitor){
+		 this.requestMonitor = monitor;
+	 }
+	 private RequestMonitor getRequestMonitor(){
+		 return requestMonitor;
+	 }
+	 
+	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
+	 RequestMonitor requestMonitor = new RequestMonitor(5);
 	String backEndUrlPath = "http://localhost:9001";
 	
 	public void setBackEndUrlPath(String backEndUrlPath) {
@@ -78,21 +92,28 @@ public class UsersRestController {
     }
 */
   
-	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
-    public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
+	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
+    public ResponseEntity<Object> postNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto createReminders){
+		if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+		
 		AddNotificationDto addNotification = new AddNotificationDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	if(notificationCreate.getInterval()==null || notificationCreate.getText()==null || notificationCreate.getTime()==null || 
-    			notificationCreate.isRepeatable()== null){
+    	if(createReminders.getInterval()==null || createReminders.getText()==null || createReminders.getTime()==null || 
+    			createReminders.isRepeatable()== null){
 		      
     		ErrorDto error = new ErrorDto();
     		error.setError("Input criteria not correct");
     		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     	}
  
-    	addNotification.setId(userId);
-    	addNotification.setNotification(notificationCreate);
+    	addNotification.setUserId(userId);
+    	addNotification.setNotification(createReminders);
     	ResponseEntity<PostNotificationResultDto> response =null;
  
     	try{
@@ -110,7 +131,7 @@ public class UsersRestController {
     	
     	if(response != null){
     		backendResult=response.getBody();
-    		if(backendResult.getId() == null || backendResult.getError() == null ){
+    		if(backendResult.getNotificationId() == null || backendResult.getError() == null ){
 				 
     			ErrorDto error =  new ErrorDto();
 			    error.setError("Internal server error");
@@ -124,21 +145,29 @@ public class UsersRestController {
     		ErrorDto error = new ErrorDto();
     		error.setError(backendResult.getError());
 	
-    		return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+    		return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     	}
 
 		frontendResult = new NotificationDto ();	
-		frontendResult.setId(backendResult.getId());
-		frontendResult.setInterval(notificationCreate.getInterval());
-		frontendResult.setRepeatable(notificationCreate.isRepeatable());
-		frontendResult.setText(notificationCreate.getText());
-		frontendResult.setTime(notificationCreate.getTime());    
+		frontendResult.setId(backendResult.getNotificationId());
+		frontendResult.setInterval(createReminders.getInterval());
+		frontendResult.setRepeatable(createReminders.isRepeatable());
+		frontendResult.setText(createReminders.getText());
+		frontendResult.setTime(createReminders.getTime());    
 		
-		return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.CREATED);
+		return new ResponseEntity<>(frontendResult, HttpStatus.CREATED);
 		  	 
     }
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
-    public ResponseEntity<Object> getNotifications(@PathVariable("userId") Integer userId){
+    public ResponseEntity<Object> getNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
@@ -166,12 +195,6 @@ public class UsersRestController {
     		}
     		
     	}
-    	else{
-    		ErrorDto error = new ErrorDto();
-       		error.setError("Internal Server Error");
-       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    		
-    	}
     	if(getNotificationResponse.getError().length()>0){
     		 ErrorDto error = new ErrorDto();
 	       		error.setError("Internal Server Error");
@@ -179,11 +202,17 @@ public class UsersRestController {
     	}
     	
     	GetNotificationResponseDto getNotificationReturn = new GetNotificationResponseDto();
+    	HazzardDto getHazzardNotificationReturn2 = new HazzardDto();
+    	getHazzardNotificationReturn2.setCyclonesList(getNotificationResponse.getCyclonesList());
+    	getHazzardNotificationReturn2.setFloodsList(getNotificationResponse.getFloodsList());
+    	
+    	HazzardNotificationsDto getHazzardNotificationReturn = new HazzardNotificationsDto();
+    	getHazzardNotificationReturn.setEarthquakesList(getNotificationResponse.getEarthquakesList());
+    	getHazzardNotificationReturn.setHazzard(getHazzardNotificationReturn2);
+    	
     	getNotificationReturn.setUserNotificationsList(getNotificationResponse.getUserNotifications());
     	getNotificationReturn.setWeatherNotificationsList(getNotificationResponse.getWeatherNotificationsList());
-    	getNotificationReturn.getHazzardNotifications().setEarthquakesList(getNotificationResponse.getEarthquakesList());
-    	getNotificationReturn.getHazzardNotifications().getHazzard().setCyclonesList(getNotificationResponse.getCyclonesList());
-    	getNotificationReturn.getHazzardNotifications().getHazzard().setFloodsList(getNotificationResponse.getFloodsList());
+    	getNotificationReturn.setHazzardNotifications(getHazzardNotificationReturn);
     	getNotificationReturn.setNewsNotificationsList(getNotificationResponse.getNewsNotificationsList());
     	return new ResponseEntity<>(getNotificationReturn, HttpStatus.OK);
     	
@@ -192,7 +221,15 @@ public class UsersRestController {
     }
   
     @RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
+    public ResponseEntity<Object> removeNotification(HttpServletRequest request, @PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
@@ -239,7 +276,15 @@ public class UsersRestController {
     
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
     	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
@@ -288,7 +333,15 @@ public class UsersRestController {
     
      
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Object> postUser(@RequestBody UserCreateDto userCreate){
+    public ResponseEntity<Object> postUser(HttpServletRequest request, @RequestBody UserCreateDto userCreate){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
+    	
     	if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null 
     			|| userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
 			
@@ -320,7 +373,7 @@ public class UsersRestController {
 		 if ( response != null ){
  		
 			userCreateResponse = response.getBody();
-			if(userCreateResponse.getError() == null || userCreateResponse.getId() == null){
+			if(userCreateResponse.getError() == null || userCreateResponse.getUserId() == null){
 		    	
 				ErrorDto error = new ErrorDto();
 				error.setError("Internal server error");
@@ -337,21 +390,28 @@ public class UsersRestController {
 			 return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
 		 }
 		 else{
-			UserCreateReturn returnUser = new UserCreateReturn();
-			returnUser.getUser().setId(userCreateResponse.getId());
-			returnUser.getUser().setCity(userCreate.getCity());
-			returnUser.getUser().setCountry(userCreate.getCountry());
-			returnUser.getUser().setEmail(userCreate.getEmail());
-			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
-			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
-			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
+			UserDto returnUser = new UserDto();
+			returnUser.setId(userCreateResponse.getUserId());
+			returnUser.setCity(userCreate.getCity());
+			returnUser.setCountry(userCreate.getCountry());
+			returnUser.setEmail(userCreate.getEmail());
+			returnUser.setHazzardCrawler(userCreate.isHazzardCrawler());
+			returnUser.setNewsCrawler(userCreate.isNewsCrawler());
+			returnUser.setWeatherCrawler(userCreate.isWeatherCrawler());
 		      
 			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
 		 }
     }
     
     @RequestMapping(value = "/{userId}/reminders", method = RequestMethod.GET)
-    public ResponseEntity<Object> getReminders(@PathVariable("userId") Integer userId){
+    public ResponseEntity<Object> getReminders(HttpServletRequest request, @PathVariable("userId") Integer userId){
+    	
+    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    		 ErrorDto error = new ErrorDto();
+    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
+    		 
+    	 }
     	
     	GetRemindersMethodDto getRemindersMethod = new GetRemindersMethodDto();
     	String url = new String(backEndUrlPath);
@@ -387,7 +447,7 @@ public class UsersRestController {
    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     	}
     	
-    	if(notification.getError().length() >= 0){
+    	if(notification.getError().length() > 0){
     		
     		ErrorDto error = new ErrorDto();
  			error.setError(notification.getError());
