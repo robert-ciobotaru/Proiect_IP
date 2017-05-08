@@ -38,6 +38,11 @@ public class NotificationDto {
 	public void setInterval(Integer interval) {
 		this.interval = interval;
 	}
-	
+	public boolean validate(){
+		if(this.id==null || this.text==null || this.time==null || this.repeatable == null || this.interval == null)
+			return false;
+		
+		return true;
+	}
 	
 }

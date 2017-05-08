@@ -26,6 +26,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.usermanagement.DTO.AddNotificationDto;
 import com.usermanagement.DTO.AddUserDto;
 import com.usermanagement.DTO.ErrorDto;
+import com.usermanagement.DTO.GetNotificationResponseDto;
 import com.usermanagement.DTO.GetNotificationTriggeredDto;
 import com.usermanagement.DTO.GetNotificationTriggeredResultDto;
 import com.usermanagement.DTO.GetNotificationsDto;
@@ -141,6 +142,8 @@ public class UsersRestController {
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	getNotifications.setId(userId);
+    	getNotifications.setMethod("getNotifications");
+    	
     	ResponseEntity<GetNotificationsResultFromBackEnd> response = null;
     	
     	try{
@@ -148,100 +151,45 @@ public class UsersRestController {
        	 }
        	 catch (Exception e) {
        		 ErrorDto error = new ErrorDto();
-       		 error.setError("The server is currently unavailable");
-       		
+       		 error.setError("The server is currently unavailable");    		
        		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
        		 
        	 }
-  
-    	
-    	GetNotificationsResultFromBackEnd notificationsResult=null;
-    	
-    	List<NotificationDto> notificationsList = new ArrayList<>();
-    	
-    	if(response !=null){
-    	
-    		notificationsResult = response.getBody();
-    	
-	    	if(notificationsResult.getError()==null || notificationsResult.getNotifications() == null){
-	    		ErrorDto error = new ErrorDto();
-	    		error.setError("Internal Server Error");
-	    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-	    	}
+    	GetNotificationsResultFromBackEnd getNotificationResponse = new GetNotificationsResultFromBackEnd();
+    	if (response != null){
+    		getNotificationResponse = response.getBody();
+    		if(getNotificationResponse.validate()==false){
+    			 ErrorDto error = new ErrorDto();
+    	       		error.setError("Internal Server Error");
+    	       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    		}
+    		
     	}
     	else{
     		ErrorDto error = new ErrorDto();
-    		error.setError("Internal Server Error");
-    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+       		error.setError("Internal Server Error");
+       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    		
     	}
-    		 notificationsResult = new GetNotificationsResultFromBackEnd();
+    	if(getNotificationResponse.getError().length()>0){
+    		 ErrorDto error = new ErrorDto();
+	       		error.setError("Internal Server Error");
+	       		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    	}
     	
+    	GetNotificationResponseDto getNotificationReturn = new GetNotificationResponseDto();
+    	getNotificationReturn.setUserNotificationsList(getNotificationResponse.getUserNotifications());
+    	getNotificationReturn.setWeatherNotificationsList(getNotificationResponse.getWeatherNotificationsList());
+    	getNotificationReturn.getHazzardNotifications().setEarthquakesList(getNotificationResponse.getEarthquakesList());
+    	getNotificationReturn.getHazzardNotifications().getHazzard().setCyclonesList(getNotificationResponse.getCyclonesList());
+    	getNotificationReturn.getHazzardNotifications().getHazzard().setFloodsList(getNotificationResponse.getFloodsList());
+    	getNotificationReturn.setNewsNotificationsList(getNotificationResponse.getNewsNotificationsList());
+    	return new ResponseEntity<>(getNotificationReturn, HttpStatus.OK);
     	
-    	NotificationDto notification1 = new NotificationDto();
-    	NotificationDto notification2 = new NotificationDto();
-    	
-    	notification1.setId(23);
-    	notification2.setId(24);
-    	notification1.setText("Wake me up");
-    	notification2.setText("Get the kid");
-    	notification1.setInterval(300);
-    	notification2.setInterval(400);
-    	notification1.setTime(1231245);;
-    	notification2.setTime(123245);
-    	notification1.setRepeatable(true);
-    	notification2.setRepeatable(false);
-    	
-    	notificationsList.add(notification1);
-    	notificationsList.add(notification2);
     	
     
-    	notificationsResult.setNotifications(notificationsList);
-    	
-    	 
-    
-
-    	if(userId==1){
-    		notificationsResult.setError("EroorHappens");
-     	   
-        }
-        else
-        {
-        	notificationsResult.setError("");
-        }
-        GetNotificationsResultDto getNotificantionsResultForFrontEnd = null;
-
- 		if(notificationsResult.getError().length()>0){
- 			ErrorDto error = new ErrorDto();
- 			error.setError(notificationsResult.getError());
- 			
- 			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
- 		}
- 		else{
- 			getNotificantionsResultForFrontEnd = new GetNotificationsResultDto ();	
- 			getNotificantionsResultForFrontEnd.setNotifications(notificationsResult.getNotifications());
- 			return new ResponseEntity<>((ResponseInterfaceDto)getNotificantionsResultForFrontEnd, HttpStatus.OK);
- 		}
     }
-    
-    
-//    @RequestMapping(value = "/{userId}/notifications/{notificationId}", method = RequestMethod.GET)
-//    public ResponseEntity<NotificationDto> getNotificationsSpecificated(@PathVariable("userId") Long userId ,@PathVariable("notificationId") Long notificationId ) {
-//    	NotificationRequestDto notification = new NotificationRequestDto();
-//    	String url = new String("http://localhost:9000");
-//   	     RestTemplate rest = new RestTemplate();
-//    	notification.setUserid(userId);
-//    	notification.setNotificationid(notificationId);
-//    	try{
-//       	 ResponseEntity<NotificationDto>response = rest.postForEntity(url,notification,NotificationDto.class);
-//       	 }
-//       	 catch (Exception e) {
-//       		 System.out.println(e);
-//       	 }
-//    	NotificationDto notificationResponse = new NotificationDto();
-//    	notificationResponse.setId((int) (long)notification.getNotificationid());
-//        return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
-//     
-//    }
+  
     @RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
