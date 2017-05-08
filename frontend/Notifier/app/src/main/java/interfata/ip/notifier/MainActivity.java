@@ -9,12 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
-import interfata.ip.notifier.messenger.GetNotifications;
-import interfata.ip.notifier.messenger.GetTriggeredNotifications;
+import interfata.ip.notifier.InternalFile.FileIO;
+import interfata.ip.notifier.messenger.DeleteUser;
 import interfata.ip.notifier.messenger.Messenger;
 import interfata.ip.notifier.messenger.NetworkTask;
 
@@ -40,19 +41,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(menu);
         }
 
-
-
-
-
-
-        /*Messenger m = new GetTriggeredNotifications("104.198.253.69", 8080, "v1", 2);
-        NetworkTask t = new NetworkTask();
-        t.execute(m);
+        /*Read and write from file test */
+        System.out.println("Test");
+        FileIO file= new FileIO("test.file");
         try {
-            System.out.println(t.get());
-        } catch (InterruptedException | ExecutionException e) {
-            System.out.println("EXCEPTIONNN");
+            file.saveInfo("Informatii",getApplicationContext());
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }*/
+        }
+        try {
+            file.loadInfo(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(file.getInfo());
+
     }
 }
