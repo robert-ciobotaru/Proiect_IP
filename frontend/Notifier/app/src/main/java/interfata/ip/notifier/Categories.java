@@ -55,6 +55,7 @@ public class Categories extends AppCompatActivity {
         urmatorul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
                 // aici se face requestul
                /* PostUsers m = new PostUsers(city,country,email,newsCrawler.isChecked(),hazzardCrawler.isChecked(),wheaterCrawler.isChecked());
@@ -66,6 +67,17 @@ public class Categories extends AppCompatActivity {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
+
+                if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
+                    // aici se face requestul
+
+                    Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
+                    startActivity(notificationSend);
+                }
+                else{
+                    Snackbar snackbar=Snackbar.make(v,"Please check at least one!",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
                 }
                 */
                 //JSONObject object= t.get();
