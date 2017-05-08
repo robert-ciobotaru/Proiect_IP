@@ -61,10 +61,10 @@ public class UsersRestController {
 	
 
 	 
-	 private void setRequestMonitor(RequestMonitor monitor){
+	public void setRequestMonitor(RequestMonitor monitor){
 		 this.requestMonitor = monitor;
 	 }
-	 private RequestMonitor getRequestMonitor(){
+	 public RequestMonitor getRequestMonitor(){
 		 return requestMonitor;
 	 }
 	 
