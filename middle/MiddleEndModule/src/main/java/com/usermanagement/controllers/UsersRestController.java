@@ -124,7 +124,7 @@ public class UsersRestController {
     		ErrorDto error = new ErrorDto();
     		error.setError(backendResult.getError());
 	
-    		return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+    		return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     	}
 
 		frontendResult = new NotificationDto ();	
@@ -134,7 +134,7 @@ public class UsersRestController {
 		frontendResult.setText(createReminders.getText());
 		frontendResult.setTime(createReminders.getTime());    
 		
-		return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.CREATED);
+		return new ResponseEntity<>(frontendResult, HttpStatus.CREATED);
 		  	 
     }
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
