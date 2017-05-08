@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
+import interfata.ip.notifier.InternalFile.FileIO;
 import interfata.ip.notifier.messenger.DeleteUser;
 import interfata.ip.notifier.messenger.Messenger;
 import interfata.ip.notifier.messenger.NetworkTask;
@@ -38,35 +41,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(menu);
         }
 
-
-
-
-
-
-<<<<<<< Updated upstream
-        /*Messenger m = new GetTriggeredNotifications("104.198.253.69", 8080, "v1", 2);
-=======
-        /*Messenger m = new DeleteUser("104.198.253.69", 8080, "v1", 2);
->>>>>>> Stashed changes
-        NetworkTask t = new NetworkTask();
-        t.execute(m);
+        /*Read and write from file test */
+        System.out.println("Test");
+        FileIO file= new FileIO("test.file");
         try {
-            System.out.println(t.get());
-        } catch (InterruptedException | ExecutionException e) {
-            System.out.println("EXCEPTIONNN");
-            e.printStackTrace();
-<<<<<<< Updated upstream
-        }*/
-=======
-        }
-        */
-       /* try {
-            POST_users c = new POST_users("asdasdas","sadasdas","sadasdasdas","asdasdas","dasdasdas","dasdasas");
-        } catch (MalformedURLException e) {
+            file.saveInfo("Informatii",getApplicationContext());
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        */
+        try {
+            file.loadInfo(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(file.getInfo());
 
->>>>>>> Stashed changes
     }
 }
