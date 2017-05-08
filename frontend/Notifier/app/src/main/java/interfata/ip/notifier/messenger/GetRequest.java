@@ -15,8 +15,8 @@ import java.net.URL;
 
 abstract class GetRequest extends Messenger {
 
-    GetRequest(String host, int port, String version) {
-        super(host, port, version);
+    GetRequest() {
+
     }
 
     @Override
