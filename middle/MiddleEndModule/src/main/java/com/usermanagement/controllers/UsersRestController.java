@@ -242,12 +242,12 @@ public class UsersRestController {
 //        return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
 //     
 //    }
-    @RequestMapping(value ="/{userId}/notifications/{notificationId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
+    @RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	removeNotification.setId(notificationId);
+    	removeNotification.setId(reminderId);
     	ResponseEntity<RemoveNotificationResultDto> response = null;
     	
     	try{
@@ -273,13 +273,6 @@ public class UsersRestController {
     		   
     	   }
     	}
-    	else{
-    	
-    		ErrorDto error = new ErrorDto();
-       		error.setError("Internal Server Error");
-       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    	
-    	}
     
        RemoveNotificationReturnDto removeResponse = null;
 
@@ -290,7 +283,7 @@ public class UsersRestController {
 		}
 		else{
 		    removeResponse = new RemoveNotificationReturnDto();	
-		    removeResponse.setId(notificationId);  
+		    removeResponse.setId(reminderId);  
 			return new ResponseEntity<>(removeResponse, HttpStatus.OK);
 		}
 	}
