@@ -8,7 +8,6 @@ import javax.xml.ws.Response;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +54,12 @@ import com.usermanagement.DTO.UserDto;
 @RequestMapping("v1/users")
 public class UsersRestController {
 	
+	String backEndUrlPath = "http://localhost:9001";
+	
+	public void setBackEndUrlPath(String backEndUrlPath) {
+		this.backEndUrlPath = backEndUrlPath; 
+	}
+	
 	@ExceptionHandler({HttpMessageNotReadableException.class})
 	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
 	  
@@ -73,67 +78,67 @@ public class UsersRestController {
   
 	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.POST)
     public ResponseEntity<Object> postNotifications(@PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto notificationCreate){
-    	AddNotificationDto addNotification = new AddNotificationDto();
-    	 String url = new String("http://localhost:9000");
-    	 RestTemplate rest = new RestTemplate();
-    	  if(notificationCreate.getInterval()==null || notificationCreate.getText()==null || notificationCreate.getTime()==null || notificationCreate.isRepeatable()== null)
-    	  {
-    		      ErrorDto error = new ErrorDto();
-    			  error.setError("Input criteria not correct");
-    		      return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    	  }
-    	 
-    	 addNotification.setId(userId);
-    	 addNotification.setNotification(notificationCreate);
-    	 ResponseEntity<PostNotificationResultDto> response =null;
-    	 
-    	 try{
-         response = rest.postForEntity(url,addNotification,PostNotificationResultDto.class);
-    	 }
-    	 catch (Exception e) {
-    		 System.out.println(e);
-    		 ErrorDto error =  new ErrorDto();
-             error.setError("The server is currently unavailable");
-             return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE );
-    		 
-    	 }
-    	 PostNotificationResultDto backendResult=null;
-    	 
-    	 if(response != null)
-    	 {
-    		 backendResult=response.getBody();
-    		 if(backendResult.getId() == null || backendResult.getError() == null )
-    		 {
-    			 ErrorDto error =  new ErrorDto();
-    	         error.setError("Internal server error");
-    	       return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
-    		 }
-    	 }
-    	 
-    	NotificationDto frontendResult= null;
+		AddNotificationDto addNotification = new AddNotificationDto();
+    	String url = new String(backEndUrlPath);
+    	RestTemplate rest = new RestTemplate();
+    	if(notificationCreate.getInterval()==null || notificationCreate.getText()==null || notificationCreate.getTime()==null || 
+    			notificationCreate.isRepeatable()== null){
+		      
+    		ErrorDto error = new ErrorDto();
+    		error.setError("Input criteria not correct");
+    		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    	}
+ 
+    	addNotification.setId(userId);
+    	addNotification.setNotification(notificationCreate);
+    	ResponseEntity<PostNotificationResultDto> response =null;
+ 
+    	try{
+    		response = rest.postForEntity(url,addNotification,PostNotificationResultDto.class);
+    	}
+    	catch (Exception e) {
+    		System.out.println(e);
+    		ErrorDto error =  new ErrorDto();
+			error.setError("The server is currently unavailable");
+			return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE );
+			 
+    	}
     	
-    	 if(backendResult.getError().length()>0)
-    	 {
-    		 ErrorDto error = new ErrorDto();
-  			 error.setError(backendResult.getError());
-  			
-  			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
-  		}
-  		
+    	PostNotificationResultDto backendResult=null;
+    	
+    	if(response != null){
+    		backendResult=response.getBody();
+    		if(backendResult.getId() == null || backendResult.getError() == null ){
+				 
+    			ErrorDto error =  new ErrorDto();
+			    error.setError("Internal server error");
+			    return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+    	}
+ 
+    	NotificationDto frontendResult= null;
+
+    	if(backendResult.getError().length()>0){
+    		ErrorDto error = new ErrorDto();
+    		error.setError(backendResult.getError());
+	
+    		return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
+    	}
+
 		frontendResult = new NotificationDto ();	
 		frontendResult.setId(backendResult.getId());
 		frontendResult.setInterval(notificationCreate.getInterval());
 		frontendResult.setRepeatable(notificationCreate.isRepeatable());
 		frontendResult.setText(notificationCreate.getText());
 		frontendResult.setTime(notificationCreate.getTime());    
-		return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.OK);
-  	
- 
+		
+		return new ResponseEntity<>((ResponseInterfaceDto)frontendResult, HttpStatus.CREATED);
+		  	 
     }
     @RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> getNotifications(@PathVariable("userId") Integer userId){
     	GetNotificationsDto getNotifications = new GetNotificationsDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	getNotifications.setId(userId);
     	ResponseEntity<GetNotificationsResultFromBackEnd> response = null;
@@ -237,14 +242,12 @@ public class UsersRestController {
 //        return new ResponseEntity<>(notificationResponse, HttpStatus.OK);
 //     
 //    }
-    @RequestMapping(value ="/{userId}/notifications/{notificationId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("notificationId") Integer notificationId){
+    @RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> removeNotification(@PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
     	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	removeNotification.setId(notificationId);
-    	removeNotification.setMethod("removeNotification");
-    	
+    	removeNotification.setId(reminderId);
     	ResponseEntity<RemoveNotificationResultDto> response = null;
     	
     	try{
@@ -263,19 +266,12 @@ public class UsersRestController {
     	if ( response != null ){
     		
     	   removeNotificationResult = response.getBody();
-    	   if(removeNotificationResult.getError() ==null || removeNotificationResult.getId()==null){
+    	   if(removeNotificationResult.getError()==null ){
     		   ErrorDto error = new ErrorDto();
-       		error.setError("Internal Server Error");
+       		 error.setError("Internal Server Error");
        		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		   
     	   }
-    	}
-    	else{
-    	
-    		ErrorDto error = new ErrorDto();
-       		error.setError("Internal Server Error");
-       		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    	
     	}
     
        RemoveNotificationReturnDto removeResponse = null;
@@ -283,13 +279,11 @@ public class UsersRestController {
 		if(removeNotificationResult.getError().length()>0){
 			ErrorDto error = new ErrorDto();
 			error.setError(removeNotificationResult.getError());
-			
 			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		else{
 		    removeResponse = new RemoveNotificationReturnDto();	
-		    removeResponse.setId(removeNotificationResult.getId());
-		      
+		    removeResponse.setId(reminderId);  
 			return new ResponseEntity<>(removeResponse, HttpStatus.OK);
 		}
 	}
@@ -298,46 +292,47 @@ public class UsersRestController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeUser(@PathVariable("userId") Integer userId) {
     	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
    	 	removeUserMethod.setId(userId);
-   	 	removeUserMethod.setMethod("removeUser");
+   	 
    	 	ResponseEntity<RemoveUserDto> response = null;
    	 	try{
    	 		response = rest.postForEntity(url,removeUserMethod,RemoveUserDto.class);
-       	}
+       	    }
        	catch (Exception e) {
        		ErrorDto error = new ErrorDto();
     		error.setError("The server is currently unavailable");
     		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
        		 
        	}
+   	 	
     	RemoveUserDto removeUser = null;
+    	
     	if(response != null){
     		removeUser = response.getBody();
-    		if(removeUser.getError()==null || removeUser.getId()==null){
+    		
+    		if(removeUser.getError() == null ){
     			ErrorDto error = new ErrorDto();
         		error.setError("Internal Server Error");
         		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		}
     	}
-    	else{
-    		removeUser = new RemoveUserDto();
-    		ErrorDto error = new ErrorDto();
-    		error.setError("Internal Server Error");
-    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    	}
+    	
     	
     	RemoveUserReturnDto removeResponse = null;
     	
     	if(removeUser.getError().length()>0){
+    		
     		ErrorDto error = new ErrorDto();
     		error.setError(removeUser.getError());
     		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    		
     	}
     	else{
+    		
     		removeResponse = new RemoveUserReturnDto ();	
-    		removeResponse.setId(removeUser.getId());
+    		removeResponse.setId(userId);
     		return new ResponseEntity<>(removeResponse, HttpStatus.OK);
     	}
     }
@@ -345,77 +340,72 @@ public class UsersRestController {
      
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Object> postUser(@RequestBody UserCreateDto userCreate){
-    	 if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null || userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
-    		ErrorDto error1 = new ErrorDto();
-			error1.setError("Data for creating new user is invalid");
-			return new ResponseEntity<>(error1,HttpStatus.BAD_REQUEST);
-    	 }
+    	if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null 
+    			|| userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
 			
-    	 AddUserDto addUser = new AddUserDto();
-    	 String url = new String("http://fenrir.info.uaic.ro:8765");
-    	 RestTemplate rest = new RestTemplate();
-    	 addUser.setUser(userCreate);
-    	 ResponseEntity<UserCreateResponseFromBackEnd> response = null;
-    	 try{
-    	     response = rest.postForEntity(url,addUser,UserCreateResponseFromBackEnd.class);
-    	 }
-    	 catch (Exception e) {
-             ErrorDto error2 = new ErrorDto();
-             error2.setError("The server is currently unavailable");
-             return new ResponseEntity<>(error2, HttpStatus.SERVICE_UNAVAILABLE);
-    	 }
-    	 
-    	 UserCreateResponseFromBackEnd userCreateResponse = null;
-    	 
-    	 if ( response != null ){
-     		
-    		 userCreateResponse = response.getBody();
-    		 if(userCreateResponse.getError() == null || userCreateResponse.getId() == null){
-    	    		ErrorDto error3 = new ErrorDto();
-    				error3.setError("Internal server error");
-    				return new ResponseEntity<>(error3,HttpStatus.INTERNAL_SERVER_ERROR);
-    	    	 }
-      	 }
-      	 else{
-	    	ErrorDto error3 = new ErrorDto();
-			error3.setError("Internal server error");
-			return new ResponseEntity<>(error3,HttpStatus.INTERNAL_SERVER_ERROR);
-      	 }
-
-    	
-        if(userCreate.getEmail().equals("manole.catalin@gmail.com")){
-        	userCreateResponse.setError("Data for creating new user is invalid");
-     	   
-        }
-        else
-        {
-        	userCreateResponse.setError("");
-        }
-
-     	if(userCreateResponse.getError().length()>0){
-     			ErrorDto error = new ErrorDto();
-     			error.setError(userCreateResponse.getError());
-     			
-     			return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
-     		}
-     		else{
-     			UserCreateReturn returnUser = new UserCreateReturn();
-     			returnUser.getUser().setId(userCreateResponse.getId());
-     			returnUser.getUser().setCity(userCreate.getCity());
-     			returnUser.getUser().setCountry(userCreate.getCountry());
-     			returnUser.getUser().setEmail(userCreate.getEmail());
-     			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
-     			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
-     			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
-     		      
-     			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
-     		}
+    		ErrorDto error = new ErrorDto();
+			error.setError("Data for creating new user is invalid");
+			
+			return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    	}
+			
+    	AddUserDto addUser = new AddUserDto();
+    	String url = new String(backEndUrlPath);
+    	RestTemplate rest = new RestTemplate();
+    	addUser.setUser(userCreate);
+    	ResponseEntity<UserCreateResponseFromBackEnd> response = null;
+    	try{
+		     response = rest.postForEntity(url,addUser,UserCreateResponseFromBackEnd.class);
+		}
+		catch (Exception e) {
+			
+			System.out.println("CATCH PATH:" + e);
+	        ErrorDto error = new ErrorDto();
+	        error.setError("The server is currently unavailable");
+	        
+	        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+		 }
+		 
+		 UserCreateResponseFromBackEnd userCreateResponse = null;
+		 
+		 if ( response != null ){
+ 		
+			userCreateResponse = response.getBody();
+			if(userCreateResponse.getError() == null || userCreateResponse.getId() == null){
+		    	
+				ErrorDto error = new ErrorDto();
+				error.setError("Internal server error");
+				
+				return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+	  	 }
+	  	 
+		 if(userCreateResponse.getError().length()>0){
+			
+			 ErrorDto error = new ErrorDto();
+			 error.setError(userCreateResponse.getError());		
+			 
+			 return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+		 }
+		 else{
+			UserCreateReturn returnUser = new UserCreateReturn();
+			returnUser.getUser().setId(userCreateResponse.getId());
+			returnUser.getUser().setCity(userCreate.getCity());
+			returnUser.getUser().setCountry(userCreate.getCountry());
+			returnUser.getUser().setEmail(userCreate.getEmail());
+			returnUser.getUser().setHazzardCrawler(userCreate.isHazzardCrawler());
+			returnUser.getUser().setNewsCrawler(userCreate.isNewsCrawler());
+			returnUser.getUser().setWeatherCrawler(userCreate.isWeatherCrawler());
+		      
+			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
+		 }
     }
+    
     @RequestMapping(value = "/{userId}/notifications/triggered-notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> triggeredNotification(@PathVariable("userId") Integer userId){
     	
     	GetTriggeredNotificationMethodDto triggeredNotificationMethod = new GetTriggeredNotificationMethodDto();
-    	String url = new String("http://localhost:9000");
+    	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	triggeredNotificationMethod.setId(userId);
     	triggeredNotificationMethod.setMethod("getExpiredNotifications");

@@ -1,10 +1,10 @@
-**DELETE_users-id**
+**DELETE_remiders-id**
 ----
   
 
 * **URL**
 
-  _v1/users/{userId}_
+  _v1/users/{userId}/reminders/{reminderId}_
 
 * **Method:**
   
@@ -15,6 +15,7 @@
    **Required:**
  
    `userId=[integer]`
+   `reminderId=[integer]`
 
 
 * **Data Params**
@@ -26,22 +27,21 @@
     **Content:** 
 
 ```json
-{ 
-     "userId": 23
-}
+ { 
+      "reminderId": 23
+ }
 ```
  
 * **Error Response:**
 
   * **Code:** 422 Unprocessable Entity <br />
-    **Content:** `{ error : "Invalid User" }`
+    **Content:** `{ error : "Invalid notification id / Invalid Notification user" }`
 
-  * **Code:** 500 Internal Server Error <br /> 
+  * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal server error" }`
 
   * **Code:** 503 Service Unavailable <br />
     **Content:** `{ error : "The server is currently unavailable" }`
-
 
 * **Notes:**
 

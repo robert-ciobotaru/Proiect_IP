@@ -6,19 +6,32 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import javax.net.ssl.SSLEngineResult.Status;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.controllers.UsersRestController;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+
 
 public class CreateUserTest {
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(9001); 
+	
     private MockMvc mockMvc;
     private UsersRestController controllers;
 	@BeforeClass
@@ -43,6 +56,18 @@ public class CreateUserTest {
 
 	@Test
 	public void test1() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"id\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+				//.withStatus(201)
+				));
+		
 		try {
 			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 						+ "\"country\":\"Romania\","
@@ -52,7 +77,7 @@ public class CreateUserTest {
 						+ "\"weatherCrawler\":\"true\","
 						+ "\"email\":\"valentin.damoc@gmail.com\""
 						+ "}"))
-			            .andExpect(status().isCreated())
+			            .andExpect(status().is(201))
 			            .andExpect(jsonPath("$.user.id", is(23)))
 			            .andExpect(jsonPath("$.user.country", is("Romania")))
 			            .andExpect(jsonPath("$.user.city", is("Iasi")))
@@ -64,9 +89,21 @@ public class CreateUserTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	@Test
 	public void test2() {
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"id\" : 23,"
+						   + "\"error\" : \"Eroare a avut loc Romania\""
+					
+					+ "}")
+				));
+		
 		try {
 			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 						+ "\"country\":\"Romania\","

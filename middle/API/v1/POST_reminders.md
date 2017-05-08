@@ -1,41 +1,54 @@
-**DELETE_users-id**
+**POST_reminders**
 ----
   
 
 * **URL**
 
-  _v1/users/{userId}/notifications/{notificationId}_
+  _v1/users/{userId}/reminders
 
 * **Method:**
   
-  `DELETE` 
+  `POST` 
   
 *  **URL Params**
 
    **Required:**
  
    `userId=[integer]`
-   `notificationId=[integer]`
 
 
 * **Data Params**
-  _N/A for GET verb_
+
+  ```json
+  {
+      "text": "Wake me up",
+      "time" : 1231245,
+      "repeatable" : true,
+      "interval" : 300
+  }
+  ```
 
 * **Success Response:** 
 
-  * **Code:** 200 OK <br />
+  * **Code:** 201 Created <br />
     **Content:** 
-
 ```json
  { 
-      "id": 23
+      "id": 23,
+      "text": "Wake me up",
+      "time" : 1231245,
+      "repeatable" : true,
+      "interval" : 300
   }
 ```
  
 * **Error Response:**
 
   * **Code:** 422 Unprocessable Entity <br />
-    **Content:** `{ error : "Invalid notification id / Invalid Notification user" }`
+    **Content:** `{ error : "Invalid User" }`
+
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "Input criteria not correct" }`
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal server error" }`
@@ -46,3 +59,4 @@
 * **Notes:**
 
   _No aditional info available_
+

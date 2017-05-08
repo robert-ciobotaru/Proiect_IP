@@ -50,6 +50,9 @@ def validate_json(data):
     try:
         jsonschema.validate(simplejson.loads(data), (schema))
         print "JSON is valid"
+		urlSend = 'http://fenrir.info.uaic.ro:8765'
+        sendSource = urlopen(urlSend, data=data)
+        sendSource.close()
     except jsonschema.ValidationError as e:
         print e.message
     except jsonschema.SchemaError as e:
