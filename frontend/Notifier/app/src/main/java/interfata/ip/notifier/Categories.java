@@ -57,7 +57,7 @@ public class Categories extends AppCompatActivity {
             public void onClick(View v) {
             if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
                 // aici se face requestul
-                PostUsers m = new PostUsers(city,country,email,newsCrawler.isChecked(),hazzardCrawler.isChecked(),wheaterCrawler.isChecked());
+               /* PostUsers m = new PostUsers(city,country,email,newsCrawler.isChecked(),hazzardCrawler.isChecked(),wheaterCrawler.isChecked());
                 NetworkTask t = new NetworkTask();
                 t.execute(m);
                 try {
@@ -67,6 +67,7 @@ public class Categories extends AppCompatActivity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                */
                 //JSONObject object= t.get();
                 // FileIO file= new FileIO("post_users.file", getApplicationContext());
                 //  file.saveInfo(object.toString());
