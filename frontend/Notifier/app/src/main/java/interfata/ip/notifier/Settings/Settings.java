@@ -6,6 +6,6 @@ package interfata.ip.notifier.Settings;
 
 public class Settings {
     final static String URL= "http://104.198.253.69";
-    final static int Port=8080;
+    final static int Port = 8888;
     final static String Version= "v1";
 }
