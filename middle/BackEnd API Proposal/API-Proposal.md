@@ -168,7 +168,6 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
     "userId" : 2,
     "method" : "addNotification",
     "notification" : {
-        "id" : 23,
         "text": "Get the kid",
         "time": 213141,
         "repeatable": 0,
@@ -181,7 +180,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Response body:**
 ```json
 {
-    "userId" : 2,
+    "notificationId" : 2,
     "error" : "" 
 }
 ```

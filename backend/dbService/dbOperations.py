@@ -27,14 +27,14 @@ def send():
 				interm=linie[0]
 			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['data']['repeatable'],raspuns['data']['interval'],raspuns['data']['time'],raspuns['data']['text'],raspuns['id']))
 			db.commit()
-			date=json.dumps({'id':interm,'error':""})
+			date=json.dumps({'id':raspuns['id'],'error':""}) #sau interm in caz ca se vrea ca raspuns notificationId si nu userId
 			handle=urlopen(url,date)
 			#print "am trimis handle"
 			cursor.close()
 			db.close()
 		except:
 			db.rollback()
-			date=json.dumps({'id':raspuns['id'],'error':"Eroare la addNotification"})
+			date=json.dumps({'id':raspuns['id'],'error':"Eroare la addNotification"}) 
 			handle=urlopen(url,date)
 	elif raspuns['method']=='getUserNotifications':
 		cursor.execute("Select * from notificari where user_id = %s",(raspuns['id'], ))
