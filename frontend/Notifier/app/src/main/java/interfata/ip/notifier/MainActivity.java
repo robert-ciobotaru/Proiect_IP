@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
         /*Read and write from file test */
         System.out.println("Test");
-        FileIO file= new FileIO("test.file");
+        FileIO file= new FileIO("test.file",getApplicationContext());
         try {
-            file.saveInfo("Informatii",getApplicationContext());
+            file.saveInfo("Informatii");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            file.loadInfo(getApplicationContext());
+            file.loadInfo();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package interfata.ip.notifier;
 
 import android.content.Intent;
+import android.os.Messenger;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,17 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
+import interfata.ip.notifier.InternalFile.FileIO;
+import interfata.ip.notifier.messenger.NetworkTask;
+import interfata.ip.notifier.messenger.PostUsers;
 
 public class Categories extends AppCompatActivity {
 
@@ -43,15 +55,31 @@ public class Categories extends AppCompatActivity {
         urmatorul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
-                    // aici se face requestul
-                    Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
-                    startActivity(notificationSend);
+            if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
+                // aici se face requestul
+                PostUsers m = new PostUsers(city,country,email,newsCrawler.isChecked(),hazzardCrawler.isChecked(),wheaterCrawler.isChecked());
+                NetworkTask t = new NetworkTask();
+                t.execute(m);
+                try {
+                    System.out.println("t.get: "+ t.get());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
-                else{
-                    Snackbar snackbar=Snackbar.make(v,"Please check at least one!",Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
+                //JSONObject object= t.get();
+                // FileIO file= new FileIO("post_users.file", getApplicationContext());
+                //  file.saveInfo(object.toString());
+                // file.loadInfo();
+                // System.out.println(file.getInfo());
+
+                Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
+                startActivity(notificationSend);
+            }
+            else{
+                Snackbar snackbar=Snackbar.make(v,"Please check at least one!",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
             }
         });
 
