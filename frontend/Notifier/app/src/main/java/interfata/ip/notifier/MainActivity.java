@@ -9,12 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 
-import interfata.ip.notifier.messenger.GetNotifications;
-import interfata.ip.notifier.messenger.GetTriggeredNotifications;
+import interfata.ip.notifier.messenger.DeleteUser;
 import interfata.ip.notifier.messenger.Messenger;
 import interfata.ip.notifier.messenger.NetworkTask;
 
@@ -45,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+<<<<<<< Updated upstream
         /*Messenger m = new GetTriggeredNotifications("104.198.253.69", 8080, "v1", 2);
+=======
+        /*Messenger m = new DeleteUser("104.198.253.69", 8080, "v1", 2);
+>>>>>>> Stashed changes
         NetworkTask t = new NetworkTask();
         t.execute(m);
         try {
@@ -53,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("EXCEPTIONNN");
             e.printStackTrace();
+<<<<<<< Updated upstream
         }*/
+=======
+        }
+        */
+       /* try {
+            POST_users c = new POST_users("asdasdas","sadasdas","sadasdasdas","asdasdas","dasdasdas","dasdasas");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        */
+
+>>>>>>> Stashed changes
     }
 }
