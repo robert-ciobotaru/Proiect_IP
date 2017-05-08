@@ -165,10 +165,9 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 **Request body:**
 ```json
 {
-    "notificationId" : 2,
+    "userId" : 2,
     "method" : "addNotification",
     "notification" : {
-        "id" : 23,
         "text": "Get the kid",
         "time": 213141,
         "repeatable": 0,
