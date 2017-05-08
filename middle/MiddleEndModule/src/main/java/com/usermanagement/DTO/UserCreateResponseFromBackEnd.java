@@ -1,8 +1,8 @@
 package com.usermanagement.DTO;
 
 public class UserCreateResponseFromBackEnd {
-	public Integer id;
-	public String error;
+	private Integer id;
+	private String error;
 
 	public Integer getId() {
 		return id;

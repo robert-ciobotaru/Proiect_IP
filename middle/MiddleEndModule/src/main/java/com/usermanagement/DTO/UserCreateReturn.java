@@ -1,7 +1,7 @@
 package com.usermanagement.DTO;
 
 public class UserCreateReturn implements ResponseInterfaceDto {
-		public UserDto user;
+		private UserDto user;
 
 		public UserDto getUser() {
 			return user;
