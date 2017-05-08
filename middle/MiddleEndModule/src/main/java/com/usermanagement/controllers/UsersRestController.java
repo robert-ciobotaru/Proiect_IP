@@ -441,11 +441,6 @@ public class UsersRestController {
     		
     	}
     	
-    	else{
-    	ErrorDto error = new ErrorDto();
-   		error.setError("Internal Server Error");
-   		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    	}
     	
     	if(notification.getError().length() > 0){
     		
