@@ -26,46 +26,48 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText username = (EditText) findViewById(R.id.editText);
-        final EditText password = (EditText) findViewById(R.id.editText2);
-        final EditText r_password = (EditText) findViewById(R.id.editText3);
-        final EditText email = (EditText) findViewById(R.id.editText4);
+        final EditText first = (EditText) findViewById(R.id.editText);
+        final EditText second = (EditText) findViewById(R.id.editText2);
+        final EditText country = (EditText) findViewById(R.id.editText3);
+        final EditText city = (EditText) findViewById(R.id.editText4);
+        final EditText email = (EditText) findViewById(R.id.editText5);
         final Button register = (Button) findViewById(R.id.button);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(username.getText().length()>3 && password.getText().length()>3 && password.getText().toString().equals(r_password.getText().toString()) && email.getText().length()>3) {
+                if(first.getText().length()>3 && second.getText().length()>3 && email.getText().length()>3 && city.getText().length()>2) {
                     Intent categories = new Intent(getApplicationContext(), Categories.class);
                     startActivity(categories);
                 }
-                else if(username.getText().length()<=3){
-                    Snackbar snackbar = Snackbar.make(v, "Username-ul trebuie sa aiba cel putin 4 caractere!", Snackbar.LENGTH_LONG);
+                else if(first.getText().length()<=3){
+                    Snackbar snackbar = Snackbar.make(v, "First name must have at least 4 characters!", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    username.requestFocus();
+                    first.requestFocus();
                 }
-                else if(!password.getText().toString().equals(r_password.getText().toString())){
-                    Snackbar snackbar = Snackbar.make(v, "Parolele nu sunt la fel!", Snackbar.LENGTH_LONG);
+                else if(second.getText().length()<=3){
+                    Snackbar snackbar = Snackbar.make(v, "Last name must have at least 4 characters!", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    r_password.requestFocus();
+                    second.requestFocus();
                 }
-                else if(password.getText().length()<=3){
-                    Snackbar snackbar = Snackbar.make(v, "Username-ul trebuie sa aiba cel putin 4 caractere!", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    password.requestFocus();
-                }
-                else if(email.getText().length()<=3){
-                    Snackbar snackbar = Snackbar.make(v, "Email-ul trebuie sa aiba cel putin 4 caractere!", Snackbar.LENGTH_LONG);
+                else if(city.getText().length()<=2){
+                    Snackbar snackbar = Snackbar.make(v, "City does not exist!", Snackbar.LENGTH_LONG);
                     snackbar.show();
                     email.requestFocus();
                 }
+                else if(email.getText().length()<=3){
+                    Snackbar snackbar = Snackbar.make(v, "Email must have at least 4 characters", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    email.requestFocus();
+                }
+
 
                 String filename = "user.txt";
                 FileOutputStream outputStream;
 
                 try {
                     outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    outputStream.write(username.getText().toString().getBytes());
+                    outputStream.write(first.getText().toString().getBytes());
                     outputStream.close();
                 } catch (Exception e) {
                     e.printStackTrace();

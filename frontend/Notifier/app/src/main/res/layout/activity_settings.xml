@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="interfata.ip.notifier.Settings">
 
+
     <Button
         android:id="@+id/button1"
         android:layout_width="170dp"
@@ -22,7 +23,7 @@
         app:layout_constraintVertical_bias="0.256" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Username"
@@ -35,4 +36,5 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintVertical_bias="0.498" />
+
 </android.support.constraint.ConstraintLayout>

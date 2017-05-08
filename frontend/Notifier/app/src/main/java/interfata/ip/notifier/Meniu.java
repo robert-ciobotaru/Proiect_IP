@@ -3,12 +3,14 @@ package interfata.ip.notifier;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -102,6 +104,7 @@ public class Meniu extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        View view=new View(getApplicationContext());
         int id = item.getItemId();
 
         if (id == R.id.profile) {
@@ -113,7 +116,7 @@ public class Meniu extends AppCompatActivity
             Intent setting =new Intent(getApplicationContext(),Settings.class);
             startActivity(setting);
         } else if (id == R.id.about) {
-
+            return true;
         }
 
 

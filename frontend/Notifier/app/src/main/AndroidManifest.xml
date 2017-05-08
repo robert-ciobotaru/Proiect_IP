@@ -32,7 +32,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NotificationSend" />
         <activity android:name=".NotificationView" />
-        <activity android:name=".Register" />
+        <activity android:name=".Register"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SettingsCategories" />
         <activity
             android:name=".Meniu"

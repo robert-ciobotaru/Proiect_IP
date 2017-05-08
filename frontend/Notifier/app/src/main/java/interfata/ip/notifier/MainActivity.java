@@ -1,8 +1,10 @@
 package interfata.ip.notifier;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,31 +26,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText("Salut");
-
-        Button button = (Button) findViewById(R.id.button);
-        Button button2= (Button) findViewById(R.id.button2);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent login = new Intent(getApplicationContext(), Login.class);
-                startActivity(login);
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent register = new Intent(getApplicationContext(), Register.class);
-                startActivity(register);
-            }
-        });
+        SharedPreferences sharedPreferences = getSharedPreferences("ShaPreferences", getApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        boolean  firstTime=sharedPreferences.getBoolean("first", true);
+        if(firstTime) {
+            editor.putBoolean("first",false);
+            //For commit the changes, Use either editor.commit(); or  editor.apply();.
+            editor.commit();  ;
+            Intent register = new Intent(getApplicationContext(), Register.class);
+            startActivity(register);
+        }else {
+            Intent menu = new Intent(getApplicationContext(), Meniu.class);
+            startActivity(menu);
+        }
 
 
-        Messenger m = new GetTriggeredNotifications("104.198.253.69", 8080, "v1", 2);
+
+
+
+
+        /*Messenger m = new GetTriggeredNotifications("104.198.253.69", 8080, "v1", 2);
         NetworkTask t = new NetworkTask();
         t.execute(m);
         try {
@@ -56,6 +53,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("EXCEPTIONNN");
             e.printStackTrace();
-        }
+        }*/
     }
 }
