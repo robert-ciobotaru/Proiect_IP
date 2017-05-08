@@ -9,8 +9,7 @@ public class DeleteUser extends DeleteRequest {
 
     private static final String specificURL = "users/{userId}";
 
-    public DeleteUser(String host, int port, String version, int userId) {
-        super(host, port, version);
+    public DeleteUser(int userId) {
         this.requestURL = baseServerURL + specificURL
                 .replace("{userId}", String.valueOf(userId));
     }

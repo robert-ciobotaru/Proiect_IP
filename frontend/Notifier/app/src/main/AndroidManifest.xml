@@ -27,15 +27,27 @@
             android:name=".Login"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Categories"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".NotificationSend" />
+
         <activity android:name=".NotificationView" />
+<<<<<<< HEAD
         <activity
             android:name=".Register"
             android:theme="@style/AppTheme.NoActionBar" />
+=======
+
+        <activity android:name=".Register"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+>>>>>>> origin/master
         <activity android:name=".SettingsCategories" />
+
         <activity
             android:name=".Meniu"
             android:label="@string/title_activity_menu"
