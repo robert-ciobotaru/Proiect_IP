@@ -2,6 +2,8 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
+import com.usermanagement.Sanitizer;
+
 
 public class AddUserDto {
 	
@@ -22,7 +24,7 @@ public class AddUserDto {
 	}
 
 	public void setMethod(String method) {
-		this.method = method;
+		this.method = Sanitizer.escapeSql(method);
 	}
    
 }

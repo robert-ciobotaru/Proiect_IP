@@ -1,5 +1,7 @@
 package com.usermanagement.DTO;
 
+import com.usermanagement.Sanitizer;
+
 public class NotificationDto {
 	
 	public Integer id;

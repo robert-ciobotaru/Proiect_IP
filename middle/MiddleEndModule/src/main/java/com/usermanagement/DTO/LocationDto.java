@@ -1,5 +1,7 @@
 package com.usermanagement.DTO;
 
+import com.usermanagement.Sanitizer;
+
 public class LocationDto {
 	String city;
 	String country;
@@ -7,13 +9,13 @@ public class LocationDto {
 		return city;
 	}
 	public void setCity(String city) {
-		this.city = city;
+		this.city = Sanitizer.escapeSql(city);
 	}
 	public String getCountry() {
 		return country;
 	}
 	public void setCountry(String country) {
-		this.country = country;
+		this.country = Sanitizer.escapeSql(country);
 	}
 	public boolean validate(){
 		if(this.city==null || this.country == null)

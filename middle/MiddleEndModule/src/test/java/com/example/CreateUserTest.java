@@ -66,7 +66,7 @@ public class CreateUserTest {
 						   + "\"userId\" : 24,"
 						   + "\"error\" : \"\""
 					+ "}")
-				
+			
 				));
 		
 		try {
@@ -86,7 +86,38 @@ public class CreateUserTest {
 		}
 		
 	}
-	
+	@Test
+	public void injectionPreventionTest() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi'\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().isCreated())
+			           .andExpect(jsonPath("$.city", is("Iasi''")))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@Test
 	public void errorSet() {
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))

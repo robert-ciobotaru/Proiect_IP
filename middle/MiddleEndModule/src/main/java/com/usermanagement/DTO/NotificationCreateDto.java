@@ -2,6 +2,8 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
+import com.usermanagement.Sanitizer;
+
 public class NotificationCreateDto {
 	
 	@Size(max=1024, message="Invalid Length")
@@ -14,7 +16,7 @@ public class NotificationCreateDto {
 		return text;
 	}
 	public void setText(String text) {
-		this.text = text;
+		this.text = Sanitizer.escapeSql(text);
 	}
 	public Integer getTime() {
 		return time;

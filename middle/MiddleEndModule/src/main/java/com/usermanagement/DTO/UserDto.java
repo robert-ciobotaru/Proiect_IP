@@ -1,5 +1,7 @@
 package com.usermanagement.DTO;
 
+import com.usermanagement.Sanitizer;
+
 public class UserDto {
 	public Integer id;
     public String country;

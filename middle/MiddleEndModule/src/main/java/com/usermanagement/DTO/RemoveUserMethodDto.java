@@ -2,6 +2,8 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
+import com.usermanagement.Sanitizer;
+
 
 public class RemoveUserMethodDto{
 	
@@ -18,6 +20,6 @@ public class RemoveUserMethodDto{
 	}
 
 	public String getMethod() {
-		return method;
+		return Sanitizer.escapeSql(method);
 	}
 }

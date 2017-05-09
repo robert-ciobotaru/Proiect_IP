@@ -1,5 +1,7 @@
 package com.usermanagement.DTO;
 
+import com.usermanagement.Sanitizer;
+
 public class NotificationRequestDto {
 	String method = "getNotification";
 	long userid = 2;
@@ -9,7 +11,7 @@ public class NotificationRequestDto {
 		return method;
 	}
 	public void setMethod(String method) {
-		this.method = method;
+		this.method = Sanitizer.escapeSql(method);
 	}
 	public Number getUserid() {
 		return userid;

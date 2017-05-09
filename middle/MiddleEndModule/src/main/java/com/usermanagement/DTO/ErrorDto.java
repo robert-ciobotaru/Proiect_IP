@@ -2,6 +2,8 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
+import com.usermanagement.Sanitizer;
+
 public class ErrorDto implements ResponseInterfaceDto  {
 	
 	@Size(max=1024, message="Invalid Length")
@@ -12,7 +14,7 @@ public class ErrorDto implements ResponseInterfaceDto  {
 	}
 
 	public void setError(String error) {
-		this.error = error;
+		this.error = Sanitizer.escapeSql(error);
 	}
 	
 }

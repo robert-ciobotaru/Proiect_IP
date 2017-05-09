@@ -2,6 +2,8 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
+import com.usermanagement.Sanitizer;
+
 public class RemoveNotificationResultDto{
 	
 	@Size(max=1024, message="Invalid Length")

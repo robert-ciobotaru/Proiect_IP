@@ -87,6 +87,36 @@ public class NotificationCreateTest
 	}
 	
 	@Test
+	public void injectionPreventionTest() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"text\":\"Wake me up'\","
+						+ "\"time\":1231245,"
+						+ "\"repeatable\":\"true\","
+						+ "\"interval\":300"
+						+ "}"))
+			           .andExpect(status().isCreated())
+			           .andExpect(jsonPath("$.text", is("Wake me up''")))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
 	public void errorSet() {
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()

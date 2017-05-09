@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.usermanagement.Sanitizer;
+
 public class GetNotificationsResultFromBackEnd {
 
 	public List<NotificationDto> userNotifications = new ArrayList<NotificationDto>();

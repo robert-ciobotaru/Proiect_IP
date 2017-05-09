@@ -2,6 +2,8 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
+import com.usermanagement.Sanitizer;
+
 public class UserCreateResponseFromBackEnd {
 	private Integer userId;
 	@Size(max=1024, message="Invalid Length")

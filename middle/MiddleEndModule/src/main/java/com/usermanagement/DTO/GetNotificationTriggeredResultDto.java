@@ -1,5 +1,7 @@
 package com.usermanagement.DTO;
 
+import com.usermanagement.Sanitizer;
+
 public class GetNotificationTriggeredResultDto {
 	public String type;
     public NotificationDto data;
@@ -8,7 +10,7 @@ public class GetNotificationTriggeredResultDto {
 		return type;
 	}
 	public void setType(String type) {
-		this.type = type;
+		this.type = Sanitizer.escapeSql(type);
 	}
 	public NotificationDto getData() {
 		return data;

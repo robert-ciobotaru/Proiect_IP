@@ -4,6 +4,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.usermanagement.Sanitizer;
+
 public class UserCreateDto {
     
 	
@@ -21,13 +23,13 @@ public class UserCreateDto {
 		return country;
 	}
 	public void setCountry(String country) {
-		this.country = country;
+		this.country = Sanitizer.escapeSql(country);
 	}
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
-		this.city = city;
+		this.city = Sanitizer.escapeSql(city);
 	}
 	public Boolean isNewsCrawler() {
 		return newsCrawler;
@@ -51,6 +53,6 @@ public class UserCreateDto {
 		return email;
 	}
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = Sanitizer.escapeSql(email);
 	}
 }
