@@ -58,15 +58,15 @@ public class Categories extends AppCompatActivity {
 
             if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
                 // aici se face requestul
-               // System.out.println("register");
-               // PostUsers m = new PostUsers(city, country, email, newsCrawler.isChecked(), hazzardCrawler.isChecked(), wheaterCrawler.isChecked());
-               // NetworkTask t = new NetworkTask();
+                System.out.println("register");
+                PostUsers m = new PostUsers(city, country, email, newsCrawler.isChecked(), hazzardCrawler.isChecked(), wheaterCrawler.isChecked());
+                //NetworkTask t = new NetworkTask();
                // t.execute(m);
-                //System.out.println("dupa execute");
+                System.out.println("dupa execute");
                // System.out.println("in try block");
-                //   System.out.println("t.get: " + t.get());
 
-                Intent notificationSend = new Intent(getApplicationContext(), Menu.class);
+
+                Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
                 startActivity(notificationSend);
             }
             else{
