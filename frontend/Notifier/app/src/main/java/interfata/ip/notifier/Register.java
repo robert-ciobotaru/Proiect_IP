@@ -81,7 +81,7 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        TextView tv;
+       /* TextView tv;
         String selectedfile = "user.txt";
         tv = (TextView)findViewById(R.id.textView2);
         try {
@@ -103,6 +103,6 @@ public class Register extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        */
     }
 }
