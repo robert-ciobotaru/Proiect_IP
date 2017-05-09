@@ -36,16 +36,13 @@
         <activity android:name=".NotificationSend" />
 
         <activity android:name=".NotificationView" />
-<<<<<<< HEAD
-        <activity
-            android:name=".Register"
-            android:theme="@style/AppTheme.NoActionBar" />
-=======
+        HEAD
+
 
         <activity android:name=".Register"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
->>>>>>> origin/master
+
         <activity android:name=".SettingsCategories" />
 
         <activity

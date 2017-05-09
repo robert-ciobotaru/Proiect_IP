@@ -58,35 +58,15 @@ public class Categories extends AppCompatActivity {
 
             if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
                 // aici se face requestul
-               /* PostUsers m = new PostUsers(city,country,email,newsCrawler.isChecked(),hazzardCrawler.isChecked(),wheaterCrawler.isChecked());
-                NetworkTask t = new NetworkTask();
-                t.execute(m);
-                try {
-                    System.out.println("t.get: "+ t.get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+               // System.out.println("register");
+               // PostUsers m = new PostUsers(city, country, email, newsCrawler.isChecked(), hazzardCrawler.isChecked(), wheaterCrawler.isChecked());
+               // NetworkTask t = new NetworkTask();
+               // t.execute(m);
+                //System.out.println("dupa execute");
+               // System.out.println("in try block");
+                //   System.out.println("t.get: " + t.get());
 
-                if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
-                    // aici se face requestul
-
-                    Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
-                    startActivity(notificationSend);
-                }
-                else{
-                    Snackbar snackbar=Snackbar.make(v,"Please check at least one!",Snackbar.LENGTH_LONG);
-                    snackbar.show();
-
-                }
-                */
-                //JSONObject object= t.get();
-                // FileIO file= new FileIO("post_users.file", getApplicationContext());
-                //  file.saveInfo(object.toString());
-                // file.loadInfo();
-                // System.out.println(file.getInfo());
-
-                Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
+                Intent notificationSend = new Intent(getApplicationContext(), Menu.class);
                 startActivity(notificationSend);
             }
             else{
