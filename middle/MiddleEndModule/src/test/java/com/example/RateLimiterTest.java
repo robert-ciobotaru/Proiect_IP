@@ -23,7 +23,8 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.DTO.NotificationDto;
-import com.usermanagement.controllers.UsersRestController;
+import com.usermanagement.controllers.UserController;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
@@ -33,7 +34,7 @@ public class RateLimiterTest {
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
 	
     private MockMvc mockMvc;
-    private UsersRestController controllers;
+    private UserController controllers;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -45,7 +46,7 @@ public class RateLimiterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		controllers= new UsersRestController();
+		controllers= new UserController();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
 	}
 

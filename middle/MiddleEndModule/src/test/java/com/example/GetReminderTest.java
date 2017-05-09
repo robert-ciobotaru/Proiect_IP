@@ -25,7 +25,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.DTO.NotificationDto;
-import com.usermanagement.controllers.UsersRestController;
+import com.usermanagement.controllers.ReminderController;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
@@ -35,7 +35,7 @@ public class GetReminderTest {
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
 	
     private MockMvc mockMvc;
-    private UsersRestController controllers;
+    private ReminderController controllers;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -46,7 +46,7 @@ public class GetReminderTest {
 
 	@Before
 	public void setUp() throws Exception {
-		controllers= new UsersRestController();
+		controllers= new ReminderController();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
 	}
 

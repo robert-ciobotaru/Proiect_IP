@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.DTO.NotificationDto;
-import com.usermanagement.controllers.UsersRestController;
+import com.usermanagement.controllers.ReminderController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({/* include live config here
@@ -36,7 +36,7 @@ public class DeleteRemindersTest {
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
 	
     private MockMvc mockMvc;
-    private UsersRestController controllers;
+    private ReminderController controllers;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -47,7 +47,7 @@ public class DeleteRemindersTest {
 
 	@Before
 	public void setUp() throws Exception {
-		controllers= new UsersRestController();
+		controllers= new ReminderController();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
 	}
 
