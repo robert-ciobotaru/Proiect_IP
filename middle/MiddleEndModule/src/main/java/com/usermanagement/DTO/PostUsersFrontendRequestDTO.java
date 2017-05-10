@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Email;
 
 import com.usermanagement.Sanitizer;
 
-public class UserCreateDto {
+public class PostUsersFrontendRequestDTO {
     
 	
 	@Size(max=255, message="Invalid Length")

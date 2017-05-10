@@ -6,15 +6,15 @@ import java.util.List;
 
 import com.usermanagement.Sanitizer;
 
-public class GetRemindersResponseFromBackend {
+public class GetRemindersByIdBackendResponseDTO {
 
-	public List<NotificationDto> notificationsList = new ArrayList<NotificationDto>();
+	public List<PostRemindersFrontendResponseDTO> notificationsList = new ArrayList<PostRemindersFrontendResponseDTO>();
 	public String error;
 	
-	public List<NotificationDto> getNotifications() {
+	public List<PostRemindersFrontendResponseDTO> getNotifications() {
 		return notificationsList;
 	}
-	public void setNotifications(List<NotificationDto> notifications) {
+	public void setNotifications(List<PostRemindersFrontendResponseDTO> notifications) {
 		this.notificationsList = notifications;
 	}
 	public String getError() {
@@ -25,7 +25,7 @@ public class GetRemindersResponseFromBackend {
 	}
 	
 	public boolean validate(){
-		Iterator<NotificationDto> itr = notificationsList.iterator();
+		Iterator<PostRemindersFrontendResponseDTO> itr = notificationsList.iterator();
 		while (itr.hasNext()) {
 			if(itr.next().validate()==false)
 				return false;

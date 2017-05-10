@@ -7,12 +7,12 @@ import com.usermanagement.Sanitizer;
 
 
 
-public class AddNotificationDto {
+public class PostRemindersBackendRequestDTO {
 	
 	@Size(max=1024, message="Invalid Length")
 	String method = "addNotification";
 	Integer userId;
-	NotificationCreateDto notification;
+	PostRemindersFrontendRequestDTO notification;
 	
 	public String getMethod() {
 		return method;
@@ -26,10 +26,10 @@ public class AddNotificationDto {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public NotificationCreateDto getNotification() {
+	public PostRemindersFrontendRequestDTO getNotification() {
 		return notification;
 	}
-	public void setNotification(NotificationCreateDto notification) {
+	public void setNotification(PostRemindersFrontendRequestDTO notification) {
 		this.notification = notification;
 	}
 	

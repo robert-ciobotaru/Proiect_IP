@@ -2,13 +2,13 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class WeatherNotificationsDto {
-	public LocationDto location;
+public class WeatherNotificationsDTO {
+	public LocationDTO location;
 	public String text;
-public LocationDto getLocation() {
+public LocationDTO getLocation() {
 	return location;
 }
-public void setLocation(LocationDto location) {
+public void setLocation(LocationDTO location) {
 	this.location = location;
 }
 public String getText() {

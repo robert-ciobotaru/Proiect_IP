@@ -5,26 +5,25 @@ import javax.validation.constraints.Size;
 import com.usermanagement.Sanitizer;
 
 
-public class AddUserDto {
+public class DeleteRemindersByIdBackendRequestDTO {
 	
+	private Integer id;
 	@Size(max=1024, message="Invalid Length")
-	private String method = "addUser";
-	private UserCreateDto user;	
-
-	public UserCreateDto getUser() {
-		return user;
+	private String method = "removeNotification";
+	
+	public Integer getId() {
+		return id;
 	}
-
-	public void setUser(UserCreateDto user) {
-		this.user = user;
+	
+	public void setId(int id) {
+		this.id = id;
 	}
-
 	public String getMethod() {
 		return method;
 	}
-
 	public void setMethod(String method) {
 		this.method = Sanitizer.escapeSql(method);
 	}
-   
+
+
 }

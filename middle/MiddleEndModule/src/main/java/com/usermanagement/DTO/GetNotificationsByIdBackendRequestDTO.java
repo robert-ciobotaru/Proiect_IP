@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 import com.usermanagement.Sanitizer;
 
 
-public class GetNotificationsDto {
+public class GetNotificationsByIdBackendRequestDTO {
 	
 	@Size(max=1024, message="Invalid Length")
 	public String method;

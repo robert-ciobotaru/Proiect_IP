@@ -23,35 +23,35 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 
-import com.usermanagement.DTO.AddNotificationDto;
-import com.usermanagement.DTO.AddUserDto;
-import com.usermanagement.DTO.ErrorDto;
-import com.usermanagement.DTO.GetNotificationResponseDto;
+import com.usermanagement.DTO.PostRemindersBackendRequestDTO;
+import com.usermanagement.DTO.PostUsersBackendRequestDTO;
+import com.usermanagement.DTO.ErrorDTO;
+import com.usermanagement.DTO.GetNotificationsByIdFrontendResponseDTO;
 import com.usermanagement.DTO.GetNotificationTriggeredDto;
 import com.usermanagement.DTO.GetNotificationTriggeredResultDto;
-import com.usermanagement.DTO.GetNotificationsDto;
+import com.usermanagement.DTO.GetNotificationsByIdBackendRequestDTO;
 import com.usermanagement.DTO.GetNotificationsResultDto;
-import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
-import com.usermanagement.DTO.GetRemindersMethodDto;
-import com.usermanagement.DTO.GetRemindersResponseFromBackend;
-import com.usermanagement.DTO.HazzardDto;
-import com.usermanagement.DTO.HazzardNotificationsDto;
-import com.usermanagement.DTO.NotificationCreateDto;
-import com.usermanagement.DTO.NotificationDto;
-import com.usermanagement.DTO.NotificationRemoveDto;
+import com.usermanagement.DTO.GetNotificationsByIdBackendResponseDTO;
+import com.usermanagement.DTO.GetRemindersByIdBackendRequestDTO;
+import com.usermanagement.DTO.GetRemindersByIdBackendResponseDTO;
+import com.usermanagement.DTO.HazzardDTO;
+import com.usermanagement.DTO.HazzardNotificationsDTO;
+import com.usermanagement.DTO.PostRemindersFrontendRequestDTO;
+import com.usermanagement.DTO.PostRemindersFrontendResponseDTO;
+import com.usermanagement.DTO.DeleteRemindersByIdBackendRequestDTO;
 import com.usermanagement.DTO.NotificationRequestDto;
-import com.usermanagement.DTO.NotificationsListDto;
-import com.usermanagement.DTO.PostNotificationResultDto;
-import com.usermanagement.DTO.RemoveNotificationResultDto;
-import com.usermanagement.DTO.RemoveNotificationReturnDto;
-import com.usermanagement.DTO.RemoveUserDto;
-import com.usermanagement.DTO.RemoveUserMethodDto;
-import com.usermanagement.DTO.RemoveUserReturnDto;
+import com.usermanagement.DTO.GetRemindersByIdFrontendResponseDTO;
+import com.usermanagement.DTO.PostRemindersBackendResponseDTO;
+import com.usermanagement.DTO.DeleteRemindersByIdBackendResponseDTO;
+import com.usermanagement.DTO.DeleteRemindersByIdFrontendResponseDTO;
+import com.usermanagement.DTO.DeleteUsersByIdBackendResponseDTO;
+import com.usermanagement.DTO.DeleteUsersByIdBackendRequestDTO;
+import com.usermanagement.DTO.DeleteUsersByIdFrontendResponseDTO;
 import com.usermanagement.DTO.ResponseInterfaceDto;
-import com.usermanagement.DTO.UserCreateDto;
-import com.usermanagement.DTO.UserCreateResponseFromBackEnd;
+import com.usermanagement.DTO.PostUsersFrontendRequestDTO;
+import com.usermanagement.DTO.PostUsersBackendResponseDTO;
 import com.usermanagement.DTO.UserCreateReturn;
-import com.usermanagement.DTO.UserDto;
+import com.usermanagement.DTO.PostUsersFrontendResponseDTO;
 import com.usermanagement.requestmonitor.RequestMonitor;
 
 @RestController
@@ -74,7 +74,7 @@ public class UserController {
 	@ExceptionHandler({HttpMessageNotReadableException.class})
 	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
 	  
-		ErrorDto error = new ErrorDto();
+		ErrorDTO error = new ErrorDTO();
 		error.setError("The specified request is not readable");
 	  
 	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -84,63 +84,63 @@ public class UserController {
     public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
     	
     	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
-    		 ErrorDto error = new ErrorDto();
+    		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
     	
-    	RemoveUserMethodDto removeUserMethod = new RemoveUserMethodDto();
+    	DeleteUsersByIdBackendRequestDTO removeUserMethod = new DeleteUsersByIdBackendRequestDTO();
     	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
    	 	removeUserMethod.setId(userId);
    	 
-   	 	ResponseEntity<RemoveUserDto> response = null;
+   	 	ResponseEntity<DeleteUsersByIdBackendResponseDTO> response = null;
    	 	try{
-   	 		response = rest.postForEntity(url,removeUserMethod,RemoveUserDto.class);
+   	 		response = rest.postForEntity(url,removeUserMethod,DeleteUsersByIdBackendResponseDTO.class);
        	    }
        	catch (Exception e) {
-       		ErrorDto error = new ErrorDto();
+       		ErrorDTO error = new ErrorDTO();
     		error.setError("The server is currently unavailable");
     		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
        		 
        	}
    	 	
-    	RemoveUserDto removeUser = null;
+    	DeleteUsersByIdBackendResponseDTO removeUser = null;
     	
     	if(response != null){
     		removeUser = response.getBody();
     		
     		if(removeUser.getError() == null ){
-    			ErrorDto error = new ErrorDto();
+    			ErrorDTO error = new ErrorDTO();
         		error.setError("Internal Server Error");
         		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		}
     	}
     	
     	
-    	RemoveUserReturnDto removeResponse = null;
+    	DeleteUsersByIdFrontendResponseDTO removeResponse = null;
     	
     	if(removeUser.getError().length()>0){
     		
-    		ErrorDto error = new ErrorDto();
+    		ErrorDTO error = new ErrorDTO();
     		error.setError(removeUser.getError());
     		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     		
     	}
     	else{
     		
-    		removeResponse = new RemoveUserReturnDto ();	
+    		removeResponse = new DeleteUsersByIdFrontendResponseDTO ();	
     		removeResponse.setId(userId);
     		return new ResponseEntity<>(removeResponse, HttpStatus.OK);
     	}
     }
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Object> postUser(HttpServletRequest request, @RequestBody UserCreateDto userCreate){
+    public ResponseEntity<Object> postUser(HttpServletRequest request, @RequestBody PostUsersFrontendRequestDTO userCreate){
     	
     	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
-    		 ErrorDto error = new ErrorDto();
+    		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
@@ -149,37 +149,37 @@ public class UserController {
     	if(userCreate.getCity() == null || userCreate.getCountry() == null || userCreate.getEmail() == null || userCreate.isHazzardCrawler() == null 
     			|| userCreate.isNewsCrawler() == null || userCreate.isWeatherCrawler() == null){
 			
-    		ErrorDto error = new ErrorDto();
+    		ErrorDTO error = new ErrorDTO();
 			error.setError("Data for creating new user is invalid");
 			
 			return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     	}
 			
-    	AddUserDto addUser = new AddUserDto();
+    	PostUsersBackendRequestDTO addUser = new PostUsersBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	addUser.setUser(userCreate);
-    	ResponseEntity<UserCreateResponseFromBackEnd> response = null;
+    	ResponseEntity<PostUsersBackendResponseDTO> response = null;
     	try{
-		     response = rest.postForEntity(url,addUser,UserCreateResponseFromBackEnd.class);
+		     response = rest.postForEntity(url,addUser,PostUsersBackendResponseDTO.class);
 		}
 		catch (Exception e) {
 			
 			System.out.println("CATCH PATH:" + e);
-	        ErrorDto error = new ErrorDto();
+	        ErrorDTO error = new ErrorDTO();
 	        error.setError("The server is currently unavailable");
 	        
 	        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
 		 }
 		 
-		 UserCreateResponseFromBackEnd userCreateResponse = null;
+		 PostUsersBackendResponseDTO userCreateResponse = null;
 		 
 		 if ( response != null ){
  		
 			userCreateResponse = response.getBody();
 			if(userCreateResponse.getError() == null || userCreateResponse.getUserId() == null){
 		    	
-				ErrorDto error = new ErrorDto();
+				ErrorDTO error = new ErrorDTO();
 				error.setError("Internal server error");
 				
 				return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
@@ -188,13 +188,13 @@ public class UserController {
 	  	 
 		 if(userCreateResponse.getError().length()>0){
 			
-			 ErrorDto error = new ErrorDto();
+			 ErrorDTO error = new ErrorDTO();
 			 error.setError(userCreateResponse.getError());		
 			 
 			 return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
 		 }
 		 else{
-			UserDto returnUser = new UserDto();
+			PostUsersFrontendResponseDTO returnUser = new PostUsersFrontendResponseDTO();
 			returnUser.setId(userCreateResponse.getUserId());
 			returnUser.setCity(userCreate.getCity());
 			returnUser.setCountry(userCreate.getCountry());

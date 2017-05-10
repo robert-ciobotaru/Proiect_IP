@@ -2,9 +2,9 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class CyclonesDto {
+public class FloodsNotificationsDTO {
 	public String alertLevel;
-	public LocationCountryDto location;
+	public LocationCountryDTO location;
 	public String time;
 	public String url;
 	public String title;
@@ -15,10 +15,10 @@ public class CyclonesDto {
 	public void setAlertLevel(String alertLevel) {
 		this.alertLevel = Sanitizer.escapeSql(alertLevel);
 	}
-	public LocationCountryDto getLocation() {
+	public LocationCountryDTO getLocation() {
 		return location;
 	}
-	public void setLocation(LocationCountryDto location) {
+	public void setLocation(LocationCountryDTO location) {
 		this.location = location;
 	}
 	public String getTime() {
@@ -50,7 +50,6 @@ public class CyclonesDto {
 			return false;
 		return true;
 	}
-	
 	
 
 

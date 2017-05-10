@@ -2,7 +2,7 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class UserDto {
+public class PostUsersFrontendResponseDTO {
 	public Integer id;
     public String country;
     public String city;

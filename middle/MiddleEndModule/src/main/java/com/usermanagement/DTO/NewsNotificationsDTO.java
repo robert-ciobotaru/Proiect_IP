@@ -2,7 +2,7 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class NewsNotificationsDto {
+public class NewsNotificationsDTO {
 
 	public String author;
 	public String title;

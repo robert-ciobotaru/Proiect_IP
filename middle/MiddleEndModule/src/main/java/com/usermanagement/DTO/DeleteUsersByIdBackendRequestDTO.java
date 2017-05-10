@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 import com.usermanagement.Sanitizer;
 
 
-public class RemoveUserMethodDto{
+public class DeleteUsersByIdBackendRequestDTO{
 	
     Integer id;
     @Size(max=1024, message="Invalid Length")

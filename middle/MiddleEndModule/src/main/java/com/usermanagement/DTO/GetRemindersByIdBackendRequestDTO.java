@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import com.usermanagement.Sanitizer;
 
 
-public class GetRemindersMethodDto {
+public class GetRemindersByIdBackendRequestDTO {
  
 	public Integer id;
 	@Size(max=1024, message="Invalid Length")

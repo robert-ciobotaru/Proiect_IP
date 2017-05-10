@@ -4,7 +4,7 @@ import com.usermanagement.Sanitizer;
 
 public class GetNotificationTriggeredResultDto {
 	public String type;
-    public NotificationDto data;
+    public PostRemindersFrontendResponseDTO data;
 	
     public String getType() {
 		return type;
@@ -12,10 +12,10 @@ public class GetNotificationTriggeredResultDto {
 	public void setType(String type) {
 		this.type = Sanitizer.escapeSql(type);
 	}
-	public NotificationDto getData() {
+	public PostRemindersFrontendResponseDTO getData() {
 		return data;
 	}
-	public void setData(NotificationDto data) {
+	public void setData(PostRemindersFrontendResponseDTO data) {
 		this.data = data;
 	}
 }

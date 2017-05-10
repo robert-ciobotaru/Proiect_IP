@@ -23,35 +23,35 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 
-import com.usermanagement.DTO.AddNotificationDto;
-import com.usermanagement.DTO.AddUserDto;
-import com.usermanagement.DTO.ErrorDto;
-import com.usermanagement.DTO.GetNotificationResponseDto;
+import com.usermanagement.DTO.PostRemindersBackendRequestDTO;
+import com.usermanagement.DTO.PostUsersBackendRequestDTO;
+import com.usermanagement.DTO.ErrorDTO;
+import com.usermanagement.DTO.GetNotificationsByIdFrontendResponseDTO;
 import com.usermanagement.DTO.GetNotificationTriggeredDto;
 import com.usermanagement.DTO.GetNotificationTriggeredResultDto;
-import com.usermanagement.DTO.GetNotificationsDto;
+import com.usermanagement.DTO.GetNotificationsByIdBackendRequestDTO;
 import com.usermanagement.DTO.GetNotificationsResultDto;
-import com.usermanagement.DTO.GetNotificationsResultFromBackEnd;
-import com.usermanagement.DTO.GetRemindersMethodDto;
-import com.usermanagement.DTO.GetRemindersResponseFromBackend;
-import com.usermanagement.DTO.HazzardDto;
-import com.usermanagement.DTO.HazzardNotificationsDto;
-import com.usermanagement.DTO.NotificationCreateDto;
-import com.usermanagement.DTO.NotificationDto;
-import com.usermanagement.DTO.NotificationRemoveDto;
+import com.usermanagement.DTO.GetNotificationsByIdBackendResponseDTO;
+import com.usermanagement.DTO.GetRemindersByIdBackendRequestDTO;
+import com.usermanagement.DTO.GetRemindersByIdBackendResponseDTO;
+import com.usermanagement.DTO.HazzardDTO;
+import com.usermanagement.DTO.HazzardNotificationsDTO;
+import com.usermanagement.DTO.PostRemindersFrontendRequestDTO;
+import com.usermanagement.DTO.PostRemindersFrontendResponseDTO;
+import com.usermanagement.DTO.DeleteRemindersByIdBackendRequestDTO;
 import com.usermanagement.DTO.NotificationRequestDto;
-import com.usermanagement.DTO.NotificationsListDto;
-import com.usermanagement.DTO.PostNotificationResultDto;
-import com.usermanagement.DTO.RemoveNotificationResultDto;
-import com.usermanagement.DTO.RemoveNotificationReturnDto;
-import com.usermanagement.DTO.RemoveUserDto;
-import com.usermanagement.DTO.RemoveUserMethodDto;
-import com.usermanagement.DTO.RemoveUserReturnDto;
+import com.usermanagement.DTO.GetRemindersByIdFrontendResponseDTO;
+import com.usermanagement.DTO.PostRemindersBackendResponseDTO;
+import com.usermanagement.DTO.DeleteRemindersByIdBackendResponseDTO;
+import com.usermanagement.DTO.DeleteRemindersByIdFrontendResponseDTO;
+import com.usermanagement.DTO.DeleteUsersByIdBackendResponseDTO;
+import com.usermanagement.DTO.DeleteUsersByIdBackendRequestDTO;
+import com.usermanagement.DTO.DeleteUsersByIdFrontendResponseDTO;
 import com.usermanagement.DTO.ResponseInterfaceDto;
-import com.usermanagement.DTO.UserCreateDto;
-import com.usermanagement.DTO.UserCreateResponseFromBackEnd;
+import com.usermanagement.DTO.PostUsersFrontendRequestDTO;
+import com.usermanagement.DTO.PostUsersBackendResponseDTO;
 import com.usermanagement.DTO.UserCreateReturn;
-import com.usermanagement.DTO.UserDto;
+import com.usermanagement.DTO.PostUsersFrontendResponseDTO;
 import com.usermanagement.requestmonitor.RequestMonitor;
 
 @RestController
@@ -74,69 +74,69 @@ public class ReminderController {
 	@ExceptionHandler({HttpMessageNotReadableException.class})
 	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
 	  
-		ErrorDto error = new ErrorDto();
+		ErrorDTO error = new ErrorDTO();
 		error.setError("The specified request is not readable");
 	  
 	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 	
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
-    public ResponseEntity<Object> postReminder(HttpServletRequest request, @PathVariable("userId") Integer userId,@RequestBody NotificationCreateDto createReminders){
+    public ResponseEntity<Object> postReminder(HttpServletRequest request, @PathVariable("userId") Integer userId,@RequestBody PostRemindersFrontendRequestDTO createReminders){
 		if(!requestMonitor.allowRequest(request.getRemoteAddr())){
-    		 ErrorDto error = new ErrorDto();
+    		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
 		
-		AddNotificationDto addNotification = new AddNotificationDto();
+		PostRemindersBackendRequestDTO addNotification = new PostRemindersBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	if(createReminders.getInterval()==null || createReminders.getText()==null || createReminders.getTime()==null || 
     			createReminders.isRepeatable()== null){
 		      
-    		ErrorDto error = new ErrorDto();
+    		ErrorDTO error = new ErrorDTO();
     		error.setError("Input criteria not correct");
     		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     	}
  
     	addNotification.setUserId(userId);
     	addNotification.setNotification(createReminders);
-    	ResponseEntity<PostNotificationResultDto> response =null;
+    	ResponseEntity<PostRemindersBackendResponseDTO> response =null;
  
     	try{
-    		response = rest.postForEntity(url,addNotification,PostNotificationResultDto.class);
+    		response = rest.postForEntity(url,addNotification,PostRemindersBackendResponseDTO.class);
     	}
     	catch (Exception e) {
     		System.out.println(e);
-    		ErrorDto error =  new ErrorDto();
+    		ErrorDTO error =  new ErrorDTO();
 			error.setError("The server is currently unavailable");
 			return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE );
 			 
     	}
     	
-    	PostNotificationResultDto backendResult=null;
+    	PostRemindersBackendResponseDTO backendResult=null;
     	
     	if(response != null){
     		backendResult=response.getBody();
     		if(backendResult.getNotificationId() == null || backendResult.getError() == null ){
 				 
-    			ErrorDto error =  new ErrorDto();
+    			ErrorDTO error =  new ErrorDTO();
 			    error.setError("Internal server error");
 			    return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			}
     	}
  
-    	NotificationDto frontendResult= null;
+    	PostRemindersFrontendResponseDTO frontendResult= null;
 
     	if(backendResult.getError().length()>0){
-    		ErrorDto error = new ErrorDto();
+    		ErrorDTO error = new ErrorDTO();
     		error.setError(backendResult.getError());
 	
     		return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     	}
 
-		frontendResult = new NotificationDto ();	
+		frontendResult = new PostRemindersFrontendResponseDTO ();	
 		frontendResult.setId(backendResult.getNotificationId());
 		frontendResult.setInterval(createReminders.getInterval());
 		frontendResult.setRepeatable(createReminders.isRepeatable());
@@ -151,23 +151,23 @@ public class ReminderController {
     public ResponseEntity<Object> removeReminder(HttpServletRequest request, @PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
     	
     	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
-    		 ErrorDto error = new ErrorDto();
+    		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
     	
-    	NotificationRemoveDto removeNotification = new NotificationRemoveDto();
+    	DeleteRemindersByIdBackendRequestDTO removeNotification = new DeleteRemindersByIdBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	removeNotification.setId(reminderId);
-    	ResponseEntity<RemoveNotificationResultDto> response = null;
+    	ResponseEntity<DeleteRemindersByIdBackendResponseDTO> response = null;
     	
     	try{
-       	 	response = rest.postForEntity(url,removeNotification,RemoveNotificationResultDto.class);
+       	 	response = rest.postForEntity(url,removeNotification,DeleteRemindersByIdBackendResponseDTO.class);
        	 }
        	 catch (Exception e) {
-       		ErrorDto error = new ErrorDto();
+       		ErrorDTO error = new ErrorDTO();
     		error.setError("The server is currently unavailable");
     		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
        		 
@@ -175,27 +175,27 @@ public class ReminderController {
     	
     	
     	
-    	RemoveNotificationResultDto removeNotificationResult = null;
+    	DeleteRemindersByIdBackendResponseDTO removeNotificationResult = null;
     	if ( response != null ){
     		
     	   removeNotificationResult = response.getBody();
     	   if(removeNotificationResult.getError()==null ){
-    		   ErrorDto error = new ErrorDto();
+    		   ErrorDTO error = new ErrorDTO();
        		 error.setError("Internal Server Error");
        		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		   
     	   }
     	}
     
-       RemoveNotificationReturnDto removeResponse = null;
+       DeleteRemindersByIdFrontendResponseDTO removeResponse = null;
 
 		if(removeNotificationResult.getError().length()>0){
-			ErrorDto error = new ErrorDto();
+			ErrorDTO error = new ErrorDTO();
 			error.setError(removeNotificationResult.getError());
 			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		else{
-		    removeResponse = new RemoveNotificationReturnDto();	
+		    removeResponse = new DeleteRemindersByIdFrontendResponseDTO();	
 		    removeResponse.setId(reminderId);  
 			return new ResponseEntity<>(removeResponse, HttpStatus.OK);
 		}
@@ -205,34 +205,34 @@ public class ReminderController {
     public ResponseEntity<Object> getReminders(HttpServletRequest request, @PathVariable("userId") Integer userId){
     	
     	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
-    		 ErrorDto error = new ErrorDto();
+    		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
     	
-    	GetRemindersMethodDto getRemindersMethod = new GetRemindersMethodDto();
+    	GetRemindersByIdBackendRequestDTO getRemindersMethod = new GetRemindersByIdBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
     	getRemindersMethod.setId(userId);
     	getRemindersMethod.setMethod("getReminders");
     	
-    	ResponseEntity<GetRemindersResponseFromBackend> responseFromBackend = null;
+    	ResponseEntity<GetRemindersByIdBackendResponseDTO> responseFromBackend = null;
     	try{
-    		responseFromBackend = rest.postForEntity(url,getRemindersMethod,GetRemindersResponseFromBackend.class);
+    		responseFromBackend = rest.postForEntity(url,getRemindersMethod,GetRemindersByIdBackendResponseDTO.class);
     	}
     	catch (Exception e){
     		System.out.println(e);
-    		ErrorDto error =  new ErrorDto();
+    		ErrorDTO error =  new ErrorDTO();
     		error.setError("The server is currently unavailable");
     		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
     	}
     	
-    	GetRemindersResponseFromBackend notification = null;
+    	GetRemindersByIdBackendResponseDTO notification = null;
     	if (responseFromBackend != null){
     		notification = responseFromBackend.getBody();
     		if(notification.validate() == false){
-    			ErrorDto error =  new ErrorDto();
+    			ErrorDTO error =  new ErrorDTO();
         		error.setError("Internal server error");
     			return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     		}
@@ -242,13 +242,13 @@ public class ReminderController {
     	
     	if(notification.getError().length() > 0){
     		
-    		ErrorDto error = new ErrorDto();
+    		ErrorDTO error = new ErrorDTO();
  			error.setError(notification.getError());
  			return new ResponseEntity<>((ResponseInterfaceDto)error,HttpStatus.UNPROCESSABLE_ENTITY);
     		
     	}
     	
-    	NotificationsListDto remindersList = new NotificationsListDto();
+    	GetRemindersByIdFrontendResponseDTO remindersList = new GetRemindersByIdFrontendResponseDTO();
     	remindersList.setNotifications(notification.getNotifications());
 		return new ResponseEntity<>(remindersList, HttpStatus.OK);
 

@@ -2,7 +2,7 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class NotificationDto {
+public class PostRemindersFrontendResponseDTO {
 	
 	public Integer id;
 	public String text;

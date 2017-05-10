@@ -2,7 +2,7 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class LocationDto {
+public class LocationDTO {
 	String city;
 	String country;
 	public String getCity() {

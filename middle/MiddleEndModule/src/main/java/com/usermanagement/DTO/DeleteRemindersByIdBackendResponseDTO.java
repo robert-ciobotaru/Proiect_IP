@@ -4,22 +4,15 @@ import javax.validation.constraints.Size;
 
 import com.usermanagement.Sanitizer;
 
-public class UserCreateResponseFromBackEnd {
-	private Integer userId;
+public class DeleteRemindersByIdBackendResponseDTO{
+	
 	@Size(max=1024, message="Invalid Length")
 	private String error;
-
-	
-	public Integer getUserId() {
-		return userId;
-	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
 	public String getError() {
 		return error;
 	}
 	public void setError(String error) {
 		this.error = error;
 	}
+
 }

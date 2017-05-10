@@ -1,12 +1,12 @@
 package com.usermanagement.DTO;
 
 public class UserCreateReturn implements ResponseInterfaceDto {
-		private UserDto user;
+		private PostUsersFrontendResponseDTO user;
 
-		public UserDto getUser() {
+		public PostUsersFrontendResponseDTO getUser() {
 			return user;
 		}
-		public void setUser(UserDto user) {
+		public void setUser(PostUsersFrontendResponseDTO user) {
 			this.user = user;
 		}
 

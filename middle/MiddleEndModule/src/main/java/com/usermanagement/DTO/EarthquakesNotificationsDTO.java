@@ -2,9 +2,9 @@ package com.usermanagement.DTO;
 
 import com.usermanagement.Sanitizer;
 
-public class EarthquakesDto {
+public class EarthquakesNotificationsDTO {
 	public Integer magnitude;
-	public LocationDto location;
+	public LocationDTO location;
 	public String time;
 	public String url;
 	public String title;
@@ -14,10 +14,10 @@ public class EarthquakesDto {
 	public void setMagnitude(Integer magnitude) {
 		this.magnitude = magnitude;
 	}
-	public LocationDto getLocation() {
+	public LocationDTO getLocation() {
 		return location;
 	}
-	public void setLocation(LocationDto location) {
+	public void setLocation(LocationDTO location) {
 		this.location = location;
 	}
 	public String getTime() {
