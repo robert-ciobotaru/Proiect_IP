@@ -58,9 +58,7 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 @RequestMapping("v1/users")
 public class UserController {
 
-	public void setRequestMonitor(RequestMonitor monitor){
-		 this.requestMonitor = monitor;
-	 }
+
 	 public RequestMonitor getRequestMonitor(){
 		 return requestMonitor;
 	 }
@@ -81,7 +79,7 @@ public class UserController {
 	  
 	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-	
+	 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
     	

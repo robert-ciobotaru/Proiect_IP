@@ -58,13 +58,11 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 @RequestMapping("v1/users")
 public class ReminderController {
 	
-	public void setRequestMonitor(RequestMonitor monitor){
-		 this.requestMonitor = monitor;
-	 } 
+
 	 public RequestMonitor getRequestMonitor(){
 		 return requestMonitor;
 	 }
-	 
+	  
 	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
 	 RequestMonitor requestMonitor= RequestMonitor.getRequestMonitorInstance(100);
 	String backEndUrlPath = "http://localhost:9001";
