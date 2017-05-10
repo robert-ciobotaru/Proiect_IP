@@ -4,10 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestMonitor extends Thread {
+	 private RequestMonitor(){
+		 
+	 }
+	 private static RequestMonitor requestMonitor=null;
+	 
+	 public static RequestMonitor getRequestMonitorInstance(int value){
+		 if(requestMonitor==null){
+			 requestMonitor = new RequestMonitor(value);
+			 return requestMonitor;
+		 }
+		 return requestMonitor;
+	 }
 	 
 	 private  Integer maxRequestCount; 
-	
-	 public RequestMonitor(int value){
+	 
+	 private RequestMonitor(int value){
 		this.maxRequestCount = value;	
 		this.start();
 			

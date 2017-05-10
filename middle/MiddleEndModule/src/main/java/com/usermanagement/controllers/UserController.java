@@ -66,7 +66,7 @@ public class UserController {
 	 }
 	 
 	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-	 RequestMonitor requestMonitor = new RequestMonitor(5);
+	 RequestMonitor requestMonitor= RequestMonitor.getRequestMonitorInstance(100);
 	String backEndUrlPath = "http://localhost:9001";
 	
 	public void setBackEndUrlPath(String backEndUrlPath) {
