@@ -4,7 +4,7 @@ import com.usermanagement.Sanitizer;
 
 public class FloodsDto {
 	public String alertLevel;
-	public LocationDto location;
+	public LocationCountryDto location;
 	public String time;
 	public String url;
 	public String title;
@@ -15,10 +15,10 @@ public class FloodsDto {
 	public void setAlertLevel(String alertLevel) {
 		this.alertLevel = Sanitizer.escapeSql(alertLevel);
 	}
-	public LocationDto getLocation() {
+	public LocationCountryDto getLocation() {
 		return location;
 	}
-	public void setLocation(LocationDto location) {
+	public void setLocation(LocationCountryDto location) {
 		this.location = location;
 	}
 	public String getTime() {
