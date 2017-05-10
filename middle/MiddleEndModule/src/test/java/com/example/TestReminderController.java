@@ -1,6 +1,7 @@
 package com.example;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.any;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,7 +24,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.controllers.ReminderController;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestReminderController {
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
@@ -48,6 +52,107 @@ public class TestReminderController {
 	public void tearDown() throws Exception {
 		mockMvc = null;
 		controllers = null;
+	}
+	@Test
+	public void zrate_limiter_test() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			controllers.getRequestMonitor().setMaxRequestCount(100);;
+			for(int i =1;i<=controllers.getRequestMonitor().getMaxRequestCount()-14;i++)
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"text\":\"Wake me up\","
+						+ "\"time\":1231245,"
+						+ "\"repeatable\":\"true\","
+						+ "\"interval\":300"
+						+ "}"))
+			           .andExpect(status().isCreated())
+			            ;
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\":1231245,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
+		           .andExpect(status().isTooManyRequests())
+		            ;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void zz_rate_limiter_remove_reminderid_test(){
+	
+			
+			wireMockRule.stubFor(any(urlPathEqualTo("/"))
+					.willReturn(aResponse()
+					.withHeader("Content-Type", "application/json")
+					.withBody("{"
+							+ "\"error\" : \"\""
+							+ "}"
+							)
+					));
+			try{
+				this.mockMvc.perform(delete("/v1/users/2/reminders/23"))
+				            .andExpect(status().isTooManyRequests());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	@Test
+	public void zzz_rate_limiter_get_reminders_test(){
+	
+
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+						"{"
+							      + "\"notificationsList\": [{"
+							        + "\"id\": 23,"
+							        + "\"text\": \"Get the kid\","
+							        + "\"time\": 213141,"
+							        + "\"repeatable\": true,"
+							        + "\"interval\": 234"
+							       + "},"
+							       + "{"
+							        + "\"id\": 24,"
+							        + "\"text\": \"Burn the house\","
+							        + "\"time\": 54234,"
+							        + "\"repeatable\": false,"
+							        + "\"interval\": 234"
+							       + "}"
+							         + "],"
+							       +"\"error\" : \"\""
+					+ "}")
+				//.withStatus(201)
+				));
+		
+		try {
+			controllers.setBackEndUrlPath("test");
+			this.mockMvc.perform(get("/v1/users/20/reminders"))
+			            .andExpect(status().isTooManyRequests())
+			          ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -194,7 +299,7 @@ public class TestReminderController {
 	}
 	@Test
 	public void test_service_unavaible_reminder_post() {
-	
+	 
 		
 		try {
 			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
@@ -422,5 +527,7 @@ public class TestReminderController {
 		}
 		
 	}
+
+	
 	
 }

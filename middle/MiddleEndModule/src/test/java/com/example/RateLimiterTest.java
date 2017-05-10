@@ -23,6 +23,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.DTO.NotificationDto;
+import com.usermanagement.controllers.ReminderController;
 import com.usermanagement.controllers.UserController;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -34,9 +35,12 @@ public class RateLimiterTest {
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
 	
     private MockMvc mockMvc;
+    private MockMvc mockMvc2;
     private UserController controllers;
+    private ReminderController controllers2;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+	
 	}
 
 	
@@ -46,17 +50,62 @@ public class RateLimiterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		controllers= new UserController();
+		controllers = new UserController();
+		controllers2= new ReminderController();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
+		this.mockMvc2 = MockMvcBuilders.standaloneSetup(controllers2).build();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		mockMvc = null;
-		controllers = null;
+        mockMvc2 = null;
+        controllers= null;
+        controllers2=null;
 	}
 	
 
+	
+	@Test
+	public void test_created_successful_reminder_post() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			for(int i =1;i<=controllers.getRequestMonitor().getMaxRequestCount();i++)
+			this.mockMvc2.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"text\":\"Wake me up\","
+						+ "\"time\":1231245,"
+						+ "\"repeatable\":\"true\","
+						+ "\"interval\":300"
+						+ "}"))
+			           .andExpect(status().isCreated())
+			            ;
+			this.mockMvc2.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\":1231245,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
+		           .andExpect(status().isTooManyRequests())
+		            ;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Test
 	public void createdTest() {
 		
@@ -82,7 +131,8 @@ public class RateLimiterTest {
 						+ "\"weatherCrawler\":\"true\","
 						+ "\"email\":\"valentin.damoc@gmail.com\""
 						+ "}"))
-			           .andExpect(status().isCreated());
+			           .andExpect(status().isTooManyRequests());
+			
 			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 					+ "\"country\":\"Romania\","
 					+ "\"city\":\"Iasi\","

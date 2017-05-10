@@ -1,6 +1,7 @@
 package com.example;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.any;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,7 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.controllers.UserController;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserController {
 	
 	@Rule
@@ -50,6 +54,49 @@ public class TestUserController {
 		controllers = null;
 	}
 	
+	@Test
+	public void z_rate_limit_test() {
+		
+     
+		
+		try {
+			controllers.setBackEndUrlPath("test");
+			controllers.getRequestMonitor().setMaxRequestCount(10);
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().isTooManyRequests())
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void zz_rate_limit_test_2() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+				.willReturn(aResponse()
+				.withHeader("Content-Type", "application/json")
+				.withBody("{"
+						+ "\"error\" : \"\""
+						+ "}"
+						)
+				));
+		try{
+			this.mockMvc.perform(delete("/v1/users/2"))
+			            .andExpect(status().isTooManyRequests());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void test_if_user_created() {

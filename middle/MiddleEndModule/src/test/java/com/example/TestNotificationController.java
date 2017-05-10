@@ -20,7 +20,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.controllers.NotificationController;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestNotificationController {
 
 	@Rule
@@ -32,7 +35,7 @@ public class TestNotificationController {
 	public static void setUpBeforeClass() throws Exception {
 	}
 
-	@AfterClass
+	@AfterClass 
 	public static void tearDownAfterClass() throws Exception {
 	}
 
@@ -46,6 +49,25 @@ public class TestNotificationController {
 	public void tearDown() throws Exception {
 		mockMvc = null;
 		controllers = null;
+	}
+	
+	@Test
+	public void z_test_rate_limiter(){
+		
+		
+		try {
+			controllers.getRequestMonitor().setMaxRequestCount(4);
+			controllers.setBackEndUrlPath("test");
+			this.mockMvc.perform(get("/v1/users/23/notifications"))
+			            .andExpect(status().isTooManyRequests());
+			            
+			            
+			            
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Test
