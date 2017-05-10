@@ -22,14 +22,8 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 @RestController
 @RequestMapping("v1/users")
 public class NotificationController {
-	
-
-	 public RequestMonitor getRequestMonitor(){
-		 return requestMonitor;
-	 }
-	  
+		  
 	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-	 RequestMonitor requestMonitor= RequestMonitor.getRequestMonitorInstance(100);
 	 
 	String backEndUrlPath = "http://localhost:9001";
 	
@@ -37,19 +31,19 @@ public class NotificationController {
 		this.backEndUrlPath = backEndUrlPath; 
 	}
 	
-	@ExceptionHandler({HttpMessageNotReadableException.class})
-	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
-	  
-		ErrorDTO error = new ErrorDTO();
-		error.setError("The specified request is not readable");
-	  
-	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-	}
+//	@ExceptionHandler({HttpMessageNotReadableException.class})
+//	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
+//	  
+//		ErrorDTO error = new ErrorDTO();
+//		error.setError("The specified request is not readable");
+//	  
+//	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+//	}
 	
 	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> getNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId){
     	
-    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);

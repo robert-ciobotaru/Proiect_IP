@@ -30,13 +30,12 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 @RequestMapping("v1/users")
 public class ReminderController {
 	
+	public ReminderController() {
+		RequestMonitor.getRequestMonitorInstance();
+	}
+		  
+	private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
 
-	 public RequestMonitor getRequestMonitor(){
-		 return requestMonitor;
-	 }
-	  
-	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-	 RequestMonitor requestMonitor= RequestMonitor.getRequestMonitorInstance(100);
 	String backEndUrlPath = "http://localhost:9001";
 	
 	public void setBackEndUrlPath(String backEndUrlPath) {
@@ -54,9 +53,10 @@ public class ReminderController {
 	
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
     public ResponseEntity<Object> postReminder(HttpServletRequest request, @PathVariable("userId") Integer userId,@RequestBody PostRemindersFrontendRequestDTO createReminders){
-		if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+		if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
-    		 error.setError(TOO_MANY_REQUESTS);    		
+    		 error.setError(TOO_MANY_REQUESTS);    	
+    		 System.out.println("MONITOR: " + RequestMonitor.getRequestMonitorInstance().getMaxRequestCount());
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
@@ -118,7 +118,7 @@ public class ReminderController {
 	@RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeReminder(HttpServletRequest request, @PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
     	
-    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
@@ -166,7 +166,7 @@ public class ReminderController {
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.GET)
     public ResponseEntity<Object> getReminders(HttpServletRequest request, @PathVariable("userId") Integer userId){
     	
-    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);

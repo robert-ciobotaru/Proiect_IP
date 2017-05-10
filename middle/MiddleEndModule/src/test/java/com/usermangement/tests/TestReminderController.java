@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.controllers.ReminderController;
+import com.usermanagement.requestmonitor.RequestMonitor;
+
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
@@ -45,6 +47,7 @@ public class TestReminderController {
 	public void setUp() throws Exception {
 		controllers= new ReminderController();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
+		RequestMonitor.getRequestMonitorInstance().reset();
 	}
 
 	@After
@@ -53,7 +56,12 @@ public class TestReminderController {
 		controllers = null;
 	}
 	@Test
-	public void zrate_limiter_test() {
+	public void z_rate_limiter_test() {
+		
+		 int requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+	        System.out.println("f requestCount: " + requestCount);
+	        RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(1);
+		
 		
         wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
@@ -65,10 +73,11 @@ public class TestReminderController {
 					+ "}")
 				
 				));
-		
+		    
 		try {
-			controllers.getRequestMonitor().setMaxRequestCount(100);;
-			for(int i =1;i<=controllers.getRequestMonitor().getMaxRequestCount()-14;i++)
+			
+			
+
 			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 						+ "\"text\":\"Wake me up\","
 						+ "\"time\":1231245,"
@@ -91,11 +100,13 @@ public class TestReminderController {
 			e.printStackTrace();
 		}
 		
+		RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(requestCount);
+		requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+
 	}
 	
 	@Test
 	public void zz_rate_limiter_remove_reminderid_test(){
-	
 			
 			wireMockRule.stubFor(any(urlPathEqualTo("/"))
 					.willReturn(aResponse()
@@ -107,52 +118,52 @@ public class TestReminderController {
 					));
 			try{
 				this.mockMvc.perform(delete("/v1/users/2/reminders/23"))
-				            .andExpect(status().isTooManyRequests());
+				            .andExpect(status().isOk());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 	}
-	@Test
-	public void zzz_rate_limiter_get_reminders_test(){
-	
-
-        wireMockRule.stubFor(any(urlPathEqualTo("/"))
-                .willReturn(aResponse()
-                .withHeader("Content-Type", "application/json")
-				.withBody(
-						"{"
-							      + "\"notificationsList\": [{"
-							        + "\"id\": 23,"
-							        + "\"text\": \"Get the kid\","
-							        + "\"time\": 213141,"
-							        + "\"repeatable\": true,"
-							        + "\"interval\": 234"
-							       + "},"
-							       + "{"
-							        + "\"id\": 24,"
-							        + "\"text\": \"Burn the house\","
-							        + "\"time\": 54234,"
-							        + "\"repeatable\": false,"
-							        + "\"interval\": 234"
-							       + "}"
-							         + "],"
-							       +"\"error\" : \"\""
-					+ "}")
-				//.withStatus(201)
-				));
-		
-		try {
-			controllers.setBackEndUrlPath("test");
-			this.mockMvc.perform(get("/v1/users/20/reminders"))
-			            .andExpect(status().isTooManyRequests())
-			          ;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void zzz_rate_limiter_get_reminders_test(){
+//		
+//
+//        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+//                .willReturn(aResponse()
+//                .withHeader("Content-Type", "application/json")
+//				.withBody(
+//						"{"
+//							      + "\"notificationsList\": [{"
+//							        + "\"id\": 23,"
+//							        + "\"text\": \"Get the kid\","
+//							        + "\"time\": 213141,"
+//							        + "\"repeatable\": true,"
+//							        + "\"interval\": 234"
+//							       + "},"
+//							       + "{"
+//							        + "\"id\": 24,"
+//							        + "\"text\": \"Burn the house\","
+//							        + "\"time\": 54234,"
+//							        + "\"repeatable\": false,"
+//							        + "\"interval\": 234"
+//							       + "}"
+//							         + "],"
+//							       +"\"error\" : \"\""
+//					+ "}")
+//				//.withStatus(201)
+//				));
+//		
+//		try {
+//			controllers.setBackEndUrlPath("test");
+//			this.mockMvc.perform(get("/v1/users/20/reminders"))
+//			            .andExpect(status().isOk())
+//			          ;
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Test
 	public void test_created_successful_reminder_post() {
@@ -216,6 +227,8 @@ public class TestReminderController {
 	}
 	@Test
 	public void test_error_set_reminder_post() {
+		
+		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -243,6 +256,7 @@ public class TestReminderController {
 	}
 	@Test
 	public void test_missing_field_reminder_post() {
+		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -270,6 +284,7 @@ public class TestReminderController {
 	}
 	@Test
 	public void test_internal_server_error_reminder_post() {
+		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -298,7 +313,6 @@ public class TestReminderController {
 	}
 	@Test
 	public void test_service_unavaible_reminder_post() {
-	 
 		
 		try {
 			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
@@ -526,7 +540,4 @@ public class TestReminderController {
 		}
 		
 	}
-
-	
-	
 }

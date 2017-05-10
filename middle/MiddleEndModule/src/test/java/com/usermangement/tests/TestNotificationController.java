@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.usermanagement.controllers.NotificationController;
+import com.usermanagement.requestmonitor.RequestMonitor;
+
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
@@ -40,8 +42,9 @@ public class TestNotificationController {
 
 	@Before
 	public void setUp() throws Exception {
-		controllers= new NotificationController();
+		controllers = new NotificationController();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
+		RequestMonitor.getRequestMonitorInstance().reset();
 	}
 
 	@After
@@ -52,25 +55,27 @@ public class TestNotificationController {
 	
 	@Test
 	public void z_test_rate_limiter(){
-		
-		
+		int initVal = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+		 System.out.println("first initVal: " + initVal);
 		try {
-			controllers.getRequestMonitor().setMaxRequestCount(4);
-			controllers.setBackEndUrlPath("test");
+			RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(0);
+
 			this.mockMvc.perform(get("/v1/users/23/notifications"))
 			            .andExpect(status().isTooManyRequests());
-			            
-			            
-			            
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(initVal);
+		 initVal = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+		 System.out.println("second initVal: " + initVal);
 	}
 
 	@Test
 	public void test_successful_get() throws Exception {
+		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -231,6 +236,7 @@ public class TestNotificationController {
 	
 	@Test
 	public void test_internal_sever_error_notification_get() throws Exception {
+		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -330,6 +336,7 @@ public class TestNotificationController {
 	
 	@Test
 	public void test_unprocessable_entity_notification_test() throws Exception {
+		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")

@@ -4,51 +4,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestMonitor extends Thread {
-	 private RequestMonitor(){
-		 
-	 }
-	 private static RequestMonitor requestMonitor=null;
+	
+	 private static RequestMonitor requestMonitor = null;
+	 private  int maxRequestCount;
+	 private  Map<String,Integer> requestMap = new HashMap<String, Integer>();
 	 
-	 public static RequestMonitor getRequestMonitorInstance(int value){
-		 if(requestMonitor==null){
-			 requestMonitor = new RequestMonitor(value);
+	 private RequestMonitor() { 
+		 maxRequestCount = 100;
+	 }
+	 
+	 public void reset() {
+		 requestMap = new HashMap<String, Integer>();
+	 }
+	 
+	 public static RequestMonitor getRequestMonitorInstance() {
+		 if(requestMonitor == null){
+			 requestMonitor = new RequestMonitor();
 			 return requestMonitor;
 		 }
 		 return requestMonitor;
 	 }
 	 
-	 private  Integer maxRequestCount; 
-	 
-	 private RequestMonitor(int value){
-		this.maxRequestCount = value;	
-		this.start();
-			
-     }
 	 
 	public void setMaxRequestCount(Integer value){
 		 this.maxRequestCount = value;
 	 }
-	 public Integer getMaxRequestCount(){
+	 public int getMaxRequestCount(){
 		 return this.maxRequestCount;
 	 }
-	 
-
 	
-	private  Map<String,Integer> requestMap = new HashMap<String, Integer>(); 
-	
-	public  boolean allowRequest(String address){
+	 synchronized public boolean allowRequest(String address) {
 		if(!requestMap.containsKey(address))
 			requestMap.put(address, 1);
-		else{
-			int frequence = requestMap.get(address);
-			if(frequence >=maxRequestCount){
-				return false;
-			}
-			else
-			{
-				requestMap.replace(address, frequence+1);
-			}
+
+		int frequence = requestMap.get(address);
+		if(frequence > maxRequestCount){
+			return false;
 		}
+		requestMap.replace(address, frequence+1);
 		return true;
 	}
 	@Override
@@ -64,9 +57,6 @@ public class RequestMonitor extends Thread {
 			
 			
 		}
-		
-		
-		
 	}
 	@SuppressWarnings("deprecation")
 	@Override

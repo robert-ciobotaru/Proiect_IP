@@ -26,13 +26,7 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 @RequestMapping("v1/users")
 public class UserController {
 
-
-	 public RequestMonitor getRequestMonitor(){
-		 return requestMonitor;
-	 }
-	 
-	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-	 RequestMonitor requestMonitor= RequestMonitor.getRequestMonitorInstance(100);
+	private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
 	String backEndUrlPath = "http://localhost:9001";
 	
 	public void setBackEndUrlPath(String backEndUrlPath) {
@@ -51,7 +45,7 @@ public class UserController {
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
     	
-    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
@@ -105,7 +99,7 @@ public class UserController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Object> postUser(HttpServletRequest request, @RequestBody PostUsersFrontendRequestDTO userCreate){
     	
-    	if(!requestMonitor.allowRequest(request.getRemoteAddr())){
+    	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
