@@ -1,13 +1,13 @@
 package com.example;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.any;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import javax.net.ssl.SSLEngineResult.Status;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,21 +15,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.usermanagement.DTO.NotificationDto;
 import com.usermanagement.controllers.NotificationController;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-
-public class GetNotificationsTest {
+public class TestNotificationController {
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(9001); 
@@ -57,7 +49,7 @@ public class GetNotificationsTest {
 	}
 
 	@Test
-	public void testShouldBeOK() throws Exception {
+	public void test_successful_get() throws Exception {
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -207,7 +199,7 @@ public class GetNotificationsTest {
 	}
 	
 	@Test
-	public void ServiceUnavailableTest() throws Exception {
+	public void test_service_unavailable_reminder_get() throws Exception {
 		
 		try {
 			this.mockMvc.perform(get("/v1/users/23/notifications"))
@@ -221,7 +213,7 @@ public class GetNotificationsTest {
 	}
 	
 	@Test
-	public void InternalSeverErrorTest() throws Exception {
+	public void test_internal_sever_error_notification_get() throws Exception {
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -322,7 +314,7 @@ public class GetNotificationsTest {
 	}
 	
 	@Test
-	public void UnprocessableEntityTest() throws Exception {
+	public void test_unprocessable_entity_notification_test() throws Exception {
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -422,7 +414,5 @@ public class GetNotificationsTest {
 			e.printStackTrace();
 		}
 	}
-	
-	
 	
 }
