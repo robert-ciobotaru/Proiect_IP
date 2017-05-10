@@ -1,6 +1,6 @@
 package com.usermanagement.DTO;
 
-public class DeleteUsersByIdFrontendResponseDTO implements ResponseInterfaceDto {
+public class DeleteUsersByIdFrontendResponseDTO {
 	public Integer getId() {
 		return id;
 	}

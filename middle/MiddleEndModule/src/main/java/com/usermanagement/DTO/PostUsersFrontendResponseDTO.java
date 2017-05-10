@@ -1,7 +1,5 @@
 package com.usermanagement.DTO;
 
-import com.usermanagement.Sanitizer;
-
 public class PostUsersFrontendResponseDTO {
 	public Integer id;
     public String country;

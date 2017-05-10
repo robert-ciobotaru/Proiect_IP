@@ -1,6 +1,5 @@
 package com.usermanagement.DTO;
 
-import com.usermanagement.Sanitizer;
 
 public class PostRemindersFrontendResponseDTO {
 	

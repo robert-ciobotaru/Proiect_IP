@@ -1,6 +1,6 @@
 package com.usermanagement.DTO;
 
-public class DeleteRemindersByIdFrontendResponseDTO implements ResponseInterfaceDto {
+public class DeleteRemindersByIdFrontendResponseDTO {
 	private Integer id;
 
 	public Integer getId() {

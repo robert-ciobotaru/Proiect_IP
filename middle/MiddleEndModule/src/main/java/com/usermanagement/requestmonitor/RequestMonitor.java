@@ -34,7 +34,7 @@ public class RequestMonitor extends Thread {
 	 
 
 	
-	private  Map<String,Integer> requestMap = new HashMap(); 
+	private  Map<String,Integer> requestMap = new HashMap<String, Integer>(); 
 	
 	public  boolean allowRequest(String address){
 		if(!requestMap.containsKey(address))
@@ -60,7 +60,7 @@ public class RequestMonitor extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			requestMap = new HashMap();
+			requestMap = new HashMap<String, Integer>();
 			
 			
 		}
@@ -68,6 +68,7 @@ public class RequestMonitor extends Thread {
 		
 		
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void finalize(){
 	   this.stop();
