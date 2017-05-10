@@ -119,7 +119,6 @@ public class TestNotificationController {
 					    + "\"floodsList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
 					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
 					    		+ "\"country\": \"Romania\""
 					    	+ "},"
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
@@ -130,7 +129,6 @@ public class TestNotificationController {
 					    + "\"cyclonesList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
 					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
 					    		+ "\"country\": \"Romania\""
 					    	+ "},"
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
@@ -186,14 +184,12 @@ public class TestNotificationController {
 			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].url", is("http://link.ro")))
 			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].title", is("The amazing earthquake")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].alertLevel", is("BIG")))
-			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].location.city", is("Iasi")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].location.country", is("Romania")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].time", is("2017-05-06T00:21:40")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].url", is("http://link.ro")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].title", is("The amazing earthquake")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].description", is("Description for the flood")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].alertLevel", is("BIG")))
-			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].location.city", is("Iasi")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].location.country", is("Romania")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].time", is("2017-05-06T00:21:40")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].url", is("http://link.ro")))
@@ -283,7 +279,6 @@ public class TestNotificationController {
 					    + "\"floodsList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
 					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
 					    		+ "\"country\": \"Romania\""
 					    	+ "},"
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
@@ -294,7 +289,6 @@ public class TestNotificationController {
 					    + "\"cyclonesList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
 					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
 					    		+ "\"country\": \"Romania\""
 					    	+ "},"
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
@@ -384,7 +378,6 @@ public class TestNotificationController {
 					    + "\"floodsList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
 					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
 					    		+ "\"country\": \"Romania\""
 					    	+ "},"
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
@@ -395,7 +388,6 @@ public class TestNotificationController {
 					    + "\"cyclonesList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
 					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
 					    		+ "\"country\": \"Romania\""
 					    	+ "},"
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
