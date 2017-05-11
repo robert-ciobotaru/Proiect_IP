@@ -117,7 +117,7 @@ def main():
     listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listen_socket.bind((HOST, PORT))
-    listen_socket.listen(0xFFFFFFFF)
+    listen_socket.listen(200)
     print 'Waiting on port %s ...' % PORT
     while True:
         client_connection, client_address = listen_socket.accept()
