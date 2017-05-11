@@ -540,4 +540,37 @@ public class TestReminderController {
 		}
 		
 	}
+	@Test
+	public void test_input_from_frontend_too_large() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"text\":\"WakewakeWakewWakewakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWWakewakeWakewWakewakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakWakewakeWakewWakewakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakak"
+						+ "ewakeWakewawakeewakeWakewakeWakewakeWakewawakeewaWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakekeWa"
+						+ "kewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewWakewakeWakewWakewakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakakeWakewakeWakewa"
+						+ "wakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewake"
+						+ "WakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewawakeewakeWakewakeWakewakeWakewakeWakewake\","
+						+ "\"time\":1231245,"
+						+ "\"repeatable\":\"true\","
+						+ "\"interval\":300"
+						+ "}"))
+			           .andExpect(status().isBadRequest())
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

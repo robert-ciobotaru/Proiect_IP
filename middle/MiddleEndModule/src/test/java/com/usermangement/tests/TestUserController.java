@@ -355,4 +355,34 @@ public class TestUserController {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void test_input_from_frontend_too_large() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"id\" :,"
+						   + "\"error\" : \"Eroare\""
+					
+					+ "}")
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"RomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomaniaRomania\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"manole.catalin@gmail.com\""
+						+ "}"))
+			            .andExpect(status().isBadRequest())
+			            
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
