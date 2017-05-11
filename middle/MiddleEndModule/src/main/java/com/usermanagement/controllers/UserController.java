@@ -1,15 +1,18 @@
 package com.usermanagement.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.usermanagement.DTO.PostUsersBackendRequestDTO;
@@ -41,6 +44,14 @@ public class UserController {
 	  
 	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
+	
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleException(MethodArgumentNotValidException exception) {
+    	ErrorDTO error = new ErrorDTO();
+    	error.setError("Input provided does not meet the requirements");
+        return error;
+    }
 	 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
@@ -97,7 +108,7 @@ public class UserController {
     }
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Object> postUser(HttpServletRequest request, @RequestBody PostUsersFrontendRequestDTO userCreate){
+    public ResponseEntity<Object> postUser(HttpServletRequest request, @Valid @RequestBody PostUsersFrontendRequestDTO userCreate){
     	
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
