@@ -79,7 +79,7 @@ def treatClient(client):
         # print inputs
 
         message = inputs.split('\n')
-        message=json.loads(message[len(message)-1])
+        message = json.loads(message[len(message)-1])
         output.write('\nReceived at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
         output.write(json.dumps(message) + '\n')
 
@@ -93,7 +93,7 @@ def treatClient(client):
         else:
             if validate_json(message) == 0:
                 jsons_received.append(message)
-                print 'Valid'
+                print 'Valid - ', message['Type']
             else:
                 print 'Invalid'
             sendResponse(client,{'Request':'GET','Data':'Notification','Value':'Received'})
@@ -110,7 +110,7 @@ def treatClient(client):
 def main():
     global jsons_received
     global output
-    HOST, PORT = '', 8992
+    HOST, PORT = '', 8991
     jsons_received = []
     output = open('log.txt','w')
 
