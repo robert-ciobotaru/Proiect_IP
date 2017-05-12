@@ -12,8 +12,13 @@ import android.widget.TextView;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import interfata.ip.notifier.Database.DbOperator;
+import interfata.ip.notifier.Database.NotificationTableData;
+import interfata.ip.notifier.Database.NotificationsDB;
 import interfata.ip.notifier.InternalFile.FileIO;
 import interfata.ip.notifier.messenger.DeleteUser;
 import interfata.ip.notifier.messenger.Messenger;
@@ -64,5 +69,18 @@ public class MainActivity extends AppCompatActivity {
         }
         System.out.println(file.getInfo());
 */
+        //Test baze de date
+        NotificationTableData data= new NotificationTableData();
+        data.setInfo("informatii");
+        data.setId(1);
+        DbOperator db= new DbOperator(getApplicationContext());
+        NotificationsDB db2=new NotificationsDB(getApplicationContext());
+        db2.addFirstTableData(data);
+        List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
+
+        dates=db2.getFirstTableDataList();
+        System.out.println(dates.get(1).getInfo());
+        System.out.println(dates);
+
     }
 }
