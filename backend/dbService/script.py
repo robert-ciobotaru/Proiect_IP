@@ -1,6 +1,6 @@
 import MySQLdb
 
-db=MySQLdb.connect(user='root',passwd='STUDENT',host='127.0.0.1')
+db=MySQLdb.connect(user='root',passwd='STUDENT',host='127.0.0.1') #pentru baza de date locala
 #daca nu da import la MySQLdb,in linia de comanda dati: easy_install mysql-python
 #sau pip install mysql-python   (prima varianta ar trebui sa mearga)
 
