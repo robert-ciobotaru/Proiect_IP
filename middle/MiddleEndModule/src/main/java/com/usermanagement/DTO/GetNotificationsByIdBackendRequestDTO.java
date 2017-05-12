@@ -10,7 +10,7 @@ public class GetNotificationsByIdBackendRequestDTO {
 	@Size(max=1024, message="Invalid Length")
 	public String method;
 	
-	public Integer id;
+	public Integer userId;
 	
 	public void setMethod(String method) {
 		this.method = Sanitizer.escapeSql(method);
@@ -20,10 +20,10 @@ public class GetNotificationsByIdBackendRequestDTO {
 		return method;
 	}
 	
-	public Integer getId() {
-		return id;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }

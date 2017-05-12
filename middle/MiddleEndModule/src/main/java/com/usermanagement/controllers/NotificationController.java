@@ -34,7 +34,7 @@ public class NotificationController extends AbstractController {
     	GetNotificationsByIdBackendRequestDTO getNotifications = new GetNotificationsByIdBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	getNotifications.setId(userId);
+    	getNotifications.setUserId(userId);
     	getNotifications.setMethod("getNotifications");
     	
     	ResponseEntity<GetNotificationsByIdBackendResponseDTO> response = null;

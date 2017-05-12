@@ -7,16 +7,16 @@ import com.usermanagement.Sanitizer;
 
 public class DeleteUsersByIdBackendRequestDTO{
 	
-    Integer id;
+    Integer userId;
     @Size(max=1024, message="Invalid Length")
 	String method = "removeUser";
 	
-	public Integer getId() {
-		return id;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getMethod() {

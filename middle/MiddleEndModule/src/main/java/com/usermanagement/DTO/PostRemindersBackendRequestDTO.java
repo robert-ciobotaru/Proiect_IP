@@ -10,7 +10,7 @@ import com.usermanagement.Sanitizer;
 public class PostRemindersBackendRequestDTO {
 	
 	@Size(max=1024, message="Invalid Length")
-	String method = "addNotification";
+	String method;
 	Integer userId;
 	PostRemindersFrontendRequestDTO notification;
 	

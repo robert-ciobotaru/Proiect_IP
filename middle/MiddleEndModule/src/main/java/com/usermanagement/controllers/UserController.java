@@ -38,7 +38,7 @@ public class UserController extends AbstractController {
     	DeleteUsersByIdBackendRequestDTO removeUserMethod = new DeleteUsersByIdBackendRequestDTO();
     	String url = new String(backEndUrlPath);
    	 	RestTemplate rest = new RestTemplate();
-   	 	removeUserMethod.setId(userId);
+   	 	removeUserMethod.setUserId(userId);
    	 
    	 	ResponseEntity<DeleteUsersByIdBackendResponseDTO> response = null;
    	 	DeleteUsersByIdBackendResponseDTO removeUser = null;
@@ -80,7 +80,7 @@ public class UserController extends AbstractController {
     }
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Object> postUser(HttpServletRequest request, @Valid @RequestBody PostUsersFrontendRequestDTO userCreate){
+    public ResponseEntity<Object> addUser(HttpServletRequest request, @Valid @RequestBody PostUsersFrontendRequestDTO userCreate){
     	
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
@@ -101,7 +101,7 @@ public class UserController extends AbstractController {
     	PostUsersBackendRequestDTO addUser = new PostUsersBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	addUser.setUser(userCreate);
+    	addUser.setData(userCreate);
     	ResponseEntity<PostUsersBackendResponseDTO> response = null;
     	
     	PostUsersBackendResponseDTO userCreateResponse = null;

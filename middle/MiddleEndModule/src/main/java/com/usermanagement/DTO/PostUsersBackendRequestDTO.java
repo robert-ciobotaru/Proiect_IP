@@ -9,14 +9,14 @@ public class PostUsersBackendRequestDTO {
 	
 	@Size(max=1024, message="Invalid Length")
 	private String method = "addUser";
-	private PostUsersFrontendRequestDTO user;	
+	private PostUsersFrontendRequestDTO data;	
 
-	public PostUsersFrontendRequestDTO getUser() {
-		return user;
+	public PostUsersFrontendRequestDTO getData() {
+		return data;
 	}
 
-	public void setUser(PostUsersFrontendRequestDTO user) {
-		this.user = user;
+	public void setData(PostUsersFrontendRequestDTO data) {
+		this.data = data;
 	}
 
 	public String getMethod() {

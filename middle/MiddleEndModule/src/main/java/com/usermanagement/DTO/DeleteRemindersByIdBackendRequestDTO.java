@@ -7,16 +7,16 @@ import com.usermanagement.Sanitizer;
 
 public class DeleteRemindersByIdBackendRequestDTO {
 	
-	private Integer id;
+	private Integer notificationId;
 	@Size(max=1024, message="Invalid Length")
 	private String method = "removeNotification";
 	
-	public Integer getId() {
-		return id;
+	public Integer getNotificationId() {
+		return notificationId;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setNotificationId(int notificationId) {
+		this.notificationId = notificationId;
 	}
 	public String getMethod() {
 		return method;
