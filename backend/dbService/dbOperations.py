@@ -25,19 +25,19 @@ def send():
 				interm=1
 			else:
 				interm=linie[0]
-			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['data']['repeatable'],raspuns['data']['interval'],raspuns['data']['time'],raspuns['data']['text'],raspuns['id']))
+			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['data']['repeatable'],raspuns['data']['interval'],raspuns['data']['time'],raspuns['data']['text'],raspuns['userId']))
 			db.commit()
-			date=json.dumps({'id':raspuns['id'],'error':""}) #sau interm in caz ca se vrea ca raspuns notificationId si nu userId
+			date=json.dumps({'notificationId':interm,'error':""})
 			handle=urlopen(url,date)
 			#print "am trimis handle"
 			cursor.close()
 			db.close()
 		except:
 			db.rollback()
-			date=json.dumps({'id':raspuns['id'],'error':"Eroare la addNotification"}) 
+			date=json.dumps({'notificationId':interm,'error':"Eroare la addNotification"}) 
 			handle=urlopen(url,date)
 	elif raspuns['method']=='getUserNotifications':
-		cursor.execute("Select * from notificari where user_id = %s",(raspuns['id'], ))
+		cursor.execute("Select * from notificari where user_id = %s",(raspuns['userId'], ))
 		linie=cursor.fetchone()
 		if linie is None:
 			#print "nothing fetched"
@@ -69,7 +69,7 @@ def send():
 			else:
 				interm=linie[0]
 			cursor.execute("INSERT INTO useri VALUES (%s,%s,%s,%s,%s,%s,%s)",(interm,raspuns['data']['country'],raspuns['data']['city'],raspuns['data']['newsCrawler'],raspuns['data']['hazzardCrawler'],raspuns['data']['weatherCrawler'],raspuns['data']['email']))
-			date=json.dumps({'id':interm,'error':""})
+			date=json.dumps({'userId':interm,'error':""})
 			handle=urlopen(url,date)
 			db.commit()
 			#print "am trimis handle in addUser"
@@ -78,12 +78,12 @@ def send():
 		except:
 			#print "what happened"
 			db.rollback()
-			date=json.dumps({'id':interm,'error':'Eroare la addUser'})
+			date=json.dumps({'userId':interm,'error':'Eroare la addUser'})
 			handle=urlopen(url,date)
 	elif raspuns['method']=='removeNotification':
 		try:
 			#print "am intrat in removeNotifications"
-			cursor.execute("DELETE FROM notificari WHERE id=%s",(raspuns['id'], ))
+			cursor.execute("DELETE FROM notificari WHERE id=%s",(raspuns['notificationId'], ))
 			db.commit()
 			date=json.dumps({'error':""})
 			handle=urlopen(url,date)
@@ -92,24 +92,24 @@ def send():
 		except:
 			#print "ups la remove"
 			db.rollback()
-			date=json.dumps({'id':raspuns['id'],'error':"Eroare la removeNotification"})
+			date=json.dumps({'error':"Eroare la removeNotification"})
 			handle=urlopen(url,date)
 	elif raspuns['method']=='removeUser':
 		try:
 			#print "am intrat in removeUser"
-			cursor.execute("DELETE FROM notificari where user_id=%s",(raspuns['id'], ))
-			cursor.execute("DELETE FROM useri where id=%s",(raspuns['id'], ))
+			cursor.execute("DELETE FROM notificari where user_id=%s",(raspuns['userId'], ))
+			cursor.execute("DELETE FROM useri where id=%s",(raspuns['userId'], ))
 			db.commit()
-			date=json.dumps({'id':raspuns['id'],'error':""})
+			date=json.dumps({'error':""})
 			handle=urlopen(url,date)
 		except:
 			#print "ups la removeUser"
 			db.rollback()
-			date=json.dumps({'id':raspuns['id'],'error':"Eroare la removeUser"})
+			date=json.dumps({'error':"Eroare la removeUser"})
 			handle=urlopne(url,date)
 	elif raspuns['method']=='getNotifications':
 		try:
-			cursor.execute("SELECT text FROM notificari where user_id=%s and Repeatable>0 and Time<(select now() from dual)",(raspuns['id'], ))
+			cursor.execute("SELECT text FROM notificari where user_id=%s and Repeatable>0 and Time<(select now() from dual)",(raspuns['userId'], ))
 			linie=cursor.fetchone()
 			#print "lets see"
 			current=0
