@@ -34,7 +34,7 @@ public class ReminderController extends AbstractController {
 	}
 		 	 
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
-    public ResponseEntity<Object> addNotification(HttpServletRequest request, @PathVariable("userId") Integer userId, @Valid @RequestBody PostRemindersFrontendRequestDTO createReminders){
+    public ResponseEntity<Object> postReminder(HttpServletRequest request, @PathVariable("userId") Integer userId, @Valid @RequestBody PostRemindersFrontendRequestDTO createReminders){
 		if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    	
@@ -99,7 +99,7 @@ public class ReminderController extends AbstractController {
     }
 	
 	@RequestMapping(value ="/{userId}/reminders/{reminderId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeNotification(HttpServletRequest request, @PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
+    public ResponseEntity<Object> deleteReminder(HttpServletRequest request, @PathVariable("userId") Integer userId ,@PathVariable("reminderId") Integer reminderId){
     	
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
@@ -147,7 +147,7 @@ public class ReminderController extends AbstractController {
 	}
     
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.GET)
-    public ResponseEntity<Object> getUserNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId){
+    public ResponseEntity<Object> getReminders(HttpServletRequest request, @PathVariable("userId") Integer userId){
     	
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();

@@ -26,7 +26,7 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 public class UserController extends AbstractController {
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> removeUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
+    public ResponseEntity<Object> deleteUser(HttpServletRequest request, @PathVariable("userId") Integer userId) {
     	
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
@@ -80,7 +80,7 @@ public class UserController extends AbstractController {
     }
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Object> addUser(HttpServletRequest request, @Valid @RequestBody PostUsersFrontendRequestDTO userCreate){
+    public ResponseEntity<Object> postUser(HttpServletRequest request, @Valid @RequestBody PostUsersFrontendRequestDTO userCreate){
     	
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
