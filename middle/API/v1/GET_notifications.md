@@ -131,6 +131,7 @@
 
   * **Code:** 400 Bad Request <br />
     **Content:** `{ error : "The specified request is not readable" }`
+    **Content:** `{ error : "The specified request is not readable" }`
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal server error" }`
