@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,24 +19,7 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 
 @RestController
 @RequestMapping("v1/users")
-public class NotificationController {
-		  
-	 private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-	 
-	String backEndUrlPath = "http://localhost:9001";
-	
-	public void setBackEndUrlPath(String backEndUrlPath) {
-		this.backEndUrlPath = backEndUrlPath; 
-	}
-	
-//	@ExceptionHandler({HttpMessageNotReadableException.class})
-//	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
-//	  
-//		ErrorDTO error = new ErrorDTO();
-//		error.setError("The specified request is not readable");
-//	  
-//	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-//	}
+public class NotificationController extends AbstractController {
 	
 	@RequestMapping(value = "/{userId}/notifications", method = RequestMethod.GET)
     public ResponseEntity<Object> getNotifications(HttpServletRequest request, @PathVariable("userId") Integer userId){

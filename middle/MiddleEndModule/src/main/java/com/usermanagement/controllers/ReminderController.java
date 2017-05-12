@@ -5,14 +5,10 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,37 +27,12 @@ import com.usermanagement.requestmonitor.RequestMonitor;
 
 @RestController
 @RequestMapping("v1/users")
-public class ReminderController {
+public class ReminderController extends AbstractController {
 	
 	public ReminderController() {
 		RequestMonitor.getRequestMonitorInstance();
 	}
-		  
-	private static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-
-	String backEndUrlPath = "http://localhost:9001";
-	
-	public void setBackEndUrlPath(String backEndUrlPath) {
-		this.backEndUrlPath = backEndUrlPath; 
-	}
-	
-	@ExceptionHandler({HttpMessageNotReadableException.class})
-	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
-	  
-		ErrorDTO error = new ErrorDTO();
-		error.setError("The specified request is not readable");
-	  
-	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-	}
-	
-	 @ExceptionHandler
-	    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	    public ErrorDTO handleException(MethodArgumentNotValidException exception) {
-	    	ErrorDTO error = new ErrorDTO();
-	    	error.setError("Input provided does not meet the requirements");
-	        return error;
-	    }
-	 
+		 	 
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.POST)
     public ResponseEntity<Object> postReminder(HttpServletRequest request, @PathVariable("userId") Integer userId, @Valid @RequestBody PostRemindersFrontendRequestDTO createReminders){
 		if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
