@@ -13,7 +13,7 @@ import com.usermanagement.DTO.ErrorDTO;
 
 public abstract class AbstractController {
 	protected static String TOO_MANY_REQUESTS = "TOO MANY REQUESTS";
-	public String backEndUrlPath = "http://localhost:9001";
+	public String backEndUrlPath = "http://104.199.93.85:8769";
 	
 	public void setBackEndUrlPath(String backEndUrlPath) {
 		this.backEndUrlPath = backEndUrlPath; 
