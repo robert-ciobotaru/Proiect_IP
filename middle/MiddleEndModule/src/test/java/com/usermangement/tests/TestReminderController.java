@@ -77,7 +77,7 @@ public class TestReminderController {
 		try {
 			
 			
-
+ 
 			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 						+ "\"text\":\"Wake me up\","
 						+ "\"time\":1231245,"
@@ -107,6 +107,10 @@ public class TestReminderController {
 	
 	@Test
 	public void zz_rate_limiter_remove_reminderid_test(){
+		
+		int requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+        System.out.println("f requestCount: " + requestCount);
+        RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(1);
 			
 			wireMockRule.stubFor(any(urlPathEqualTo("/"))
 					.willReturn(aResponse()
@@ -119,12 +123,22 @@ public class TestReminderController {
 			try{
 				this.mockMvc.perform(delete("/v1/users/2/reminders/23"))
 				            .andExpect(status().isOk());
+				
+				this.mockMvc.perform(delete("/v1/users/2/reminders/23"))
+	            .andExpect(status().isTooManyRequests());
+			
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(requestCount);
+			requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
 		
 	}
+	
+	
+	
 //	@Test
 //	public void zzz_rate_limiter_get_reminders_test(){
 //		
@@ -164,6 +178,67 @@ public class TestReminderController {
 //			e.printStackTrace();
 //		}
 //	}
+	
+	@Test
+	public void zzz_rate_limiter_get_reminders_test() {
+		
+		int requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+        System.out.println("f requestCount: " + requestCount);
+        RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(1);
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+						"{"
+							      + "\"notificationsList\": [{"
+							        + "\"id\": 23,"
+							        + "\"text\": \"Get the kid\","
+							        + "\"time\": 213141,"
+							        + "\"repeatable\": true,"
+							        + "\"interval\": 234"
+							       + "},"
+							       + "{"
+							        + "\"id\": 24,"
+							        + "\"text\": \"Burn the house\","
+							        + "\"time\": 54234,"
+							        + "\"repeatable\": false,"
+							        + "\"interval\": 234"
+							       + "}"
+							         + "],"
+							       +"\"error\" : \"\""
+					+ "}")
+				//.withStatus(201)
+				));
+		
+		try {
+			this.mockMvc.perform(get("/v1/users/20/reminders"))
+			            .andExpect(status().is(200))
+			            .andExpect(jsonPath("$.remindersList[0].id", is(23)))
+			            .andExpect(jsonPath("$.remindersList[0].text", is("Get the kid")))
+			            .andExpect(jsonPath("$.remindersList[0].time", is(213141)))
+			            .andExpect(jsonPath("$.remindersList[0].repeatable", is(true)))
+			            .andExpect(jsonPath("$.remindersList[0].interval", is(234)))
+			            .andExpect(jsonPath("$.remindersList[1].id", is(24)))
+			            .andExpect(jsonPath("$.remindersList[1].text", is("Burn the house")))
+			            .andExpect(jsonPath("$.remindersList[1]time", is(54234)))
+			            .andExpect(jsonPath("$.remindersList[1].repeatable", is(false)))
+			            .andExpect(jsonPath("$.remindersList[1].interval", is(234)));
+			
+			this.mockMvc.perform(get("/v1/users/20/reminders"))
+            			.andExpect(status().isTooManyRequests());
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(requestCount);
+		requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+		
+	}
+	
+	
 	
 	@Test
 	public void test_created_successful_reminder_post() {

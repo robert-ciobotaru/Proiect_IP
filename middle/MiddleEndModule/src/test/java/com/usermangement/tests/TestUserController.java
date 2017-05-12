@@ -85,6 +85,40 @@ public class TestUserController {
 		
 		System.out.println("requestCount: " + requestCount);
 	}
+	
+	@Test
+	public void zz_rate_limiter_delete_user_test() {
+		
+		int requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+        System.out.println("f requestCount: " + requestCount);
+        RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(1);
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+				.willReturn(aResponse()
+				.withHeader("Content-Type", "application/json")
+				.withBody("{"
+						+ "\"error\" : \"\""
+						+ "}"
+						)
+				));
+		try{
+			
+			this.mockMvc.perform(delete("/v1/users/2"))
+			            .andExpect(status().isOk());
+			
+		
+		    this.mockMvc.perform(delete("/v1/users/2"))
+				         .andExpect(status().isTooManyRequests());
+				
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(requestCount);
+		requestCount = RequestMonitor.getRequestMonitorInstance().getMaxRequestCount();
+	}
+	
 //	@Test
 //	public void zz_rate_limit_test_2() {
 //		
@@ -313,6 +347,7 @@ public class TestUserController {
 			e.printStackTrace();
 		}
 	}
+	
 	@Test
 	public void test_unprocessable_entity_delete_user() {
 		
