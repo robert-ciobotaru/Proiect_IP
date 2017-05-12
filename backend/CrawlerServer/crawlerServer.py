@@ -84,25 +84,32 @@ def treatClient(client):
         output.write(json.dumps(message) + '\n')
 
         if 'check' in message:
-            print 'check'
             if len(jsons_received) > 0:
                 sendResponse(client, jsons_received.pop(0))
+                # print 'check - trimis'
+                output.write('check - trimis!\n')
             else:
                 sendResponse(client, {'Type':'None'})
+                # print "check - i don't have any jsons"
+                output.write("check - i don't have any jsons!\n")
 
         else:
             if validate_json(message) == 0:
                 jsons_received.append(message)
-                print 'Valid - ', message['Type']
+                # print 'Valid - ', message['Type']
+                output.write('Valid!\n')
             else:
-                print 'Invalid'
+                # print 'Invalid'
+                output.write('Invalid!\n')
             sendResponse(client,{'Request':'GET','Data':'Notification','Value':'Received'})
     except:
-        print 'Eroare'
+        # print 'Eroare'
+        output.write('Eroare!\n')
         try:
             sendResponse(client,{'Request':'GET','Data':'Notification','Value':'Failed'})
         except:
-            print 'Client inchis'
+            # print 'Client inchis'
+            output.write('Client inchis!\n')
             pass
 
 
@@ -112,6 +119,8 @@ def main():
     global output
     HOST, PORT = '', 8991
     jsons_received = []
+    if os.path.isfile('log.txt'):
+        os.remove('log.txt')
     output = open('log.txt','w')
 
     listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
