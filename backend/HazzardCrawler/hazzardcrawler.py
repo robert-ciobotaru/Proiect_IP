@@ -3,6 +3,7 @@ import requests
 import time
 import json
 import datetime
+import os
 
 global already_sent_earthquakes
 global already_sent_hazzards
@@ -33,32 +34,36 @@ def earthquakes(past, url, log):
 
     erase_expired_events(past, 1)
 
-    log.write('\n\nBetween ' + past + ' and ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n\n')
+    # log.write('\n\nBetween ' + past + ' and ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n\n')
     response = requests.get(url_earthquakes)
     json_response = response.json()
 
-    for cutremur in json_response['features']:
-        if cutremur['id'] not in already_sent_earthquakes:
-            if ' of ' in cutremur['properties']['place'] and cutremur['properties']['place'].count(' of ') == 1:
-                timestamp = int(cutremur['properties']['time'])
-                city_country = cutremur['properties']['place'].split(' of ')[1]
-                dictionar['Data'] = { 
-                                        'type' : 'earthquake', 
-                                        'magnitude': format(cutremur['properties']['mag'], '.2f'),
-                                        'location': { 
-                                                        'city' : city_country.split(', ')[0],
-                                                        'country' : city_country.split(', ')[1] 
-                                                    },
-                                        'time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
-                                        'url' : cutremur['properties']['url'],
-                                        'title' : cutremur['properties']['title']
-                                    }
-                json_to_send = json.dumps(dictionar)
-                log.write(json_to_send + '\n\n')
-                handle = urlopen(url,data = json_to_send)
-                handle.close()
- 
-                already_sent_earthquakes[cutremur['id']] = dictionar['Data']['time']
+    try:
+        for cutremur in json_response['features']:
+            if cutremur['id'] not in already_sent_earthquakes:
+                if ' of ' in cutremur['properties']['place'] and cutremur['properties']['place'].count(' of ') == 1:
+                    timestamp = int(cutremur['properties']['time'])
+                    city_country = cutremur['properties']['place'].split(' of ')[1]
+                    dictionar['Data'] = { 
+                                            'type' : 'earthquake', 
+                                            'magnitude': format(cutremur['properties']['mag'], '.2f'),
+                                            'location': { 
+                                                            'city' : city_country.split(', ')[0],
+                                                            'country' : city_country.split(', ')[1] 
+                                                        },
+                                            'time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
+                                            'url' : cutremur['properties']['url'],
+                                            'title' : cutremur['properties']['title']
+                                        }
+                    json_to_send = json.dumps(dictionar)
+                    handle = urlopen(url,data = json_to_send)
+                    handle.close()
+                    log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
+                    log.write(json_to_send + '\n\n')
+     
+                    already_sent_earthquakes[cutremur['id']] = dictionar['Data']['time']
+    except:
+        log.write('Eroare!\n\n')
 
 def other_hazzards(past, url, type, log):
     global already_sent_hazzards
@@ -69,32 +74,35 @@ def other_hazzards(past, url, type, log):
 
     response = requests.get(url_sigimera)
     json_response = response.json()
+    try:
+        for dezastru in json_response:
+            starttime = dezastru['schema_startDate'][:-1]
+            if len(dezastru['gn_parentCountry']) == 0:
+                continue
+            if starttime < past:
+                continue
+            if dezastru['_id'] in already_sent_hazzards:
+                continue
+            dictionar['Data'] = {
+                                    'type' : type,
+                                    'alert-level' : dezastru['crisis_alertLevel'],
+                                    'location': {
+                                                    'country' : dezastru['gn_parentCountry'][0].title()
+                                                },
+                                    'time' : starttime,
+                                    'url' : dezastru['rdfs_seeAlso'],
+                                    'title' : dezastru['dc_title'],
+                                    'description' : dezastru['dc_description']
+                                }
+            json_to_send = json.dumps(dictionar)
+            handle = urlopen(url,data = json_to_send)
+            handle.close()
+            log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
+            log.write(json_to_send + '\n\n')
 
-    for dezastru in json_response:
-        starttime = dezastru['schema_startDate'][:-1]
-        if len(dezastru['gn_parentCountry']) == 0:
-            continue
-        if starttime < past:
-            continue
-        if dezastru['_id'] in already_sent_hazzards:
-            continue
-        dictionar['Data'] = {
-                                'type' : type,
-                                'alert-level' : dezastru['crisis_alertLevel'],
-                                'location': {
-                                                'country' : dezastru['gn_parentCountry'][0].title()
-                                            },
-                                'time' : starttime,
-                                'url' : dezastru['rdfs_seeAlso'],
-                                'title' : dezastru['dc_title'],
-                                'description' : dezastru['dc_description']
-                            }
-        json_to_send = json.dumps(dictionar)
-        log.write(json_to_send + '\n\n')
-        handle = urlopen(url,data = json_to_send)
-        handle.close()
-
-        already_sent_hazzards[dezastru['_id']] = starttime
+            already_sent_hazzards[dezastru['_id']] = starttime
+    except:
+        log.write('Eroare!\n\n')
 
 def main():
     global already_sent_earthquakes
@@ -102,8 +110,12 @@ def main():
 
     already_sent_earthquakes = {}
     already_sent_hazzards = {}
+
+    if os.path.isfile('log_hazzard.txt'):
+        os.remove('log_hazzard.txt')
     log = open ('log_hazzard.txt', 'w')
-    url='http://fenrir.info.uaic.ro:8992'
+    # url='http://fenrir.info.uaic.ro:8991'
+    url = "http://104.199.93.85:8991"
 
     now_minus_5_hours = datetime.datetime.now() - datetime.timedelta(hours=5)
     past = now_minus_5_hours.strftime("%Y-%m-%dT%H:%M:%S")
@@ -130,3 +142,4 @@ def main():
         other_hazzards(past, url, 'cyclones', log)
 
 main()
+
