@@ -46,6 +46,7 @@ public class TestUserController {
 	@Before
 	public void setUp() throws Exception {
 		controllers= new UserController();
+		controllers.setBackEndUrlPath("http://localhost:9001");
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
 		RequestMonitor.getRequestMonitorInstance().reset();
 	}

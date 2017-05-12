@@ -43,6 +43,7 @@ public class TestNotificationController {
 	@Before
 	public void setUp() throws Exception {
 		controllers = new NotificationController();
+		controllers.setBackEndUrlPath("http://localhost:9001");
 		this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
 		RequestMonitor.getRequestMonitorInstance().reset();
 	}
