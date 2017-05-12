@@ -33,6 +33,9 @@
  
 * **Error Response:**
   
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "The specified request is not readable" }`
+    
   * **Code:** 429 Too Many Requests <br />
     **Content:** `{ error : "TOO MANY REQUESTS" }`
   
