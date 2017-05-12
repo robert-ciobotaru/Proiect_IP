@@ -32,7 +32,10 @@
 ```
  
 * **Error Response:**
-
+  
+  * **Code:** 429 Too Many Requests <br />
+    **Content:** `{ error : "TOO MANY REQUESTS" }`
+  
   * **Code:** 422 Unprocessable Entity <br />
     **Content:** `{ error : "Invalid User" }`
 
