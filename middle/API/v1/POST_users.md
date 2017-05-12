@@ -42,9 +42,13 @@ _No Url params requested_
 ```
  
 * **Error Response:**
-
+  
+  * **Code:** 429 Too Many Requests <br />
+    **Content:** `{ error : "TOO MANY REQUESTS" }`
+    
   * **Code:** 400 Bad Request <br />
-    **Content:** `{ error : "Data for creating new user is invalid" }`
+    **Content:** `{ error : "Data for creating new user is invalid" }` <br />
+    **Content:** `{ error : "The specified request is not readable" }`
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal server error" }`
