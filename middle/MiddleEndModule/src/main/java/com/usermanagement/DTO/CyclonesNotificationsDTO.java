@@ -4,7 +4,7 @@ import com.usermanagement.Sanitizer;
 
 public class CyclonesNotificationsDTO {
 	public String alertLevel;
-	public LocationCountryDTO location;
+	public String country;
 	public String time;
 	public String url;
 	public String title;
@@ -15,11 +15,12 @@ public class CyclonesNotificationsDTO {
 	public void setAlertLevel(String alertLevel) {
 		this.alertLevel = Sanitizer.escapeSql(alertLevel);
 	}
-	public LocationCountryDTO getLocation() {
-		return location;
+
+	public String getCountry() {
+		return country;
 	}
-	public void setLocation(LocationCountryDTO location) {
-		this.location = location;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 	public String getTime() {
 		return time;
@@ -46,7 +47,7 @@ public class CyclonesNotificationsDTO {
 		this.description = Sanitizer.escapeSql(description);
 	}
 	public boolean validate(){
-		if(this.alertLevel==null || this.location.validate()== false || this.time==null || this.url == null || this.description ==null || this.title==null)
+		if(this.alertLevel==null || this.country == null || this.time==null || this.url == null || this.description ==null || this.title==null)
 			return false;
 		return true;
 	}

@@ -4,7 +4,7 @@ import com.usermanagement.Sanitizer;
 
 public class EarthquakesNotificationsDTO {
 	public Integer magnitude;
-	public LocationDTO location;
+	public String place;
 	public String time;
 	public String url;
 	public String title;
@@ -14,11 +14,12 @@ public class EarthquakesNotificationsDTO {
 	public void setMagnitude(Integer magnitude) {
 		this.magnitude = magnitude;
 	}
-	public LocationDTO getLocation() {
-		return location;
+
+	public String getPlace() {
+		return place;
 	}
-	public void setLocation(LocationDTO location) {
-		this.location = location;
+	public void setPlace(String place) {
+		this.place = place;
 	}
 	public String getTime() {
 		return time;
@@ -39,7 +40,7 @@ public class EarthquakesNotificationsDTO {
 		this.title = Sanitizer.escapeSql(title);
 	}
 	public boolean validate(){
-		if(this.magnitude==null || this.location.validate()==false || this.time==null || this.url ==null || this.title==null)
+		if(this.magnitude==null || this.place == null || this.time==null || this.url ==null || this.title==null)
 			return false;
 		return true;
 	}
