@@ -31,11 +31,7 @@ def validate_json(message):
         if message['Data']['type'] == 'earthquake':
             if 'magnitude' not in message['Data']:
                 return -1
-            if 'location' not in message['Data']:
-                return -1
-            if 'city' not in message['Data']['location']:
-                return -1
-            if 'country' not in message['Data']['location']:
+            if 'place' not in message['Data']:
                 return -1
         elif message['Data']['type'] == 'floods' or message['Data']['type'] == 'cyclones':
             if 'alert-level' not in message['Data']:
@@ -106,12 +102,10 @@ def treatClient(client):
         # print 'Eroare'
         output.write('Eroare!\n')
         try:
-            sendResponse(client,{'Request':'GET','Data':'Notification','Value':'Failed'})
+            sendResponse(client,{'Type':'None'})
         except:
             # print 'Client inchis'
             output.write('Client inchis!\n')
-            pass
-
 
 
 def main():
