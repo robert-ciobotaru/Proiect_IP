@@ -63,10 +63,7 @@
         "earthquakesList" : [
             {
                 "magnitude" : 2,
-                "location" : {
-                        "city" : "Iasi",
-                        "country" : "Romania"
-                },
+                "place": "Iasi, Romania",
                 "time" : "2017-05-06T00:21:40",
                 "url" :  "http://link.ro",
                 "title" : "The amaizing earthquake"
@@ -77,9 +74,7 @@
             "floodsList" : [
                 {
                     "alert-level" : "BIG",
-                    "location" : {
-                            "country" : "Romania"
-                    },
+                    "country": "Romania",
                     "time" : "2017-05-06T00:21:40",
                     "url" :  "http://link.ro",
                     "title" : "The amaizing earthquake",
@@ -89,9 +84,7 @@
             "cyclonesList" : [
                  {
                     "alert-level" : "BIG",
-                    "location" : {
-                            "country" : "Romania"
-                    },
+                    "country": "Romania",
                     "time" : "2017-05-06T00:21:40",
                     "url" :  "http://link.ro",
                     "title" : "The amaizing earthquake",
