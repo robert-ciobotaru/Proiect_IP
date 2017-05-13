@@ -425,4 +425,70 @@ public class TestUserController {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void test_unknown_server_error_post() throws Exception {
+		
+		this.controllers.setBackEndUrlPath("asfsagrarrae");
+				
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"country\":\"Romania\","
+					+ "\"city\":\"Iasi'\","
+					+ "\"newsCrawler\":\"false\","
+					+ "\"hazzardCrawler\":\"false\","
+					+ "\"weatherCrawler\":\"true\","
+					+ "\"email\":\"valentin.damoc@gmail.com\""
+					+ "}"))
+		           .andExpect(status().is(500));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_rest_client_exception_post() throws Exception {
+		
+		this.controllers.setBackEndUrlPath("http://www.thislink.com");
+				
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"country\":\"Romania\","
+					+ "\"city\":\"Iasi'\","
+					+ "\"newsCrawler\":\"false\","
+					+ "\"hazzardCrawler\":\"false\","
+					+ "\"weatherCrawler\":\"true\","
+					+ "\"email\":\"valentin.damoc@gmail.com\""
+					+ "}"))
+		           .andExpect(status().is(503));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_unknown_server_error_delete() throws Exception {
+		
+		this.controllers.setBackEndUrlPath("asfsagrarrae");
+				
+		try {
+			this.mockMvc.perform(delete("/v1/users/2"))
+		           .andExpect(status().is(500));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_rest_client_exception_delete() throws Exception {
+		
+		this.controllers.setBackEndUrlPath("http://www.thislink.com");
+				
+		try {
+			this.mockMvc.perform(delete("/v1/users/2"))
+		           .andExpect(status().is(503));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

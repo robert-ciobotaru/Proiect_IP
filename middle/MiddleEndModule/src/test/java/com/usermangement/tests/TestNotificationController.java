@@ -417,4 +417,30 @@ public class TestNotificationController {
 		}
 	}
 	
+	@Test
+	public void test_unknown_server_error() throws Exception {
+		
+		this.controllers.setBackEndUrlPath("asfsagrarrae");
+				
+		try {
+			this.mockMvc.perform(get("/v1/users/23/notifications"))
+			            .andExpect(status().is(500));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_rest_client_exception() throws Exception {
+		
+		this.controllers.setBackEndUrlPath("http://www.thislink.com");
+				
+		try {
+			this.mockMvc.perform(get("/v1/users/23/notifications"))
+			            .andExpect(status().is(503));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
