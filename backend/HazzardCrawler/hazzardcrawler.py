@@ -46,7 +46,14 @@ def earthquakes(past, url, log):
         log.write('Eroare la primire json!\n\n')
         return
 
+    if 'features' not in json_response:
+        log.write('Jsonul nu are "features"!\n\n')
+        return
+
     for cutremur in json_response['features']:
+        if 'id' not in cutremur:
+            log.write('Jsonul nu are "id"!\n\n')
+            continue
         if cutremur['id'] not in already_sent_earthquakes:
             # print cutremur
             try:
