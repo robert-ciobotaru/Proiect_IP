@@ -3,6 +3,7 @@ import json
 import threading
 import thread
 import mysql.connector
+from threading import Thread
 import time
 
 dataCrawler=[]
@@ -106,10 +107,10 @@ def send():
 			#print "ups la removeUser"
 			db.rollback()
 			date=json.dumps({'error':"Eroare la removeUser"})
-			handle=urlopne(url,date)
+			handle=urlopen(url,date)
 	elif raspuns['method']=='getNotifications':
 		try:
-			cursor.execute("SELECT text FROM notificari where user_id=%s and Repeatable>0 and Time<(select now() from dual)",(raspuns['userId'], ))
+			cursor.execute("SELECT text FROM notificari where user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
 			linie=cursor.fetchone()
 			#print "lets see"
 			current=0
@@ -120,31 +121,35 @@ def send():
 			date['floodsList']=[]
 			date['cyclonesList']=[]
 			date['newsNotificationsList']=[]
-			date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':linie[3],'repeatable':linie[1],'interval':linie[2]})
+			date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
 			while linie is not None:
 				linie=cursor.fetchone()
 				if linie is not None:
-					date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':linie[3],'repeatable':linie[1],'interval':linie[2]})
+					date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
 			for i in range(0,len(dataCrawler)):
 				if dataCrawler[i]['id']==raspuns['id']:
 					if dataCrawler[i]['type']=='Weather':
 						date['weatherNotificationsList'].append({'location':{'city':dataCrawler[i]['data']['city'],'country':dataCrawler[i]['data']['country']},'text':dataCrawler[i]['data']['text']})
-						#dateCrawler.pop(i)
+						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='News':
 						data['newsNotificationsList'].append({'author':dataCrawler[i]['data']['author'],'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url'],'urlToImage':dataCrawler[i]['data']['urlToImage'],'publishedAt':dataCrawler[i]['data']['publishedAt']})
-						#dateCrawler.pop(i)
+						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='floods':
 						data['floodsList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'location':{'country':dataCrawler[i]['data']['location']['country']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
-						#dateCrawler.pop(i)
+						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='cyclones':
 						data['cyclonesList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'location':{'country':dataCrawler[i]['data']['location']['country']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
-						#dateCrawler.pop(i)
+						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='earthquake':
 						data['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'location':{'country':dataCrawler[i]['data']['location']['country'],'city':dataCrawler[i]['data']['location']['city']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
-						#dateCrawler.pop(i)
+						dateCrawler.pop(i)
 			date['error']=""
-			cursor.execute("UPDATE notificari set Time = Time + Interval where repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
-			cursor.execute("DELETE FROM notificari where user_id=%s and repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
+			try:
+				cursor.execute("UPDATE notificari set Time = Time + Interval where repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
+				cursor.execute("DELETE FROM notificari where user_id=%s and repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
+			except:
+				date=json.dumps({'errpr':'Couldnt update data'})
+				handle=urlopen(url,date)
 			datee=json.dumps(date)
 			handle=urlopen(ulr,datee)
 			cursor.close()
@@ -159,14 +164,15 @@ def sendCrawler():
 	db=mysql.connector.connect(user='root',password='STUDENT',host='130.211.102.0',database='proiectip_a2')
 	cursor=db.cursor()
 	verificare=json.dumps({'check':'Notificare'})
-	url='http://students.info.uaic.ro:8991'
+	url='http://104.199.93.85:8991'
 	handle=urlopen(url,verificare)
 	raspuns=json.loads(handle.read())
-	if raspuns['Type']=="":
-		time.wait(1800)
-	elif raspuns['Type']=="Hazzard":
+	if raspuns['Type']=='None':
+		#print "none"
+		time.sleep(1800)
+	elif raspuns['Type']=='Hazzard' and raspuns['Data']['type']=='earthquake':
 		if raspuns['Data']['location']['country']!="":
-			if raspuns['Data']['location']['country']!="":
+			if raspuns['Data']['location']['city']!="":
 				cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
 			else:
 				cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
@@ -174,9 +180,14 @@ def sendCrawler():
 			cursor.execute("SELECT id from useri where hazzardCrawler=1 and City=%s",(raspuns['Data']['location']['city'], ))
 		else:
 			cursor.execute("SELECT id from useri where hazzardCrawler=1")
+	elif raspuns['Type']=="Hazzard" and raspuns['Data']['type']!='earthquake':
+		if raspuns['Data']['location']['country']!="":
+			cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['location']['country']))
+		else:
+			cursor.execute("SELECT id from useri where hazzardCrawler=1")
 	elif raspuns['Type']=="Weather":
 		if raspuns['Data']['location']['country']!="":
-			if raspuns['Data']['location']['country']!="":
+			if raspuns['Data']['location']['city']!="":
 				cursor.execute("SELECT id from useri where weatherCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
 			else:
 				cursor.execute("SELECT id from useri where weatherCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
@@ -185,32 +196,32 @@ def sendCrawler():
 		else:
 			cursor.execute("SELECT id from useri where weatherCrawler=1")
 	elif raspuns['Type']=="News":
-		if raspuns['Data']['location']['country']!="":
-			if raspuns['Data']['location']['country']!="":
-				cursor.execute("SELECT id from useri where newsCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
-			else:
-				cursor.execute("SELECT id from useri where newsCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
-		elif raspuns['Data']['location']['city']!="":
-			cursor.execute("SELECT id from useri where newsCrawler=1 and City=%s",(raspuns['Data']['location']['city'], ))
-		else:
-			cursor.execute("SELECT id from useri where newsCrawler=1")
+		cursor.execute("SELECT id from useri where newsCrawler=1")
 	linie=cursor.fetchone()
-	dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']})
-	while linie is not None:
-		linie=cursor.fetchone()
-		if linie is not None:
-			if raspuns['Type']=="Hazzard":  
-				dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']['type']})
-			else:
-				dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']}) 
-		cursor.close()
-		db.close()
+	#print linie
+	if linie is None:
+		print "no such user"
+	else:
+		if raspuns['Type']=="Hazzard":
+			dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']['type']})
+		else:
+			dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']})
+		while linie is not None:
+			linie=cursor.fetchone()
+			if linie is not None:
+				if raspuns['Type']=="Hazzard":  
+					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']['type']})
+				else:
+					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']}) 
+	cursor.close()
+	db.close()
+	sendCrawler()
 	
 		
 
 def main():
-	sendCrawler()
-	send()
+	Thread(target = sendCrawler).start()
+	Thread(target = send).start()
 
 if __name__=="__main__":
 	main()
