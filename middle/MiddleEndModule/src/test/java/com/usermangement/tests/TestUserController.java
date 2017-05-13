@@ -298,6 +298,8 @@ public class TestUserController {
 	@Test
 	public void test_service_unavailable_on_user_input() {
 		
+		wireMockRule.stubFor(any(urlPathEqualTo("/")));
+		
 		try {
 			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 						+ "\"country\":\"Romania\","
@@ -317,6 +319,8 @@ public class TestUserController {
 	}
 	@Test
 	public void test_service_unavailable__delete_user() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/")));
 		
 		try {
 			this.mockMvc.perform(delete("/v1/users/2"))

@@ -216,6 +216,9 @@ public class TestNotificationController {
 	@Test
 	public void test_service_unavailable_reminder_get() throws Exception {
 		
+		wireMockRule.stubFor(any(urlPathEqualTo("/")));
+		
+				
 		try {
 			this.mockMvc.perform(get("/v1/users/23/notifications"))
 			            .andExpect(status().is(503));

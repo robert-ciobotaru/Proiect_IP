@@ -390,6 +390,8 @@ public class TestReminderController {
 	@Test
 	public void test_service_unavaible_reminder_post() {
 		
+		wireMockRule.stubFor(any(urlPathEqualTo("/")));
+		
 		try {
 			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
 					+ "\"text\":\"Wake me up\","
@@ -407,6 +409,8 @@ public class TestReminderController {
 	}
 	@Test
 	public void test_service_unavailable_delete() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/")));
 		
 		try {
 			this.mockMvc.perform(delete("/v1/users/2/reminders/23"))
@@ -606,6 +610,8 @@ public class TestReminderController {
 	
 	@Test
 	public void test_service_unavailable_get() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/")));
 		
 		try {
 			this.mockMvc.perform(get("/v1/users/20/reminders"))

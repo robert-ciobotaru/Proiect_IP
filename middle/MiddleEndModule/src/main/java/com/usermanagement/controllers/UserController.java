@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import com.usermanagement.DTO.PostUsersBackendRequestDTO;
 import com.usermanagement.DTO.ErrorDTO;
@@ -47,20 +49,42 @@ public class UserController extends AbstractController {
    	 		response = rest.postForEntity(url,removeUserMethod,DeleteUsersByIdBackendResponseDTO.class);
    	 		
 	   	 	removeUser = response.getBody();
+	   	 
+	   	 	if(removeUser == null){
+ 			ErrorDTO error =  new ErrorDTO();
+			    error.setError("Service response is invalid");
+			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+	   	 	}
 			
 			if(removeUser.getError() == null ){
 				ErrorDTO error = new ErrorDTO();
-	    		error.setError("Internal Server Error");
+	    		error.setError("Service response is invalid");
 	    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
    	 		
        	    }
-       	catch (Exception e) {
-       		ErrorDTO error = new ErrorDTO();
-    		error.setError("The server is currently unavailable");
-    		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
-       		 
-       	}
+			
+		 catch (ResourceAccessException e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("The server is currently unavailable");    		
+		  		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+		  		 
+		 }
+		
+		catch (RestClientResponseException e) {
+		 		 ErrorDTO error = new ErrorDTO();
+		 		 error.setError("Service response is invalid");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
+		
+		
+		 catch (Exception e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("Unknown error occured");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
     	
     	DeleteUsersByIdFrontendResponseDTO removeResponse = null;
     	
@@ -110,20 +134,41 @@ public class UserController extends AbstractController {
 		    response = rest.postForEntity(url,addUser,PostUsersBackendResponseDTO.class);
 		    
 		    userCreateResponse = response.getBody();
+		    
+		    if(userCreateResponse == null){
+	 			ErrorDTO error =  new ErrorDTO();
+				    error.setError("Service response is invalid");
+				    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+		   	 }
+		    
 		    if(userCreateResponse.getError() == null || userCreateResponse.getUserId() == null){
 				ErrorDTO error = new ErrorDTO();
-				error.setError("Internal server error");
+				error.setError("Service response is invalid");
 				
 				return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 		    }
 		}
-		catch (Exception e) {
-			
-			System.out.println("CATCH PATH:" + e);
-	        ErrorDTO error = new ErrorDTO();
-	        error.setError("The server is currently unavailable");
-	        
-	        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+		
+    	catch (ResourceAccessException e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("The server is currently unavailable");    		
+		  		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+		  		 
+		 }
+		
+		catch (RestClientResponseException e) {
+		 		 ErrorDTO error = new ErrorDTO();
+		 		 error.setError("Service response is invalid");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
+		
+		
+		 catch (Exception e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("Unknown error occured");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
 		 }
 
 		 if(userCreateResponse.getError().length()>0){

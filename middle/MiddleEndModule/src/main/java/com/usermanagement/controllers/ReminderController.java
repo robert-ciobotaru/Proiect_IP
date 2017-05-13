@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.usermanagement.DTO.PostRemindersBackendRequestDTO;
@@ -64,19 +66,41 @@ public class ReminderController extends AbstractController {
     	try{
     		response = rest.postForEntity(url,addNotification,PostRemindersBackendResponseDTO.class);
     		backendResult=response.getBody();
+    		
+    		if(backendResult == null){
+    			ErrorDTO error =  new ErrorDTO();
+			    error.setError("Service response is invalid");
+			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+    		}
+    		
     		if(backendResult.getNotificationId() == null || backendResult.getError() == null ){				 
     			ErrorDTO error =  new ErrorDTO();
-			    error.setError("Internal server error");
+			    error.setError("Service response is invalid");
 			    return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+    		
     	}
-    	catch (Exception e) {
-    		System.out.println(e);
-    		ErrorDTO error =  new ErrorDTO();
-			error.setError("The server is currently unavailable");
-			return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE );
+		catch (ResourceAccessException e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("The server is currently unavailable");    		
+		  		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+		  		 
+		 }
+		
+		catch (RestClientResponseException e) {
+		 		 ErrorDTO error = new ErrorDTO();
+		 		 error.setError("Service response is invalid");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			 
-    	}
+		 }
+		
+		
+		 catch (Exception e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("Unknown error occured");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
  
     	PostRemindersFrontendResponseDTO frontendResult= null;
 
@@ -119,18 +143,41 @@ public class ReminderController extends AbstractController {
     	try{
     		response = rest.postForEntity(url,removeNotification,DeleteRemindersByIdBackendResponseDTO.class);
     		removeNotificationResult = response.getBody();
+    		
+    		if(removeNotificationResult == null){
+    			ErrorDTO error =  new ErrorDTO();
+			    error.setError("Service response is invalid");
+			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+    		}
+    		
     		if(removeNotificationResult.getError()==null ){
     			ErrorDTO error = new ErrorDTO();
-    			error.setError("Internal Server Error");
+    			error.setError("Service response is invalid");
     			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		}
        	 }
-       	 catch (Exception e) {
-       		ErrorDTO error = new ErrorDTO();
-    		error.setError("The server is currently unavailable");
-    		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
-       		 
-       	 }
+    	
+    	catch (ResourceAccessException e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("The server is currently unavailable");    		
+		  		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+		  		 
+		 }
+		
+		catch (RestClientResponseException e) {
+		 		 ErrorDTO error = new ErrorDTO();
+		 		 error.setError("Service response is invalid");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
+		
+		
+		 catch (Exception e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("Unknown error occured");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
     
        DeleteRemindersByIdFrontendResponseDTO removeResponse = null;
 
@@ -169,18 +216,41 @@ public class ReminderController extends AbstractController {
     		responseFromBackend = rest.postForEntity(url,getRemindersMethod,GetRemindersByIdBackendResponseDTO.class);
     		
     		notification = responseFromBackend.getBody();
+    		
+    		if(notification == null){
+    			ErrorDTO error =  new ErrorDTO();
+			    error.setError("Service response is invalid");
+			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+    		}
+    		
     		if(notification.validate() == false){
     			ErrorDTO error =  new ErrorDTO();
-        		error.setError("Internal server error");
+        		error.setError("Service response is invalid");
     			return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     		}
     	}
-    	catch (Exception e){
-    		System.out.println(e);
-    		ErrorDTO error =  new ErrorDTO();
-    		error.setError("The server is currently unavailable");
-    		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
-    	}	
+    	
+    	catch (ResourceAccessException e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("The server is currently unavailable");    		
+		  		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+		  		 
+		 }
+		
+		catch (RestClientResponseException e) {
+		 		 ErrorDTO error = new ErrorDTO();
+		 		 error.setError("Service response is invalid");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
+		
+		
+		 catch (Exception e) {
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("Unknown error occured");    		
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			 
+		 }
     	
     	if(notification.getError().length() > 0){
     		

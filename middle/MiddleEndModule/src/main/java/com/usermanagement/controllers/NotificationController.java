@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import com.usermanagement.DTO.ErrorDTO;
 import com.usermanagement.DTO.GetNotificationsByIdFrontendResponseDTO;
@@ -43,21 +45,49 @@ public class NotificationController extends AbstractController {
     	
     	try{
     		response = rest.postForEntity(url,getNotifications,GetNotificationsByIdBackendResponseDTO.class);
-       	  
 			getNotificationResponse = response.getBody();
+			
+			if(getNotificationResponse == null){
+				ErrorDTO error = new ErrorDTO();
+		   		error.setError("Service response is invalid");
+		   		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+			}
+			
 			if(getNotificationResponse.validate()==false){
-				 ErrorDTO error = new ErrorDTO();
-			   		error.setError("Internal Server Error");
+				 	ErrorDTO error = new ErrorDTO();
+			   		error.setError("Service response is invalid");
 			   		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+			   		
 			}
        	 }
-       	 catch (Exception e) {
-       		 ErrorDTO error = new ErrorDTO();
+    	 
+    	catch (ResourceAccessException e) {
+       		
+    		 ErrorDTO error = new ErrorDTO();
        		 error.setError("The server is currently unavailable");    		
        		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
        		 
        	 }
     	
+    	catch (RestClientResponseException e) {
+    		
+      		 ErrorDTO error = new ErrorDTO();
+      		 error.setError("Service response is invalid");    		
+      		 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+      		 
+      	 }
+    	
+    		
+       	 catch (Exception e) {
+       	
+       		 ErrorDTO error = new ErrorDTO();
+       		 error.setError("Unknown error occured");    		
+       		 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+       		 
+       	 }
+    
+	
+	
     	if(getNotificationResponse.getError().length()>0){
     		 ErrorDTO error = new ErrorDTO();
 	       		error.setError("Internal Server Error");
