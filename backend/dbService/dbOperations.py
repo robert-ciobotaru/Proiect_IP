@@ -129,19 +129,19 @@ def send():
 				if dataCrawler[i]['id']==raspuns['id']:
 					if dataCrawler[i]['type']=='Weather':
 						date['weatherNotificationsList'].append({'location':{'city':dataCrawler[i]['data']['city'],'country':dataCrawler[i]['data']['country']},'text':dataCrawler[i]['data']['text']})
-						dateCrawler.pop(i)
+						#dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='News':
 						data['newsNotificationsList'].append({'author':dataCrawler[i]['data']['author'],'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url'],'urlToImage':dataCrawler[i]['data']['urlToImage'],'publishedAt':dataCrawler[i]['data']['publishedAt']})
-						dateCrawler.pop(i)
+						#dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='floods':
 						data['floodsList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'location':{'country':dataCrawler[i]['data']['location']['country']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
-						dateCrawler.pop(i)
+						#dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='cyclones':
 						data['cyclonesList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'location':{'country':dataCrawler[i]['data']['location']['country']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
-						dateCrawler.pop(i)
+						#dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='earthquake':
 						data['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'location':{'country':dataCrawler[i]['data']['location']['country'],'city':dataCrawler[i]['data']['location']['city']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
-						dateCrawler.pop(i)
+						#dateCrawler.pop(i)
 			date['error']=""
 			cursor.execute("UPDATE notificari set Time = Time + Interval where repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
 			cursor.execute("DELETE FROM notificari where user_id=%s and repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
