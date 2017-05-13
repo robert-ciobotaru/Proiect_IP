@@ -112,6 +112,7 @@ def send():
 		try:
 			cursor.execute("SELECT text FROM notificari where user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
 			linie=cursor.fetchone()
+			cursor2=db.cursor()
 			#print "lets see"
 			current=0
 			date={}
@@ -127,7 +128,7 @@ def send():
 				if linie is not None:
 					date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
 			for i in range(0,len(dataCrawler)):
-				if dataCrawler[i]['id']==raspuns['id']:
+				if dataCrawler[i]['id']==raspuns['userId']:
 					if dataCrawler[i]['type']=='Weather':
 						date['weatherNotificationsList'].append({'location':{'city':dataCrawler[i]['data']['city'],'country':dataCrawler[i]['data']['country']},'text':dataCrawler[i]['data']['text']})
 						dateCrawler.pop(i)
@@ -135,13 +136,16 @@ def send():
 						data['newsNotificationsList'].append({'author':dataCrawler[i]['data']['author'],'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url'],'urlToImage':dataCrawler[i]['data']['urlToImage'],'publishedAt':dataCrawler[i]['data']['publishedAt']})
 						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='floods':
-						data['floodsList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'location':{'country':dataCrawler[i]['data']['location']['country']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
+						data['floodsList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'country':dataCrawler[i]['data']['country'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
 						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='cyclones':
-						data['cyclonesList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'location':{'country':dataCrawler[i]['data']['location']['country']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
+						data['cyclonesList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'country':dataCrawler[i]['data']['country'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
 						dateCrawler.pop(i)
 					elif dataCrawler[i]['type']=='earthquake':
-						data['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'location':{'country':dataCrawler[i]['data']['location']['country'],'city':dataCrawler[i]['data']['location']['city']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
+						cursor2.execute("SELECT Country,City from useri where hazzardCrawler=1 and id=%s",(raspuns['userId'], ))
+						tara=cursor2.fetchone()
+						if tara[0] in dataCrawler[i]['data']['place'] or tara[1] in dataCrawler[i]['data']['place']: 
+							data['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'place':dataCrawler[i]['data']['place'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
 						dateCrawler.pop(i)
 			date['error']=""
 			try:
@@ -152,6 +156,7 @@ def send():
 				handle=urlopen(url,date)
 			datee=json.dumps(date)
 			handle=urlopen(ulr,datee)
+			cursor2.close()
 			cursor.close()
 			db.close()
 		except:
@@ -171,18 +176,10 @@ def sendCrawler():
 		#print "none"
 		time.sleep(1800)
 	elif raspuns['Type']=='Hazzard' and raspuns['Data']['type']=='earthquake':
-		if raspuns['Data']['location']['country']!="":
-			if raspuns['Data']['location']['city']!="":
-				cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s and City=%s",(raspuns['Data']['location']['country'],raspuns['Data']['location']['city']))
-			else:
-				cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['location']['country'], ))
-		elif raspuns['Data']['location']['city']!="":
-			cursor.execute("SELECT id from useri where hazzardCrawler=1 and City=%s",(raspuns['Data']['location']['city'], ))
-		else:
-			cursor.execute("SELECT id from useri where hazzardCrawler=1")
+		cursor.execute("SELECT id from useri where hazzardCrawler=1")
 	elif raspuns['Type']=="Hazzard" and raspuns['Data']['type']!='earthquake':
-		if raspuns['Data']['location']['country']!="":
-			cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['location']['country']))
+		if raspuns['Data']['country']!="":
+			cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['country']))
 		else:
 			cursor.execute("SELECT id from useri where hazzardCrawler=1")
 	elif raspuns['Type']=="Weather":
