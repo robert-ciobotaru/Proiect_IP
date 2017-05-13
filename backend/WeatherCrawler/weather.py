@@ -22,40 +22,48 @@ for line in f:
 f.close()
 
 while True:
-    try:
-        for i in range(len(city_id)):
-            # Location is defined by id
-            url = 'http://api.openweathermap.org/data/2.5/weather?id=' + city_id[i] + '&appid=' + apiKey
-            weatherHandle = urlopen(url)
+    for i in range(len(city_id)):
+        # Location is defined by id
+        url = 'http://api.openweathermap.org/data/2.5/weather?id=' + city_id[i] + '&appid=' + apiKey
+        try:
+          weatherHandle = urlopen(url)
 
-            weatherJson = json.load(weatherHandle)
+          weatherJson = json.load(weatherHandle)
+        except:
+          log.write('Eroare la primire json!\n\n')
+          continue
 
+        if 'name' not in weatherJson:
+            log.write('Name was not sent\n\n')
+            continue
+        if 'sys' not in weatherJson:
+            log.write('Sys was not sent\n\n')
+            continue
+        if 'country' not in weatherJson['sys']:
+            log.write('Country was not sent\n\n')
+            continue
+        if 'weather' not in weatherJson:
+            log.write('Weather was not sent\n\n')
+            continue
+        if len(weatherJson['weather']) < 1:
+            log.write('Weather list was not sent\n\n')
+            continue
+        if 'description' not in weatherJson['weather'][0]:
+            log.write('Text was not sent\n\n')
+            continue
+
+        jsonToProxy = json.dumps({'Type': 'Weather',
+                                  'Data': {
+                                      'location': {'city': weatherJson['name'],
+                                                   'country': weatherJson['sys']['country']},
+                                      'text': weatherJson['weather'][0]['description']}})
+
+        # send weather json to proxy
+        try:
+            proxyHandle = urlopen(urlProxy, data=jsonToProxy)
+            proxyHandle.close()
             log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
-
-            if weatherJson['name'] == '':
-                log.write('Name was not sent\n\n')
-                continue
-            elif weatherJson['sys']['country'] == '':
-                log.write('Country was not sent\n\n')
-                continue
-            elif weatherJson['weather'][0]['description'] == '':
-                log.write('Text was not sent\n\n')
-                continue
-
-            jsonToProxy = json.dumps({'Type': 'Weather',
-                                      'Data': {
-                                          'location': {'city': weatherJson['name'],
-                                                       'country': weatherJson['sys']['country']},
-                                          'text': weatherJson['weather'][0]['description']}})
-
-            # send weather json to proxy
-            try:
-                proxyHandle = urlopen(urlProxy, data=jsonToProxy)
-                proxyHandle.close()
-                log.write(jsonToProxy + '\n\n')
-            except:
-                log.write('Eroare!\n\n')
-        time.sleep(1200)
-    except:
-        log.write('Eroare!\n\n' )
-        continue
+            log.write(jsonToProxy + '\n\n')
+        except:
+            log.write('Eroare la trimitere json!\n\n')
+    time.sleep(1200)
