@@ -45,7 +45,10 @@ _No Url params requested_
   
   * **Code:** 429 Too Many Requests <br />
     **Content:** `{ error : "TOO MANY REQUESTS" }`
-    
+  
+  * **Code** 422 - Unprocessable Entity <br />
+    **Content:** `{ error : "Error field is completed}`
+  
   * **Code:** 400 Bad Request <br />
     **Content:** `{ error : "Data for creating new user is invalid" }` <br />
     **Content:** `{ error : "The specified request is not readable" }`
