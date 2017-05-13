@@ -143,10 +143,8 @@ def send():
 						data['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'location':{'country':dataCrawler[i]['data']['location']['country'],'city':dataCrawler[i]['data']['location']['city']},'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
 						dateCrawler.pop(i)
 			date['error']=""
-			if linie[1]==1:
-				cursor.execute("UPDATE notificari set Time = Time + Interval where repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
-			elif linie[1]==0:
-				cursor.execute("DELETE FROM notificari where user_id=%s and repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
+			cursor.execute("UPDATE notificari set Time = Time + Interval where repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
+			cursor.execute("DELETE FROM notificari where user_id=%s and repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
 			datee=json.dumps(date)
 			handle=urlopen(ulr,datee)
 			cursor.close()
