@@ -8,7 +8,7 @@ import os
 global already_sent_earthquakes
 global already_sent_hazzards
 
-def erase_expired_events(past, opt):
+def erase_expired_events(past, opt, log):
     global already_sent_earthquakes
     global already_sent_hazzards
 
@@ -36,7 +36,7 @@ def earthquakes(past, url, log):
     url_earthquakes = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
     url_earthquakes = url_earthquakes + '&starttime=' + past
 
-    erase_expired_events(past, 1)
+    erase_expired_events(past, 1, log)
 
     # log.write('\n\nBetween ' + past + ' and ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n\n')
     try:
@@ -150,7 +150,7 @@ def main():
     past = now_minus_5_hours.strftime("%Y-%m-%dT%H:%M:%S")
 
     earthquakes(past, url, log)
-    erase_expired_events(past, 2)
+    erase_expired_events(past, 2, log)
     other_hazzards(past, url, 'floods', log)
     time.sleep(3)
     other_hazzards(past, url, 'cyclones', log)
@@ -165,7 +165,7 @@ def main():
         past = now_minus_5_hours.strftime("%Y-%m-%dT%H:%M:%S")
 
         earthquakes(past, url, log)
-        erase_expired_events(past, 2)
+        erase_expired_events(past, 2, log)
         other_hazzards(past, url, 'floods', log)
         time.sleep(3)
         other_hazzards(past, url, 'cyclones', log)
