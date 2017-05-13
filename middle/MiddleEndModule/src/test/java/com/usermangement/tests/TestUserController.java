@@ -226,7 +226,7 @@ public class TestUserController {
 						+ "\"weatherCrawler\":\"true\","
 						+ "\"email\":\"manole.catalin@gmail.com\""
 						+ "}"))
-			            .andExpect(status().isBadRequest())
+			            .andExpect(status().isUnprocessableEntity())
 			            
 			            ;
 		} catch (Exception e) {

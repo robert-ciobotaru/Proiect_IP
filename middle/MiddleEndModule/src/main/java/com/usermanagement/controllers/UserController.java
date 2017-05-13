@@ -126,17 +126,12 @@ public class UserController extends AbstractController {
 	        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
 		 }
 
-		 if ( response != null ){
- 		
-			
-	  	 }
-	  	 
 		 if(userCreateResponse.getError().length()>0){
 			
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError(userCreateResponse.getError());		
 			 
-			 return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+			 return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		 }
 		 else{
 			PostUsersFrontendResponseDTO returnUser = new PostUsersFrontendResponseDTO();
