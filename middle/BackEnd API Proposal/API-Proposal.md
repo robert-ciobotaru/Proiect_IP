@@ -106,10 +106,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 
 	"earthquakesList": [{
 		"magnitude": 2,
-		"location": {
-			"city": "Iasi",
-			"country": "Romania"
-		},
+		"place": "Iasi, Romania",
 		"time": "2017-05-06T00:21:40",
 		"url": "http://link.ro",
 		"title": "The amazing earthquake"
@@ -117,9 +114,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 
 	"floodsList": [{
 		"alertLevel": "BIG",
-		"location": {
-			"country": "Romania"
-		},
+		"country": "Romania",
 		"time": "2017-05-06T00:21:40",
 		"url": "http://link.ro",
 		"title": "The amazing earthquake",
@@ -127,9 +122,7 @@ No guarantee is offerend for the other fields if the _"error"_ field is set. It 
 	}],
 	"cyclonesList": [{
 		"alertLevel": "BIG",
-		"location": {
-			"country": "Romania"
-		},
+		"country": "Romania",
 		"time": "2017-05-06T00:21:40",
 		"url": "http://link.ro",
 		"title": "The amazing cyclone",
