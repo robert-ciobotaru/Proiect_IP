@@ -113,19 +113,14 @@ public class TestNotificationController {
 					    + "],"
 					    + "\"earthquakesList\": [{"
 					    	+ "\"magnitude\": 2,"
-					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+"\"place\": \"Iasi, Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing earthquake\""
 					    + "}],"
 					    + "\"floodsList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
-					    	+ "\"location\": {"
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+ "\"country\": \"Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing earthquake\","
@@ -133,9 +128,7 @@ public class TestNotificationController {
 					    + "}],"
 					    + "\"cyclonesList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
-					    	+ "\"location\": {"
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+ "\"country\": \"Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing cyclone\","
@@ -183,19 +176,18 @@ public class TestNotificationController {
 			            .andExpect(jsonPath("$.weatherNotificationsList[1].location.country", is("Romania")))
 			            .andExpect(jsonPath("$.weatherNotificationsList[1].text", is("The weather is bad")))
 			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].magnitude", is(2)))
-			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].location.city", is("Iasi")))
-			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].location.country", is("Romania")))
+			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].place", is("Iasi, Romania")))
 			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].time", is("2017-05-06T00:21:40")))
 			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].url", is("http://link.ro")))
 			            .andExpect(jsonPath("$.hazzardNotifications.earthquakesList[0].title", is("The amazing earthquake")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].alertLevel", is("BIG")))
-			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].location.country", is("Romania")))
+			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].country", is("Romania")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].time", is("2017-05-06T00:21:40")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].url", is("http://link.ro")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].title", is("The amazing earthquake")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.floodsList[0].description", is("Description for the flood")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].alertLevel", is("BIG")))
-			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].location.country", is("Romania")))
+			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].country", is("Romania")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].time", is("2017-05-06T00:21:40")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].url", is("http://link.ro")))
 			            .andExpect(jsonPath("$.hazzardNotifications.hazzard.cyclonesList[0].title", is("The amazing cyclone")))
@@ -274,19 +266,14 @@ public class TestNotificationController {
 					    + "],"
 					    + "\"earthquakesList\": [{"
 					    	+ "\"magnitude\": 2,"
-					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+"\"place\": \"Iasi, Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing earthquake\""
 					    + "}],"
 					    + "\"floodsList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
-					    	+ "\"location\": {"
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+ "\"country\": \"Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing earthquake\","
@@ -294,9 +281,7 @@ public class TestNotificationController {
 					    + "}],"
 					    + "\"cyclonesList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
-					    	+ "\"location\": {"
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+ "\"country\": \"Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing cyclone\","
@@ -374,19 +359,14 @@ public class TestNotificationController {
 					    + "],"
 					    + "\"earthquakesList\": [{"
 					    	+ "\"magnitude\": 2,"
-					    	+ "\"location\": {"
-					    		+ "\"city\": \"Iasi\","
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+"\"place\": \"Iasi, Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing earthquake\""
 					    + "}],"
 					    + "\"floodsList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
-					    	+ "\"location\": {"
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+ "\"country\": \"Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing earthquake\","
@@ -394,9 +374,7 @@ public class TestNotificationController {
 					    + "}],"
 					    + "\"cyclonesList\": [{"
 					    	+ "\"alertLevel\": \"BIG\","
-					    	+ "\"location\": {"
-					    		+ "\"country\": \"Romania\""
-					    	+ "},"
+					    	+ "\"country\": \"Romania\","
 					    	+ "\"time\": \"2017-05-06T00:21:40\","
 					    	+ "\"url\": \"http://link.ro\","
 					    	+ "\"title\": \"The amazing cyclone\","
