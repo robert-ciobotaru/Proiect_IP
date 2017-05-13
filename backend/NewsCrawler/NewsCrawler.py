@@ -15,15 +15,22 @@ if os.path.isfile('log_news.txt'):
 log = open ('log_news.txt', 'w')
 
 while True:
-    urlRequest = urlopen(url)
-    requestedJson = json.load(urlRequest)
+    try:
+        urlRequest = urlopen(url)
+        requestedJson = json.load(urlRequest)
+    except:
+        log.write('Eroare la primire json!\n\n')
+        continue
     #response = requests.get(url)
         #requestedJson= response.json()
     for i in range(len(requestedJson['articles'])):
-        jsonToSend =json.dumps({'Type': 'News',
-                    'Data':  requestedJson['articles'][i],
-                    'error': 'Segmentation fold'})
-
+        try:
+            jsonToSend =json.dumps({'Type': 'News',
+                        'Data':  requestedJson['articles'][i],
+                        'error': 'Segmentation fold'})
+        except:
+            log.write('Json invalid!\n\n')
+            continue
         #print jsonToSend
         #sendSource = urlopen(urlSend, data=jsonToSend)
         #sendSource.close()
@@ -34,7 +41,7 @@ while True:
             log.write(jsonToSend + '\n\n')
         except:
             i = i - 1 
-            log.write('Eroare!\n\n')
+            log.write('Eroare la trimitere json!\n\n')
             time.sleep(1)
 
     time.sleep(1000)
