@@ -25,7 +25,7 @@ def send():
 				interm=1
 			else:
 				interm=linie[0]
-			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['data']['repeatable'],raspuns['data']['interval'],raspuns['data']['time'],raspuns['data']['text'],raspuns['userId']))
+			cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['notification']['repeatable'],raspuns['notification']['interval'],raspuns['notification']['time'],raspuns['notification']['text'],raspuns['userId']))
 			db.commit()
 			date=json.dumps({'notificationId':interm,'error':""})
 			handle=urlopen(url,date)
