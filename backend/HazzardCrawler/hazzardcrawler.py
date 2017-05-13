@@ -12,18 +12,22 @@ def erase_expired_events(past, opt):
     global already_sent_earthquakes
     global already_sent_hazzards
 
-    if opt == 1:
-        copy = already_sent_earthquakes.copy()
-        for event in copy:
-            if copy[event] < past:
-                print 'Am sters evenimentul ', event, '\n'
-                del already_sent_earthquakes[event]
-    else:
-        copy = already_sent_hazzards.copy()
-        for event in copy:
-            if copy[event] < past:
-                print 'Am sters evenimentul ', event, '\n'
-                del already_sent_hazzards[event]
+    try:
+        if opt == 1:
+            copy = already_sent_earthquakes.copy()
+            for event in copy:
+                if copy[event] < past:
+                    print 'Am sters evenimentul ', event, '\n'
+                    del already_sent_earthquakes[event]
+        else:
+            copy = already_sent_hazzards.copy()
+            for event in copy:
+                if copy[event] < past:
+                    print 'Am sters evenimentul ', event, '\n'
+                    del already_sent_hazzards[event]
+    except:
+        log.write('Eroare la erase_expired_events!\n\n')
+        return
 
 def earthquakes(past, url, log):
     global already_sent_earthquakes
@@ -35,35 +39,42 @@ def earthquakes(past, url, log):
     erase_expired_events(past, 1)
 
     # log.write('\n\nBetween ' + past + ' and ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n\n')
-    response = requests.get(url_earthquakes)
-    json_response = response.json()
-
     try:
-        for cutremur in json_response['features']:
-            if cutremur['id'] not in already_sent_earthquakes:
-                if ' of ' in cutremur['properties']['place'] and cutremur['properties']['place'].count(' of ') == 1:
-                    timestamp = int(cutremur['properties']['time'])
-                    city_country = cutremur['properties']['place'].split(' of ')[1]
-                    dictionar['Data'] = { 
-                                            'type' : 'earthquake', 
-                                            'magnitude': format(cutremur['properties']['mag'], '.2f'),
-                                            'location': { 
-                                                            'city' : city_country.split(', ')[0],
-                                                            'country' : city_country.split(', ')[1] 
-                                                        },
-                                            'time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
-                                            'url' : cutremur['properties']['url'],
-                                            'title' : cutremur['properties']['title']
-                                        }
-                    json_to_send = json.dumps(dictionar)
-                    handle = urlopen(url,data = json_to_send)
-                    handle.close()
-                    log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
-                    log.write(json_to_send + '\n\n')
-     
-                    already_sent_earthquakes[cutremur['id']] = dictionar['Data']['time']
+        response = requests.get(url_earthquakes)
+        json_response = response.json()
     except:
-        log.write('Eroare!\n\n')
+        log.write('Eroare la primire json!\n\n')
+        return
+
+    for cutremur in json_response['features']:
+        if cutremur['id'] not in already_sent_earthquakes:
+            # print cutremur
+            try:
+                timestamp = int(cutremur['properties']['time'])
+                dictionar['Data'] = { 
+                                        'type' : 'earthquake', 
+                                        'magnitude': format(cutremur['properties']['mag'], '.2f'),
+                                        'place': cutremur['properties']['place'],
+                                        'time': time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(timestamp / 1000.0)),
+                                        'url' : cutremur['properties']['url'],
+                                        'title' : cutremur['properties']['title']
+                                    }
+                json_to_send = json.dumps(dictionar)
+            except:
+                log.write('Json-ul primit este incorect!\n\n')
+                continue
+
+            try:
+                handle = urlopen(url,data = json_to_send)
+                handle.close()
+            except:
+                log.write('Eroare la trimitere json!\n\n')
+                continue
+
+            log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
+            log.write(json_to_send + '\n\n')
+
+            already_sent_earthquakes[cutremur['id']] = dictionar['Data']['time']
 
 def other_hazzards(past, url, type, log):
     global already_sent_hazzards
@@ -72,10 +83,15 @@ def other_hazzards(past, url, type, log):
     url_sigimera = 'https://api.sigimera.org/v1/crises?auth_token=eHRiEPDd3HesnU9diPv4&type='
     url_sigimera = url_sigimera + type
 
-    response = requests.get(url_sigimera)
-    json_response = response.json()
     try:
-        for dezastru in json_response:
+        response = requests.get(url_sigimera)
+        json_response = response.json()
+    except:
+        log.write('Eroare la primire json!\n\n')
+        return
+
+    for dezastru in json_response:
+        try:
             starttime = dezastru['schema_startDate'][:-1]
             if len(dezastru['gn_parentCountry']) == 0:
                 continue
@@ -86,23 +102,29 @@ def other_hazzards(past, url, type, log):
             dictionar['Data'] = {
                                     'type' : type,
                                     'alert-level' : dezastru['crisis_alertLevel'],
-                                    'location': {
-                                                    'country' : dezastru['gn_parentCountry'][0].title()
-                                                },
+                                    'country' : dezastru['gn_parentCountry'][0].title(),
                                     'time' : starttime,
                                     'url' : dezastru['rdfs_seeAlso'],
                                     'title' : dezastru['dc_title'],
                                     'description' : dezastru['dc_description']
                                 }
             json_to_send = json.dumps(dictionar)
+        except:
+            log.write('Json-ul primit este incorect!\n\n')
+            continue
+
+        try:
             handle = urlopen(url,data = json_to_send)
             handle.close()
-            log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
-            log.write(json_to_send + '\n\n')
+        except:
+            log.write('Eroare la trimitere json!\n\n')
+            continue
 
-            already_sent_hazzards[dezastru['_id']] = starttime
-    except:
-        log.write('Eroare!\n\n')
+        log.write('\nSent at ' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ' :\n')
+        log.write(json_to_send + '\n\n')
+    
+        already_sent_hazzards[dezastru['_id']] = starttime
+   
 
 def main():
     global already_sent_earthquakes
@@ -142,4 +164,3 @@ def main():
         other_hazzards(past, url, 'cyclones', log)
 
 main()
-
