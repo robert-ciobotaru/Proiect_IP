@@ -9,7 +9,7 @@ dataCrawler=[]
 
 def send():
 	global dataCrawler
-	db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+	db=mysql.connector.connect(user='root',password='STUDENT',host='130.211.102.0',database='proiectip_a2')
 	cursor=db.cursor()
 	verificare=json.dumps({'check':'Notificare'})
 	url='http://students.info.uaic.ro:8769'
@@ -156,10 +156,10 @@ def send():
 	send()
 
 def sendCrawler():
-	db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+	db=mysql.connector.connect(user='root',password='STUDENT',host='130.211.102.0',database='proiectip_a2')
 	cursor=db.cursor()
 	verificare=json.dumps({'check':'Notificare'})
-	url='http://students.info.uaic.ro:8769'
+	url='http://students.info.uaic.ro:8991'
 	handle=urlopen(url,verificare)
 	raspuns=json.loads(handle.read())
 	if raspuns['Type']=="":
