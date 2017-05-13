@@ -12,6 +12,7 @@ def send():
 	global dataCrawler
 	db=mysql.connector.connect(user='root',password='STUDENT',host='130.211.102.0',database='proiectip_a2')
 	cursor=db.cursor()
+	cursor2=db.cursor()
 	verificare=json.dumps({'check':'Notificare'})
 	url='http://students.info.uaic.ro:8769'
 	handle=urlopen(url,verificare)
@@ -110,9 +111,8 @@ def send():
 			handle=urlopen(url,date)
 	elif raspuns['method']=='getNotifications':
 		try:
-			cursor.execute("SELECT text FROM notificari where user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
+			cursor.execute("SELECT * FROM notificari where user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
 			linie=cursor.fetchone()
-			cursor2=db.cursor()
 			#print "lets see"
 			current=0
 			date={}
@@ -149,13 +149,13 @@ def send():
 						dateCrawler.pop(i)
 			date['error']=""
 			try:
-				cursor.execute("UPDATE notificari set Time = Time + Interval where repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
-				cursor.execute("DELETE FROM notificari where user_id=%s and repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
+				cursor.execute("UPDATE notificari set Time =timestampadd(second,Interval,Time) where Repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
+				cursor.execute("DELETE FROM notificari where user_id=%s and Repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
 			except:
-				date=json.dumps({'errpr':'Couldnt update data'})
+				date=json.dumps({'error':'Couldnt update data'})
 				handle=urlopen(url,date)
 			datee=json.dumps(date)
-			handle=urlopen(ulr,datee)
+			handle=urlopen(url,datee)
 			cursor2.close()
 			cursor.close()
 			db.close()
@@ -200,14 +200,14 @@ def sendCrawler():
 		print "no such user"
 	else:
 		if raspuns['Type']=="Hazzard":
-			dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']['type']})
+			dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Data']['type']})
 		else:
 			dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']})
 		while linie is not None:
 			linie=cursor.fetchone()
 			if linie is not None:
 				if raspuns['Type']=="Hazzard":  
-					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']['type']})
+					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Data']['type']})
 				else:
 					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']}) 
 	cursor.close()
