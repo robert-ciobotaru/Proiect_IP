@@ -388,6 +388,35 @@ public class TestReminderController {
 		}
 	}
 	@Test
+	public void test_internal_server_error_reminder_post_idmissing() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody(
+      					 "{"
+      							 + "\"id\" :\"\","
+     						   + "\"error\" : \"\""
+      							
+      					+ "}")
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\":1231245,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
+			            .andExpect(status().isInternalServerError())
+			            
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
 	public void test_service_unavaible_reminder_post() {
 		
 		wireMockRule.stubFor(any(urlPathEqualTo("/")));
@@ -594,6 +623,28 @@ public class TestReminderController {
 							       + "}"
 							         + "],"
 							       +"\"error\" : \"\""
+					+ "}")
+				//.withStatus(201)
+				));
+		
+		try {
+			this.mockMvc.perform(get("/v1/users/20/reminders"))
+			            .andExpect(status().is(500));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void test_internal_server_error_get_errornull() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+						"{"
+							      
 					+ "}")
 				//.withStatus(201)
 				));

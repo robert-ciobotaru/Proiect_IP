@@ -322,6 +322,29 @@ public class TestNotificationController {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void test_internal_sever_error_notification_get_errornul() throws Exception {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody("{"
+						
+					+ "}")
+				//.withStatus(201)
+				));
+		
+		try {
+			this.mockMvc.perform(get("/v1/users/23/notifications"))
+			            .andExpect(status().is(500));
+			            
+			            
+			            
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	@Test
 	public void test_unprocessable_entity_notification_test() throws Exception {

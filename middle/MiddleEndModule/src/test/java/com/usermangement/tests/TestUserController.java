@@ -265,7 +265,7 @@ public class TestUserController {
 		}
 	}
 	@Test
-	public void test_internal_server_error_on_user_input() {
+	public void test_internal_server_error_on_user_input_errorset() {
 		
 		wireMockRule.stubFor(any(urlPathEqualTo("/"))
                 .willReturn(aResponse()
@@ -274,6 +274,37 @@ public class TestUserController {
       					 "{"
       							 + "\"idf\" :12," 
      						   + "\"errobr\" : \"Eroare\""
+      							
+      					+ "}")
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"manole.catalin@gmail.com\""
+						+ "}"))
+			            .andExpect(status().isInternalServerError())
+			            
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_internal_server_error_on_user_input_idmissing() {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody(
+      					 "{"
+      							 + "\"id\" : \"\"," 
+     						     + "\"error\" : \"\""
       							
       					+ "}")
 				));
