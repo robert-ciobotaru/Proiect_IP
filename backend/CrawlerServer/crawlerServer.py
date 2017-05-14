@@ -123,6 +123,10 @@ def main():
     listen_socket.listen(200)
     print 'Waiting on port %s ...' % PORT
     while True:
+        statinfo = os.stat('log.txt')
+        if statinfo.st_size > 10485760:
+            os.remove('log.txt')
+            output = open('log.txt','w')
         client_connection, client_address = listen_socket.accept()
         thread.start_new_thread(treatClient,(client_connection,))
 
