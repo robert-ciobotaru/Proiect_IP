@@ -73,3 +73,7 @@ while True:
         except:
             log.write('Eroare la trimitere json!\n\n')
     time.sleep(1554)
+    statinfo = os.stat('log_weather.txt')
+    if statinfo.st_size > 10485760:
+        os.remove('log_weather.txt')
+        log = open('log_weather.txt','w')
