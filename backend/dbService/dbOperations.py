@@ -131,29 +131,29 @@ def send():
 				if dataCrawler[i]['id']==raspuns['userId']:
 					if dataCrawler[i]['type']=='Weather':
 						date['weatherNotificationsList'].append({'location':{'city':dataCrawler[i]['data']['city'],'country':dataCrawler[i]['data']['country']},'text':dataCrawler[i]['data']['text']})
-						dateCrawler.pop(i)
+						dataCrawler.pop(i)
 					elif dataCrawler[i]['type']=='News':
-						data['newsNotificationsList'].append({'author':dataCrawler[i]['data']['author'],'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url'],'urlToImage':dataCrawler[i]['data']['urlToImage'],'publishedAt':dataCrawler[i]['data']['publishedAt']})
-						dateCrawler.pop(i)
+						date['newsNotificationsList'].append({'author':dataCrawler[i]['data']['author'],'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url'],'urlToImage':dataCrawler[i]['data']['urlToImage'],'publishedAt':dataCrawler[i]['data']['publishedAt']})
+						dataCrawler.pop(i)
 					elif dataCrawler[i]['type']=='floods':
-						data['floodsList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'country':dataCrawler[i]['data']['country'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
-						dateCrawler.pop(i)
+						date['floodsList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'country':dataCrawler[i]['data']['country'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
+						dataCrawler.pop(i)
 					elif dataCrawler[i]['type']=='cyclones':
-						data['cyclonesList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'country':dataCrawler[i]['data']['country'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
-						dateCrawler.pop(i)
+						date['cyclonesList'].append({'alertLevel':dataCrawler[i]['data']['alertLevel'],'country':dataCrawler[i]['data']['country'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'description':dataCrawler[i]['data']['description'],'url':dataCrawler[i]['data']['url']})
+						dataCrawler.pop(i)
 					elif dataCrawler[i]['type']=='earthquake':
 						cursor2.execute("SELECT Country,City from useri where hazzardCrawler=1 and id=%s",(raspuns['userId'], ))
 						tara=cursor2.fetchone()
 						if tara[0] in dataCrawler[i]['data']['place'] or tara[1] in dataCrawler[i]['data']['place']: 
-							data['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'place':dataCrawler[i]['data']['place'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
-						dateCrawler.pop(i)
+							date['earthquakesList'].append({'magnitude':dataCrawler[i]['data']['magnitude'],'place':dataCrawler[i]['data']['place'],'time':str(dataCrawler[i]['data']['time']),'title':dataCrawler[i]['data']['title'],'url':dataCrawler[i]['data']['url']})
+						dataCrawler.pop(i)
 			date['error']=""
-			try:
+			'''try:
 				cursor.execute("UPDATE notificari set Time =timestampadd(second,Interval,Time) where Repeatable=1 and user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
 				cursor.execute("DELETE FROM notificari where user_id=%s and Repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
 			except:
 				date=json.dumps({'error':'Couldnt update data'})
-				handle=urlopen(url,date)
+				handle=urlopen(url,date)'''
 			datee=json.dumps(date)
 			handle=urlopen(url,datee)
 			cursor2.close()
