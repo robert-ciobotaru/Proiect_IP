@@ -5,13 +5,14 @@ import time
 import datetime
 
 f = open('city_list.txt', 'r')
-apiKey = 'f84f759814378e0469d34ed3b8c0bec1'  # API key for request
+apiKey = '8adc3c7f8f9235744ffd288bc0a9a2b4'  # API key for request
 urlProxy = "http://104.199.93.85:8991"
 
 if os.path.isfile('log_weather.txt'):
     os.remove('log_weather.txt')
 log = open('log_weather.txt', 'w')
 
+curReqCount = 0
 city_id = []
 
 for line in f:
@@ -23,15 +24,20 @@ f.close()
 
 while True:
     for i in range(len(city_id)):
+
+        if curReqCount == 60: #60 is the request limit for free use of Weather API
+            curReqCount = 0
+            time.sleep(60)
+
+        curReqCount = curReqCount + 1
         # Location is defined by id
         url = 'http://api.openweathermap.org/data/2.5/weather?id=' + city_id[i] + '&appid=' + apiKey
         try:
-          weatherHandle = urlopen(url)
-
-          weatherJson = json.load(weatherHandle)
+            weatherHandle = urlopen(url)
+            weatherJson = json.load(weatherHandle)
         except:
-          log.write('Eroare la primire json!\n\n')
-          continue
+            log.write('Eroare la primire json!\n\n')
+            continue
 
         if 'name' not in weatherJson:
             log.write('Name was not sent\n\n')
@@ -66,4 +72,4 @@ while True:
             log.write(jsonToProxy + '\n\n')
         except:
             log.write('Eroare la trimitere json!\n\n')
-    time.sleep(1200)
+    time.sleep(1554)
