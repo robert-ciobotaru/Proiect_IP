@@ -46,7 +46,7 @@ while True:
             time.sleep(1)
 
     time.sleep(1000)
-    statinfo = os.stat('log_news.txt.txt')
+    statinfo = os.stat('log_news.txt')
     if statinfo.st_size > 10485760:
-        os.remove('log_news.txt.txt')
-        log = open('log_news.txt.txt','w')
+        os.remove('log_news.txt')
+        log = open('log_news.txt','w')
