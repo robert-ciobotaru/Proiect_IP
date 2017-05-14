@@ -21,7 +21,6 @@ public abstract class AbstractController {
 	
 	@ExceptionHandler({HttpMessageNotReadableException.class})
 	public ResponseEntity<Object> messageNotReadableExceptionHandler(HttpServletRequest req, HttpMessageNotReadableException exception) {
-	  
 		ErrorDTO error = new ErrorDTO();
 		error.setError("The specified request is not readable");
 	  
@@ -33,6 +32,7 @@ public abstract class AbstractController {
     public ErrorDTO handleException(MethodArgumentNotValidException exception) {
     	ErrorDTO error = new ErrorDTO();
     	error.setError("Input provided does not meet the requirements");
-        return error;
+        
+    	return error;
     }
 }

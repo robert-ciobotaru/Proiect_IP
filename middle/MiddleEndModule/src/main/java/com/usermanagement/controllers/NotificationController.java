@@ -30,6 +30,7 @@ public class NotificationController extends AbstractController {
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
+    		 
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
@@ -54,38 +55,41 @@ public class NotificationController extends AbstractController {
 		   		return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
 			}
 			
-			if(getNotificationResponse.validate()==false){
+			if(getNotificationResponse.getError() == null){
 				 	ErrorDTO error = new ErrorDTO();
 			   		error.setError("Service response is invalid");
-			   		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 			   		
+			   		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
        	 }
     	 
     	catch (RestClientException e) {
-       		
     		 ErrorDTO error = new ErrorDTO();
        		 error.setError("The server is currently unavailable");    		
-       		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
        		 
+       		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
        	 }
-
-    	
     		
        	 catch (Exception e) {
-       	
        		 ErrorDTO error = new ErrorDTO();
        		 error.setError("Unknown error occured");  
+
        		 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
-       		 
        	 }
     
-	
-	
     	if(getNotificationResponse.getError().length()>0){
-    		 ErrorDTO error = new ErrorDTO();
-	       		error.setError("Internal Server Error");
-	       		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    		ErrorDTO error = new ErrorDTO();
+	       	error.setError("Internal Server Error");
+	       	
+	       	return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    	}
+    	
+    	if(getNotificationResponse.validate()==false){
+		 	ErrorDTO error = new ErrorDTO();
+	   		error.setError("Service response is invalid");
+	   		
+	   		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+	   		
     	}
     	
     	GetNotificationsByIdFrontendResponseDTO getNotificationReturn = new GetNotificationsByIdFrontendResponseDTO();
@@ -101,6 +105,7 @@ public class NotificationController extends AbstractController {
     	getNotificationReturn.setWeatherNotificationsList(getNotificationResponse.getWeatherNotificationsList());
     	getNotificationReturn.setHazzardNotifications(getHazzardNotificationReturn);
     	getNotificationReturn.setNewsNotificationsList(getNotificationResponse.getNewsNotificationsList());
+    	
     	return new ResponseEntity<>(getNotificationReturn, HttpStatus.OK);
     }
 }

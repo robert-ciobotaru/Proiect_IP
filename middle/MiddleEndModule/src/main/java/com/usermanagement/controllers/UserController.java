@@ -34,6 +34,7 @@ public class UserController extends AbstractController {
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
+    		 
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
@@ -52,24 +53,26 @@ public class UserController extends AbstractController {
 	   	 	removeUser = response.getBody();
 	   	 
 	   	 	if(removeUser == null){
- 			ErrorDTO error =  new ErrorDTO();
+	   	 		ErrorDTO error =  new ErrorDTO();
 			    error.setError("Service response is invalid");
+			    
 			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
 	   	 	}
 			
 			if(removeUser.getError() == null ){
 				ErrorDTO error = new ErrorDTO();
 	    		error.setError("Service response is invalid");
+	    		
 	    		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
    	 		
-       	    }
+       	}
 			
     	catch (RestClientException e) {
-       		
-   		 ErrorDTO error = new ErrorDTO();
-      		 error.setError("The server is currently unavailable");    		
-      		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+   		 	ErrorDTO error = new ErrorDTO();
+      		error.setError("The server is currently unavailable");    		
+      		 
+      		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
       		 
       	 }
 		
@@ -87,15 +90,14 @@ public class UserController extends AbstractController {
     		
     		ErrorDTO error = new ErrorDTO();
     		error.setError(removeUser.getError());
+    		
     		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-    		
     	}
-    	else{
-    		
-    		removeResponse = new DeleteUsersByIdFrontendResponseDTO ();	
-    		removeResponse.setId(userId);
-    		return new ResponseEntity<>(removeResponse, HttpStatus.OK);
-    	}
+    	
+		removeResponse = new DeleteUsersByIdFrontendResponseDTO ();	
+		removeResponse.setId(userId);
+		return new ResponseEntity<>(removeResponse, HttpStatus.OK);
+
     }
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
@@ -132,11 +134,12 @@ public class UserController extends AbstractController {
 		    
 		    if(userCreateResponse == null){
 	 			ErrorDTO error =  new ErrorDTO();
-				    error.setError("Service response is invalid");
-				    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+				error.setError("Service response is invalid");
+				
+				return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
 		   	 }
 		    
-		    if(userCreateResponse.getError() == null || userCreateResponse.getUserId() == null){
+		    if(userCreateResponse.getError() == null){
 				ErrorDTO error = new ErrorDTO();
 				error.setError("Service response is invalid");
 				
@@ -145,39 +148,45 @@ public class UserController extends AbstractController {
 		}
 		
     	catch (RestClientException e) {
-       		
-   		 ErrorDTO error = new ErrorDTO();
-      		 error.setError("The server is currently unavailable");    		
-      		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+       		ErrorDTO error = new ErrorDTO();
+      		error.setError("The server is currently unavailable");    		
+      		
+      		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
       		 
       	 }
-		
-		
+				
 		 catch (Exception e) {
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError("Unknown error occured");    		
+			 
 			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			 
 		 }
 
 		 if(userCreateResponse.getError().length()>0){
-			
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError(userCreateResponse.getError());		
 			 
 			 return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		 }
-		 else{
-			PostUsersFrontendResponseDTO returnUser = new PostUsersFrontendResponseDTO();
-			returnUser.setId(userCreateResponse.getUserId());
-			returnUser.setCity(userCreate.getCity());
-			returnUser.setCountry(userCreate.getCountry());
-			returnUser.setEmail(userCreate.getEmail());
-			returnUser.setHazzardCrawler(userCreate.isHazzardCrawler());
-			returnUser.setNewsCrawler(userCreate.isNewsCrawler());
-			returnUser.setWeatherCrawler(userCreate.isWeatherCrawler());
-		      
-			return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
+		 
+		 if (userCreateResponse.getUserId() == null){
+			 ErrorDTO error = new ErrorDTO();
+			 error.setError("Service response is invalid");
+			 
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 		 }
+		 
+		PostUsersFrontendResponseDTO returnUser = new PostUsersFrontendResponseDTO();
+		returnUser.setId(userCreateResponse.getUserId());
+		returnUser.setCity(userCreate.getCity());
+		returnUser.setCountry(userCreate.getCountry());
+		returnUser.setEmail(userCreate.getEmail());
+		returnUser.setHazzardCrawler(userCreate.isHazzardCrawler());
+		returnUser.setNewsCrawler(userCreate.isNewsCrawler());
+		returnUser.setWeatherCrawler(userCreate.isWeatherCrawler());
+	      
+		return new ResponseEntity<>(returnUser, HttpStatus.CREATED);
+	 
     }
 }

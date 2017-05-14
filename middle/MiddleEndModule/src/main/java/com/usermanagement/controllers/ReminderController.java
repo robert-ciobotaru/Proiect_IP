@@ -42,6 +42,7 @@ public class ReminderController extends AbstractController {
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    	
     		 System.out.println("MONITOR: " + RequestMonitor.getRequestMonitorInstance().getMaxRequestCount());
+    		 
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
@@ -54,6 +55,7 @@ public class ReminderController extends AbstractController {
 		      
     		ErrorDTO error = new ErrorDTO();
     		error.setError("Input criteria not correct");
+    		
     		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     	}
  
@@ -74,25 +76,26 @@ public class ReminderController extends AbstractController {
 			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
     		}
     		
-    		if(backendResult.getNotificationId() == null || backendResult.getError() == null ){				 
+    		if(backendResult.getError() == null ){				 
     			ErrorDTO error =  new ErrorDTO();
 			    error.setError("Service response is invalid");
+			    
 			    return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			}
     		
     	}
     	catch (RestClientException e) {
-       		
-   		 ErrorDTO error = new ErrorDTO();
-      		 error.setError("The server is currently unavailable");    		
-      		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+       		ErrorDTO error = new ErrorDTO();
+      		error.setError("The server is currently unavailable");    		
+      		
+      		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
       		 
       	 }
-		
 		
 		 catch (Exception e) {
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError("Unknown error occured");    		
+			 
 			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			 
 		 }
@@ -105,8 +108,14 @@ public class ReminderController extends AbstractController {
 	
     		return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     	}
-
-		frontendResult = new PostRemindersFrontendResponseDTO ();	
+    	if(backendResult.getNotificationId() == null){				 
+			ErrorDTO error =  new ErrorDTO();
+		    error.setError("Service response is invalid");
+		    
+		    return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+    	frontendResult = new PostRemindersFrontendResponseDTO ();	
 		frontendResult.setId(backendResult.getNotificationId());
 		frontendResult.setInterval(createReminders.getInterval());
 		frontendResult.setRepeatable(createReminders.isRepeatable());
@@ -123,6 +132,7 @@ public class ReminderController extends AbstractController {
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
+    		 
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
     	 }
@@ -142,30 +152,30 @@ public class ReminderController extends AbstractController {
     		if(removeNotificationResult == null){
     			ErrorDTO error =  new ErrorDTO();
 			    error.setError("Service response is invalid");
+			    
 			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
     		}
     		
     		if(removeNotificationResult.getError()==null ){
     			ErrorDTO error = new ErrorDTO();
     			error.setError("Service response is invalid");
+    			
     			return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     		}
        	 }
     	
     	catch (RestClientException e) {
-       		
-   		 ErrorDTO error = new ErrorDTO();
-      		 error.setError("The server is currently unavailable");    		
-      		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
+   		 	ErrorDTO error = new ErrorDTO();
+      		error.setError("The server is currently unavailable");    		
       		 
+      		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
       	 }
-		
 		
 		 catch (Exception e) {
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError("Unknown error occured");    		
-			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			 
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 		 }
     
        DeleteRemindersByIdFrontendResponseDTO removeResponse = null;
@@ -173,13 +183,14 @@ public class ReminderController extends AbstractController {
 		if(removeNotificationResult.getError().length()>0){
 			ErrorDTO error = new ErrorDTO();
 			error.setError(removeNotificationResult.getError());
+			
 			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		else{
-		    removeResponse = new DeleteRemindersByIdFrontendResponseDTO();	
-		    removeResponse.setId(reminderId);  
-			return new ResponseEntity<>(removeResponse, HttpStatus.OK);
-		}
+		
+	    removeResponse = new DeleteRemindersByIdFrontendResponseDTO();	
+	    removeResponse.setId(reminderId);  
+		
+	    return new ResponseEntity<>(removeResponse, HttpStatus.OK);
 	}
     
 	@RequestMapping(value = "/{userId}/reminders", method = RequestMethod.GET)
@@ -188,8 +199,8 @@ public class ReminderController extends AbstractController {
     	if(!RequestMonitor.getRequestMonitorInstance().allowRequest(request.getRemoteAddr())){
     		 ErrorDTO error = new ErrorDTO();
     		 error.setError(TOO_MANY_REQUESTS);    		
-    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     		 
+    		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     	 }
     	
     	GetRemindersByIdBackendRequestDTO getRemindersMethod = new GetRemindersByIdBackendRequestDTO();
@@ -201,6 +212,7 @@ public class ReminderController extends AbstractController {
     	ResponseEntity<GetRemindersByIdBackendResponseDTO> responseFromBackend = null;
     	
     	GetRemindersByIdBackendResponseDTO notification = null;
+    	
     	try{
     		responseFromBackend = rest.postForEntity(url,getRemindersMethod,GetRemindersByIdBackendResponseDTO.class);
     		
@@ -212,40 +224,46 @@ public class ReminderController extends AbstractController {
 			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
     		}
     		
-    		if(notification.validate() == false){
+    		if(notification.getError() == null){
     			ErrorDTO error =  new ErrorDTO();
         		error.setError("Service response is invalid");
-    			return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+    			
+        		return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     		}
     	}
     	
     	catch (RestClientException e) {
-       		
-   		 ErrorDTO error = new ErrorDTO();
-      		 error.setError("The server is currently unavailable");    		
-      		 return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
-      		 
+   		 	ErrorDTO error = new ErrorDTO();
+      		error.setError("The server is currently unavailable");    		
+      		
+      		return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE); 
       	 }
-		
 		
 		 catch (Exception e) {
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError("Unknown error occured");    		
-			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 			 
+			 return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 		 }
     	
     	if(notification.getError().length() > 0){
     		
     		ErrorDTO error = new ErrorDTO();
  			error.setError(notification.getError());
+ 			
  			return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
-    		
     	}
+    	
+    	if(notification.validate() == false){
+			ErrorDTO error =  new ErrorDTO();
+    		error.setError("Service response is invalid");
+			
+    		return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     	
     	GetRemindersByIdFrontendResponseDTO remindersList = new GetRemindersByIdFrontendResponseDTO();
     	remindersList.setNotifications(notification.getNotifications());
-		return new ResponseEntity<>(remindersList, HttpStatus.OK);
-
+		
+    	return new ResponseEntity<>(remindersList, HttpStatus.OK);
     }  
 }
