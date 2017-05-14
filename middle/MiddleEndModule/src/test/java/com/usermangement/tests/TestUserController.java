@@ -171,6 +171,7 @@ public class TestUserController {
 		}
 		
 	}
+	
 	@Test
 	public void test_injection_prevention_on_user_input() {
 		
@@ -521,5 +522,191 @@ public class TestUserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void test_missing_city_field_post_user() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+			
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void test_missing_country_field_post_user() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+			
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"city\":\"Iasi\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void test_missing_email_field_post_user() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+			
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void test_missing_HazzardCrawler_field_post_user() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+			
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void test_missing_NewsCrawler_field_post_user() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+			
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"weatherCrawler\":\"true\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void test_missing_WeatherCrawler_field_post_user() {
+		
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"userId\" : 24,"
+						   + "\"error\" : \"\""
+					+ "}")
+			
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"country\":\"Romania\","
+						+ "\"city\":\"Iasi\","
+						+ "\"newsCrawler\":\"false\","
+						+ "\"hazzardCrawler\":\"false\","
+						+ "\"email\":\"valentin.damoc@gmail.com\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -330,34 +330,35 @@ public class TestReminderController {
 			e.printStackTrace();
 		}
 	}
-	@Test
-	public void test_missing_field_reminder_post() {
-		
-		wireMockRule.stubFor(any(urlPathEqualTo("/"))
-                .willReturn(aResponse()
-                .withHeader("Content-Type", "application/json")
-				.withBody(
-					 "{"
-						   + "\"notificationId\" :2,"
-						   + "\"error\" : \"Eroare\""
-					
-					+ "}")
-				));
-		
-		try {
-			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
-					+ "\"text\":\"Wake me up\","
-					+ "\"repeatable\":\"true\","
-					+ "\"interval\":300"
-					+ "}"))
-			            .andExpect(status().isBadRequest())
-			            
-			            ;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void test_missing_field_reminder_post() {
+//		
+//		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+//                .willReturn(aResponse()
+//                .withHeader("Content-Type", "application/json")
+//				.withBody(
+//					 "{"
+//						   + "\"notificationId\" :2,"
+//						   + "\"error\" : \"Eroare\""
+//					
+//					+ "}")
+//				));
+//		
+//		try {
+//			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+//					+ "\"text\":\"Wake me up\","
+//					+ "\"repeatable\":\"true\","
+//					+ "\"interval\":300"
+//					+ "}"))
+//			            .andExpect(status().isBadRequest())
+//			            
+//			            ;
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
 	@Test
 	public void test_internal_server_error_reminder_post() {
 		
@@ -797,4 +798,118 @@ public class TestReminderController {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void test_missing_interval_field_post_reminders() throws Exception {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+						+ "\"text\":\"Wake me up\","
+						+ "\"time\":1231245,"
+						+ "\"repeatable\":\"true\""
+						+ "}"))
+			           .andExpect(status().is(400))
+			            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test_missing_text_field_post_reminders() throws Exception {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"time\":1231245,"
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
+		           .andExpect(status().is(400))
+		            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test_missing_time_field_post_reminders() throws Exception {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"repeatable\":\"true\","
+					+ "\"interval\":300"
+					+ "}"))
+		           .andExpect(status().is(400))
+		            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test_missing_repeatable_field_post_reminders() throws Exception {
+		
+		wireMockRule.stubFor(any(urlPathEqualTo("/"))
+                .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+				.withBody(
+					 "{"
+						   + "\"notificationId\" : 23,"
+						   + "\"error\" : \"\""
+					+ "}")
+				
+				));
+		
+		try {
+			this.mockMvc.perform(post("/v1/users/2/reminders").contentType(MediaType.APPLICATION_JSON_UTF8).content("{"
+					+ "\"text\":\"Wake me up\","
+					+ "\"time\":1231245,"
+					+ "\"interval\":300"
+					+ "}"))
+		           .andExpect(status().is(400))
+		            ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
+
+	
