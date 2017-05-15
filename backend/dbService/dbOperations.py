@@ -183,7 +183,7 @@ def sendCrawler():
 		if raspuns['Data']['country']!="":
 			cursor.execute("SELECT id from useri where hazzardCrawler=1 and Country=%s",(raspuns['Data']['country']))
 		else:
-			cursor.execute("SELECT id from useri where hazzardCrawler=1")
+			cursor.execute("SELECT id from useri where hazzardCrawler=1")#schimbare in tabela,hazzard si nu hazard
 	elif raspuns['Type']=="Weather":
 		if raspuns['Data']['location']['country']!="":
 			if raspuns['Data']['location']['city']!="":
