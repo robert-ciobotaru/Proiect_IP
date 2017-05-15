@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class NotificationsDB extends DbOperator {
 
                     itemData.setId(cursor.getInt(0));
 
-                    itemData.setInfo(cursor.getString(1));
+                    itemData.setText(cursor.getString(1));
 
                     firstTableDataList.add(itemData);
                 } while (cursor.moveToNext());
@@ -66,19 +65,31 @@ public class NotificationsDB extends DbOperator {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(COL1, data.getInfo());
+        values.put(COL1, data.getText());
         //values.put(COL2, data.getCol2());
 
         long x=db.insert(FIRST_TABLE_NAME, null, values);
         db.close();
         return (int)x;
     }
+    public int addNotification(NotificationTableData notification){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("time", notification.getTime());
+        values.put("text", notification.getText());
+        values.put("img", notification.getImg());
+
+        long status = db.insert(FIRST_TABLE_NAME, null, values);
+        db.close();
+        return (int)status;
+    }
 
     public void updateItemDetailData(NotificationTableData data) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(COL1, data.getInfo());
+        values.put(COL1, data.getText());
 
 
 
