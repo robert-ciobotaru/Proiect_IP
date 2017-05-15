@@ -50,8 +50,7 @@ public class ReminderController extends AbstractController {
 		PostRemindersBackendRequestDTO addNotification = new PostRemindersBackendRequestDTO();
     	String url = new String(backEndUrlPath);
     	RestTemplate rest = new RestTemplate();
-    	if(createReminders.getInterval()==null || createReminders.getText()==null || createReminders.getTime()==null || 
-    			createReminders.isRepeatable()== null){
+    	if(createReminders.getInterval()==null || createReminders.getText()==null || createReminders.getTime()==null || createReminders.isRepeatable()== null){
 		      
     		ErrorDTO error = new ErrorDTO();
     		error.setError("Input criteria not correct");

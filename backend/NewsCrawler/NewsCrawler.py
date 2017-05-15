@@ -41,7 +41,12 @@ while True:
             log.write(jsonToSend + '\n\n')
         except:
             i = i - 1 
-            log.write('Eroare la trimitere json!\n\n')
+            log.write('Eroare la trimitere json:\n')
+            log.write(jsonToSend + '\n\n')
             time.sleep(1)
 
     time.sleep(1000)
+    statinfo = os.stat('log_news.txt')
+    if statinfo.st_size > 10485760:
+        os.remove('log_news.txt')
+        log = open('log_news.txt','w')

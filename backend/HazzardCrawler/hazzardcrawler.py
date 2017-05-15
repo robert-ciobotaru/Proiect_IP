@@ -170,4 +170,9 @@ def main():
         time.sleep(3)
         other_hazzards(past, url, 'cyclones', log)
 
+        statinfo = os.stat('log_hazzard.txt')
+        if statinfo.st_size > 10485760:
+            os.remove('log_hazzard.txt')
+            log = open('log_hazzard.txt','w')
+
 main()

@@ -45,9 +45,6 @@ while True:
         if 'sys' not in weatherJson:
             log.write('Sys was not sent\n\n')
             continue
-        if 'country' not in weatherJson['sys']:
-            log.write('Country was not sent\n\n')
-            continue
         if 'weather' not in weatherJson:
             log.write('Weather was not sent\n\n')
             continue
@@ -61,7 +58,7 @@ while True:
         jsonToProxy = json.dumps({'Type': 'Weather',
                                   'Data': {
                                       'location': {'city': weatherJson['name'],
-                                                   'country': weatherJson['sys']['country']},
+                                                   'country': 'Romania'},
                                       'text': weatherJson['weather'][0]['description']}})
 
         # send weather json to proxy
@@ -73,3 +70,7 @@ while True:
         except:
             log.write('Eroare la trimitere json!\n\n')
     time.sleep(1554)
+    statinfo = os.stat('log_weather.txt')
+    if statinfo.st_size > 10485760:
+        os.remove('log_weather.txt')
+        log = open('log_weather.txt','w')
