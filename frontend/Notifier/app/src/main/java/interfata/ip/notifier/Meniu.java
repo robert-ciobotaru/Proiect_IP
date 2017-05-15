@@ -21,11 +21,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Random;
 
 public class Meniu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +37,26 @@ public class Meniu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            String name = extras.getString("name");
+            String time = extras.getString("time");
+            String content = extras.getString("content");
+            TextView title = (TextView) findViewById(R.id.textView5);
+            title.setText(name);
+            TextView body = (TextView) findViewById(R.id.textView6);
+            body.setText(content+" "+time);
+            ImageView img= (ImageView) findViewById(R.id.imageView2);
+            img.setVisibility(View.VISIBLE);
+        }
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext());
+                /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext());
                 mBuilder.setSmallIcon(R.drawable.icon);
                 mBuilder.setContentTitle("Notification");
 
@@ -53,7 +70,9 @@ public class Meniu extends AppCompatActivity
                 mBuilder.setAutoCancel(true);
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Random rand = new Random();
-                notificationManager.notify(rand.nextInt(130000), mBuilder.build());
+                notificationManager.notify(rand.nextInt(130000), mBuilder.build());*/
+                Intent createNotification = new Intent(getApplicationContext(),CreateNotification.class);
+                startActivity(createNotification);
             }
         });
 
@@ -103,9 +122,11 @@ public class Meniu extends AppCompatActivity
 
         if (id == R.id.profile) {
             // Handle the camera action
+            Intent history = new Intent(getApplicationContext(),History.class);
+            startActivity(history);
         } else if (id == R.id.logout) {
-            Intent login = new Intent(getApplicationContext(),Login.class);
-            startActivity(login);
+            Intent register = new Intent(getApplicationContext(),Register.class);
+            startActivity(register);
         } else if (id == R.id.setting) {
             Intent setting =new Intent(getApplicationContext(),Settings.class);
             startActivity(setting);

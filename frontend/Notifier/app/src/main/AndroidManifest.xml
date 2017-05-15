@@ -27,30 +27,28 @@
             android:name=".Login"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Categories"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NotificationSend" />
-
         <activity android:name=".NotificationView" />
-        HEAD
-
-
-        <activity android:name=".Register"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".Register"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingsCategories" />
-
         <activity
             android:name=".Meniu"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Settings" />
-        <activity android:name=".CreateNotification"></activity>
+        <activity
+            android:name=".CreateNotification"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".History"
+            android:label="History">
+        </activity>
     </application>
 
 </manifest>

@@ -75,8 +75,13 @@ public class MainActivity extends AppCompatActivity {
         List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
 
         dates=db2.getFirstTableDataList();
+<<<<<<< Updated upstream
         System.out.println(dates.get(1).getText());
         System.out.println(dates);
+=======
+        //System.out.println(dates.get(1).getInfo());
+        //System.out.println(dates);
+>>>>>>> Stashed changes
 
     }
 }

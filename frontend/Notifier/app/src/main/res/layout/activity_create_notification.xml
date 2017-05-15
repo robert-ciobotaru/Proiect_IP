@@ -8,7 +8,7 @@
     android:background="@color/white">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView"
         android:layout_width="218dp"
         android:layout_height="40dp"
         android:text="Create Notification"
@@ -31,7 +31,7 @@
         android:layout_height="41dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint=" Notification Name"
+        android:hint=" Title"
         android:textSize="18sp"
         android:textColorHint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,12 +41,12 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editText3"
         android:layout_width="264dp"
         android:layout_height="41dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint=" Time"
+        android:hint="Content"
         android:textSize="18sp"
         android:textColorHint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="0.906" />
 
     <CheckBox
-        android:id="@+id/checkBox6"
+        android:id="@+id/checkBox"
         android:layout_width="264dp"
         android:layout_height="41dp"
         android:text="Repeatable"
@@ -84,12 +84,12 @@
         app:layout_constraintVertical_bias="0.519" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/editText2"
         android:layout_width="264dp"
         android:layout_height="41dp"
         android:ems="10"
         android:inputType="number"
-        android:hint=" Interval"
+        android:hint=" time"
         android:textSize="18sp"
         android:textColorHint="@color/blue"
         android:layout_marginLeft="45dp"
