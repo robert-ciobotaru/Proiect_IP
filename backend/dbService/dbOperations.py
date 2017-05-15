@@ -14,10 +14,11 @@ def send():
 	cursor=db.cursor()
 	cursor2=db.cursor()
 	verificare=json.dumps({'check':'Notificare'})
-	url='http://students.info.uaic.ro:8769'
+	url='http://104.199.93.85:8769'
 	handle=urlopen(url,verificare)
 	raspuns=json.loads(handle.read())
 	#print "am ajuns aici"
+	#print raspuns
 	if raspuns['method']=='addNotification':
 		try:
 			#print "am intrat in addNotification"
@@ -153,7 +154,7 @@ def send():
 				cursor.execute("DELETE FROM notificari where user_id=%s and Repeatable=0 and Time<(select now() from dual)",(raspuns['userId'], ))
 			except:
 				date=json.dumps({'error':'Couldnt update data'})
-				handle=urlopen(url,date)'''
+				handle=urlopen(url,date)''' #Interval - cuvant rezervat,trebuie schimbat numele in baza de date,eroare la incercare de UPDATE
 			datee=json.dumps(date)
 			handle=urlopen(url,datee)
 			cursor2.close()
@@ -172,6 +173,7 @@ def sendCrawler():
 	url='http://104.199.93.85:8991'
 	handle=urlopen(url,verificare)
 	raspuns=json.loads(handle.read())
+	#print raspuns
 	if raspuns['Type']=='None':
 		#print "none"
 		time.sleep(1800)
@@ -210,6 +212,7 @@ def sendCrawler():
 					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Data']['type']})
 				else:
 					dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']}) 
+	#print dataCrawler
 	cursor.close()
 	db.close()
 	sendCrawler()
