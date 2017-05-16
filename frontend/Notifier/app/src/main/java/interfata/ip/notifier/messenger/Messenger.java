@@ -14,7 +14,7 @@ public abstract class Messenger {
     private static final String urlPattern = "http://{host}:{port}/{version}/";
 
     protected String baseServerURL;
-    String requestURL;
+    protected String requestURL;
 
 
     public Messenger() {
@@ -37,4 +37,12 @@ public abstract class Messenger {
     }
 
     public abstract JSONObject makeRequest() throws IOException, JSONException;
+
+    public String getRequestURL() {
+        return requestURL;
+    }
+
+    public void setRequestURL(String requestURL) {
+        this.requestURL = requestURL;
+    }
 }
