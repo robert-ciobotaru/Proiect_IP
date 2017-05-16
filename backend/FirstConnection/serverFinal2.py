@@ -51,12 +51,12 @@ def treatClient(client):
     
     print 'Waiting message from client'
     inputs = client.recv(5000)
-    #sendResponse(client,{'method':'removeUser','id':0})
+    #sendResponse(client,{'method':'removeUser','userId':0})
     #sendResponse(client,{'method':'addUser','data':{'country':'Romania','city':'iasi','newsCrawler':1,'hazzardCrawler':1,'weatherCrawler':0,'email':'sugigcucu@hah.ro'}})
-    #sendResponse(client,{'method':'getNotifications','id':23})
-    #sendResponse(client,{'method':'addNotification','id':0,'data':{'repeatable':1,'interval':12,'time':'2015-08-05 18:12:12','text':'Wake me up before you go go'}})
-    #sendResponse(client,{'method':'removeNotification','id':2})
-    #sendResponse(client,{'method':'getExpiredNotifications','id':23})
+    #sendResponse(client,{'method':'getUserNotifications','userId':23})
+    #sendResponse(client,{'method':'addNotification','userId':0,'data':{'repeatable':1,'interval':12,'time':'2015-08-05 18:12:12','text':'Wake me up before you go go'}})
+    #sendResponse(client,{'method':'removeNotification','notificationId':2})
+    #sendResponse(client,{'method':'getNotifications','userId':23})
     #inputs = client.recv(5000)
     print inputs
     
