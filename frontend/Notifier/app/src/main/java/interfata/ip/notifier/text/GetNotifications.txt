@@ -1,0 +1,86 @@
+{
+    "userNotificationsList" : [
+        {
+            "id": 23,
+            "text": "Wake me up",
+            "time" : 1231245,
+            "repeatable" : true,
+            "interval" : 300
+        },
+        {
+            "id": 24,
+            "text": "Get the kid",
+            "time" : 123245,
+            "repeatable" : false,
+            "interval" : 400
+        }
+    ],
+    "weatherNotificationsList" : [
+        {
+            "location" : {
+                       "city" : "Iasi",
+                       "country" : "Romania"
+                      },
+           "text": "The weather is bad"
+        },
+         {
+            "location" : {
+                       "city" : "Iasi",
+                       "country" : "Romania"
+                      },
+           "text": "The weather is bad"
+        }
+    ],
+    "hazzardNotifications" : {
+        "earthquakesList" : [
+            {
+                "magnitude" : 2,
+                "place": "Iasi, Romania",
+                "time" : "2017-05-06T00:21:40",
+                "url" :  "http://link.ro",
+                "title" : "The amaizing earthquake"
+            }
+        ],
+        "hazzard" : {
+
+            "floodsList" : [
+                {
+                    "alert-level" : "BIG",
+                    "country": "Romania",
+                    "time" : "2017-05-06T00:21:40",
+                    "url" :  "http://link.ro",
+                    "title" : "The amaizing earthquake",
+                    "description" : "Description for the flood"
+                }
+            ],
+            "cyclonesList" : [
+                 {
+                    "alert-level" : "BIG",
+                    "country": "Romania",
+                    "time" : "2017-05-06T00:21:40",
+                    "url" :  "http://link.ro",
+                    "title" : "The amaizing earthquake",
+                    "description" : "Description for the cyclone"
+                }
+            ]
+        }
+    },
+    "newsNotificationsList" : [
+        {
+            "author": "Some guy",
+            "title" : "The weather is bad",
+            "description" : "The weaher is really bad",
+            "url" : "http://link.ro",
+            "urlToImage" : "http://...",
+            "publishedAt" : "some location"
+        },
+        {
+            "author": "Some guy",
+            "title" : "The weather is bad",
+            "description" : "The weaher is really bad",
+            "url" : "http://link.ro",
+            "urlToImage" : "http://...",
+            "publishedAt" : "some location"
+        }
+    ]
+}

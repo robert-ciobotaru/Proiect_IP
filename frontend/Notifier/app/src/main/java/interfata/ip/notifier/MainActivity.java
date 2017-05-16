@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(file.getInfo());
 */
         //Test baze de date
-        NotificationTableData data = new NotificationTableData();
+/*        NotificationTableData data = new NotificationTableData();
+
 
         data.setText("informatii");
         data.setId(1);
@@ -75,13 +76,6 @@ public class MainActivity extends AppCompatActivity {
         List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
 
         dates=db2.getFirstTableDataList();
-<<<<<<< Updated upstream
-        System.out.println(dates.get(1).getText());
-        System.out.println(dates);
-=======
-        //System.out.println(dates.get(1).getInfo());
-        //System.out.println(dates);
->>>>>>> Stashed changes
-
+        */
     }
 }
