@@ -26,7 +26,7 @@ public abstract class AbstractController {
 	  
 	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-	
+	 
 	@ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorDTO handleException(MethodArgumentNotValidException exception) {
