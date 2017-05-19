@@ -440,4 +440,446 @@ public class TestNotificationController {
             .andExpect(status().is(503));
 
     }
+    
+    @Test
+    public void test_internal_server_error_notification_get_null_field_weatherNotficationsList() throws Exception {
+
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody("{" +
+                    "\"userNotifications\": [{" +
+                    "\"id\": 23," +
+                    "\"text\": \"Get the kid\"," +
+                    "\"time\": 213141," +
+                    "\"repeatable\": true," +
+                    "\"interval\": 234" +
+                    "}," +
+                    "{" +
+                    "\"id\": 24," +
+                    "\"text\": \"Burn the house\"," +
+                    "\"time\": 54234," +
+                    "\"repeatable\": false," +
+                    "\"interval\": 234" +
+                    "}" +
+                    "]," +
+                    "\"weatherNotificationsList\": [{" +
+                    "\"location\": {" +
+                    "\"city\": null," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}," +
+                    "{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}" +
+                    "]," +
+                    "\"earthquakesList\": [{" +
+                    "\"magnitude\": 2," +
+                    "\"place\": \"Iasi, Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"" +
+                    "}]," +
+                    "\"floodsList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"," +
+                    "\"description\": \"Description for the flood\"" +
+                    "}]," +
+                    "\"cyclonesList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing cyclone\"," +
+                    "\"description\": \"Description for the cyclone\"" +
+                    "}]," +
+                    "\"newsNotificationsList\": [{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}," +
+                    "{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}" +
+                    "]," +
+                    "\"error\": \"\"" +
+                    "}")
+                //.withStatus(201)
+            ));
+
+
+        this.mockMvc.perform(get("/v1/users/23/notifications"))
+            .andExpect(status().is(500));
+        
+
+    }
+    
+    @Test
+    public void test_internal_server_error_notification_get_null_field_userNotficationsList() throws Exception {
+
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody("{" +
+                    "\"userNotifications\": [{" +
+                    "\"id\": null," +
+                    "\"text\": \"Get the kid\"," +
+                    "\"time\": 213141," +
+                    "\"repeatable\": true," +
+                    "\"interval\": 234" +
+                    "}," +
+                    "{" +
+                    "\"id\": 24," +
+                    "\"text\": \"Burn the house\"," +
+                    "\"time\": 54234," +
+                    "\"repeatable\": false," +
+                    "\"interval\": 234" +
+                    "}" +
+                    "]," +
+                    "\"weatherNotificationsList\": [{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}," +
+                    "{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}" +
+                    "]," +
+                    "\"earthquakesList\": [{" +
+                    "\"magnitude\": 2," +
+                    "\"place\": \"Iasi, Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"" +
+                    "}]," +
+                    "\"floodsList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"," +
+                    "\"description\": \"Description for the flood\"" +
+                    "}]," +
+                    "\"cyclonesList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing cyclone\"," +
+                    "\"description\": \"Description for the cyclone\"" +
+                    "}]," +
+                    "\"newsNotificationsList\": [{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}," +
+                    "{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}" +
+                    "]," +
+                    "\"error\": \"\"" +
+                    "}")
+                //.withStatus(201)
+            ));
+
+
+        this.mockMvc.perform(get("/v1/users/23/notifications"))
+            .andExpect(status().is(500));
+    
+    }
+    
+    @Test
+    public void test_internal_server_error_notification_get_null_field_earthquakesNotificationsList() throws Exception {
+
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody("{" +
+                    "\"userNotifications\": [{" +
+                    "\"id\": 23," +
+                    "\"text\": \"Get the kid\"," +
+                    "\"time\": 213141," +
+                    "\"repeatable\": true," +
+                    "\"interval\": 234" +
+                    "}," +
+                    "{" +
+                    "\"id\": 24," +
+                    "\"text\": \"Burn the house\"," +
+                    "\"time\": 54234," +
+                    "\"repeatable\": false," +
+                    "\"interval\": 234" +
+                    "}" +
+                    "]," +
+                    "\"weatherNotificationsList\": [{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}," +
+                    "{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}" +
+                    "]," +
+                    "\"earthquakesList\": [{" +
+                    "\"magnitude\": null," +
+                    "\"place\": \"Iasi, Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"" +
+                    "}]," +
+                    "\"floodsList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"," +
+                    "\"description\": \"Description for the flood\"" +
+                    "}]," +
+                    "\"cyclonesList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing cyclone\"," +
+                    "\"description\": \"Description for the cyclone\"" +
+                    "}]," +
+                    "\"newsNotificationsList\": [{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}," +
+                    "{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}" +
+                    "]," +
+                    "\"error\": \"\"" +
+                    "}")
+                //.withStatus(201)
+            ));
+
+
+        this.mockMvc.perform(get("/v1/users/23/notifications"))
+            .andExpect(status().is(500));
+    
+    }
+    
+    @Test
+    public void test_internal_server_error_notification_get_null_field_floodsNotificationsList() throws Exception {
+
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody("{" +
+                    "\"userNotifications\": [{" +
+                    "\"id\": 23," +
+                    "\"text\": \"Get the kid\"," +
+                    "\"time\": 213141," +
+                    "\"repeatable\": true," +
+                    "\"interval\": 234" +
+                    "}," +
+                    "{" +
+                    "\"id\": 24," +
+                    "\"text\": \"Burn the house\"," +
+                    "\"time\": 54234," +
+                    "\"repeatable\": false," +
+                    "\"interval\": 234" +
+                    "}" +
+                    "]," +
+                    "\"weatherNotificationsList\": [{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}," +
+                    "{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}" +
+                    "]," +
+                    "\"earthquakesList\": [{" +
+                    "\"magnitude\": 2," +
+                    "\"place\": \"Iasi, Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"" +
+                    "}]," +
+                    "\"floodsList\": [{" +
+                    "\"alertLevel\": null," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"," +
+                    "\"description\": \"Description for the flood\"" +
+                    "}]," +
+                    "\"cyclonesList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing cyclone\"," +
+                    "\"description\": \"Description for the cyclone\"" +
+                    "}]," +
+                    "\"newsNotificationsList\": [{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}," +
+                    "{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}" +
+                    "]," +
+                    "\"error\": \"\"" +
+                    "}")
+                //.withStatus(201)
+            ));
+
+
+        this.mockMvc.perform(get("/v1/users/23/notifications"))
+            .andExpect(status().is(500));
+    
+    }
+    
+    @Test
+    public void test_internal_server_error_notification_get_null_field_cyclonesNotificationsList() throws Exception {
+
+        wireMockRule.stubFor(any(urlPathEqualTo("/"))
+            .willReturn(aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withBody("{" +
+                    "\"userNotifications\": [{" +
+                    "\"id\": 23," +
+                    "\"text\": \"Get the kid\"," +
+                    "\"time\": 213141," +
+                    "\"repeatable\": true," +
+                    "\"interval\": 234" +
+                    "}," +
+                    "{" +
+                    "\"id\": 24," +
+                    "\"text\": \"Burn the house\"," +
+                    "\"time\": 54234," +
+                    "\"repeatable\": false," +
+                    "\"interval\": 234" +
+                    "}" +
+                    "]," +
+                    "\"weatherNotificationsList\": [{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}," +
+                    "{" +
+                    "\"location\": {" +
+                    "\"city\": \"Iasi\"," +
+                    "\"country\": \"Romania\"" +
+                    "}," +
+                    "\"text\": \"The weather is bad\"" +
+                    "}" +
+                    "]," +
+                    "\"earthquakesList\": [{" +
+                    "\"magnitude\": 2," +
+                    "\"place\": \"Iasi, Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"" +
+                    "}]," +
+                    "\"floodsList\": [{" +
+                    "\"alertLevel\": \"BIG\"," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing earthquake\"," +
+                    "\"description\": \"Description for the flood\"" +
+                    "}]," +
+                    "\"cyclonesList\": [{" +
+                    "\"alertLevel\": null," +
+                    "\"country\": \"Romania\"," +
+                    "\"time\": \"2017-05-06T00:21:40\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"title\": \"The amazing cyclone\"," +
+                    "\"description\": \"Description for the cyclone\"" +
+                    "}]," +
+                    "\"newsNotificationsList\": [{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}," +
+                    "{" +
+                    "\"author\": \"Some guy\"," +
+                    "\"title\": \"The weather is bad\"," +
+                    "\"description\": \"The weaher is really bad\"," +
+                    "\"url\": \"http://link.ro\"," +
+                    "\"urlToImage\": \"http://...\"," +
+                    "\"publishedAt\": \"some location\"" +
+                    "}" +
+                    "]," +
+                    "\"error\": \"\"" +
+                    "}")
+                //.withStatus(201)
+            ));
+
+
+        this.mockMvc.perform(get("/v1/users/23/notifications"))
+            .andExpect(status().is(500));
+    
+    }
+   
 }

@@ -21,9 +21,9 @@ public class DeleteRemindersByIdBackendRequestDTO {
 	public String getMethod() {
 		return method;
 	}
-	public void setMethod(String method) {
-		this.method = Sanitizer.escapeSql(method);
-	}
+//	public void setMethod(String method) {
+//		this.method = Sanitizer.escapeSql(method);
+//	}
 
 
 }

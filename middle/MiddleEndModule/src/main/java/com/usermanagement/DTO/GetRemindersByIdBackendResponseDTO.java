@@ -12,9 +12,9 @@ public class GetRemindersByIdBackendResponseDTO {
 	public List<PostRemindersFrontendResponseDTO> getNotifications() {
 		return notificationsList;
 	}
-	public void setNotifications(List<PostRemindersFrontendResponseDTO> notifications) {
-		this.notificationsList = notifications;
-	}
+//	public void setNotifications(List<PostRemindersFrontendResponseDTO> notifications) {
+//		this.notificationsList = notifications;
+//	}
 	public String getError() {
 		return error;
 	}
@@ -28,8 +28,7 @@ public class GetRemindersByIdBackendResponseDTO {
 			if(itr.next().validate()==false)
 				return false;
 		}
-		if(error == null)
-			return false;
+
 		
 	 return true;
 	}

@@ -23,8 +23,8 @@ public class PostUsersBackendRequestDTO {
 		return method;
 	}
 
-	public void setMethod(String method) {
-		this.method = Sanitizer.escapeSql(method);
-	}
+//	public void setMethod(String method) {
+//		this.method = Sanitizer.escapeSql(method);
+//	}
    
 }

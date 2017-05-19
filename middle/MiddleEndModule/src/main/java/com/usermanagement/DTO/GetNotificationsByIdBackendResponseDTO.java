@@ -87,8 +87,6 @@ public class GetNotificationsByIdBackendResponseDTO {
 			if(itr5.next().validate()==false)
 				return false;
 		}
-		if(this.error==null)
-			return false;
 		return true;
 	}
 	
