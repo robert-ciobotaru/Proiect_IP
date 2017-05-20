@@ -63,7 +63,7 @@ public class NotificationSend extends AppCompatActivity {
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext());
                     mBuilder.setSmallIcon(R.drawable.icon);
                     mBuilder.setContentText(text);
-                    mBuilder.setContentTitle("Notification");
+                    mBuilder.setContentTitle("NotificatioN");
 
                     Intent resultIntent = new Intent(getBaseContext(), NotificationView.class);
                     resultIntent.putExtra("text", text);

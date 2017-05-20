@@ -1,24 +1,20 @@
 package interfata.ip.notifier;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.Messenger;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
-import interfata.ip.notifier.InternalFile.FileIO;
-import interfata.ip.notifier.messenger.NetworkTask;
 import interfata.ip.notifier.messenger.PostUsers;
 
 public class Categories extends AppCompatActivity {
@@ -77,4 +73,10 @@ public class Categories extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Created by munte on 20.05.2017.
+     */
+
+
 }

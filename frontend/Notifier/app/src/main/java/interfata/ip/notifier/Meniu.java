@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -36,6 +37,8 @@ public class Meniu extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
 
         Bundle extras = getIntent().getExtras();
         if(extras!=null){
@@ -58,7 +61,7 @@ public class Meniu extends AppCompatActivity
             public void onClick(View view) {
                 /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext());
                 mBuilder.setSmallIcon(R.drawable.icon);
-                mBuilder.setContentTitle("Notification");
+                mBuilder.setContentTitle("NotificatioN");
 
                 Intent resultIntent = new Intent(getBaseContext(), NotificationView.class);
                 resultIntent.putExtra("text", "test");

@@ -22,7 +22,7 @@ public class DbOperator extends SQLiteOpenHelper {
 
     public static final String CREATE_USER_NOTIFICATIONS = "create table if not exists "
             + USER_NOTIFICATION_TABLE
-            + " ( _id integer primary key autoincrement, text VARCHAR(300) NOT NULL, time DATE NOT NULL, repeatable BOOLEAN NOT NULL, interval INTEGER);";
+            + " ( _id integer primary key autoincrement, title VARCHAR(300) NOT NULL, content VARCHAR(300), time DATE NOT NULL, repeatable BOOLEAN NOT NULL);";
 
 
     public DbOperator(Context context) {
@@ -31,9 +31,9 @@ public class DbOperator extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_NOTIFICATIONS);
-//        db.execSQL(CREATE_USER_NOTIFICATIONS);
-        db.close();
+//        db.execSQL(CREATE_NOTIFICATIONS);
+       db.execSQL(CREATE_USER_NOTIFICATIONS);
+       db.close();
     }
 
     @Override

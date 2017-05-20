@@ -30,7 +30,7 @@ abstract class DeleteRequest extends Messenger {
         int res = urlConnection.getResponseCode();
 
         if (422 == res) {
-            return new JSONObject("{error: 'Invalid notification id / Invalid Notification user'}");
+            return new JSONObject("{error: 'Invalid notification id / Invalid NotificatioN user'}");
         }
         if (500 == res) {
             return new JSONObject("{error: 'Internal server error'}");
