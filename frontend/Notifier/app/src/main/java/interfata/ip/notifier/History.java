@@ -1,5 +1,6 @@
 package interfata.ip.notifier;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import interfata.ip.notifier.Database.DbOperator;
+import interfata.ip.notifier.Database.NotificationTableData;
+import interfata.ip.notifier.Database.NotificationsDB;
 
 public class History extends AppCompatActivity {
 
@@ -26,6 +31,19 @@ public class History extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         rowItems = new ArrayList<Notificare>();
+        DbOperator db= new DbOperator(getApplicationContext());
+        NotificationsDB db2=new NotificationsDB(getApplicationContext());
+        List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
+
+        dates=db2.getFirstTableDataList();
+        int j=0;
+        for (NotificationTableData date : dates)
+        {
+            titles[j]=date.getText();
+            pics[j]= Integer.parseInt(date.getImg());
+            contents[j]=date.getTime();
+            j++;
+        }
 
         /*titles = getResources().getStringArray(R.array.Member_names);
 
@@ -33,13 +51,6 @@ public class History extends AppCompatActivity {
 
         contents = getResources().getStringArray(R.array.statues);*/
 
-        titles[0]="Title1";
-        pics[0]=1;
-        contents[0]="Content1";
-
-        titles[1]="Title2";
-        pics[1]=1;
-        contents[1]="Content2";
 
 
 

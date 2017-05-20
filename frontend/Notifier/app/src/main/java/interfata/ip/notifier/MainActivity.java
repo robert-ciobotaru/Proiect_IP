@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationsDB db2=new NotificationsDB(getApplicationContext());
         System.out.println("inainte de insert");
-        //db2.addNotification(data);
+        db2.addNotification(data);
 
 
         List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
