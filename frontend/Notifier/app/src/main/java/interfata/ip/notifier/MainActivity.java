@@ -6,12 +6,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-<<<<<<< HEAD
+
 import android.database.sqlite.SQLiteDatabase;
-=======
+
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
->>>>>>> a00611dc6a61ed4b56922285af5d3a8b7cf31d92
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;

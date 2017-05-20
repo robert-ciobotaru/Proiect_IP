@@ -35,15 +35,11 @@ public class NotificationsDB extends DbOperator {
      FirstTableData types. Now you use this list to display detail on your screen as per your
      requirements.
      */
-<<<<<<< HEAD
+
     public List< NotificationTableData > getFirstTableDataList() {
         List< NotificationTableData > firstTableDataList = new ArrayList< NotificationTableData >();
         String refQuery = "Select * From " + USER_NOTIFICATION_TABLE;
-=======
-    public List<NotificationTableData> getFirstTableDataList() {
-        List<NotificationTableData> firstTableDataList = new ArrayList< NotificationTableData >();
-        String refQuery = "Select * From " + FIRST_TABLE_NAME;
->>>>>>> a00611dc6a61ed4b56922285af5d3a8b7cf31d92
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(refQuery, null);
         try {
@@ -52,14 +48,13 @@ public class NotificationsDB extends DbOperator {
                     NotificationTableData itemData = new NotificationTableData();
                     itemData.setId(cursor.getInt(0));
                     itemData.setText(cursor.getString(1));
-<<<<<<< HEAD
+
 
                     itemData.setTime(cursor.getString(2));
 
                     itemData.setImg(cursor.getString(3));
 
-=======
->>>>>>> a00611dc6a61ed4b56922285af5d3a8b7cf31d92
+
                     firstTableDataList.add(itemData);
                 } while (cursor.moveToNext());
             }
@@ -72,14 +67,10 @@ public class NotificationsDB extends DbOperator {
     }
 
 
-<<<<<<< HEAD
-=======
-        long x=db.insert(FIRST_TABLE_NAME, null, values);
-        db.close();
-        return (int)x;
-    }
 
->>>>>>> a00611dc6a61ed4b56922285af5d3a8b7cf31d92
+
+
+
     public int addNotification(NotificationTableData notification){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -101,13 +92,13 @@ public class NotificationsDB extends DbOperator {
         values.put("time", data.getTime());
         values.put("image", data.getImg());
 
-<<<<<<< HEAD
+
 
 
         db.update(USER_NOTIFICATION_TABLE, values, COL_ID + "=" + data.getId(),    null);
-=======
+
         db.update(FIRST_TABLE_NAME, values, COL_ID + "=" + data.getId(),    null);
->>>>>>> a00611dc6a61ed4b56922285af5d3a8b7cf31d92
+
         db.close();
     }
 }
