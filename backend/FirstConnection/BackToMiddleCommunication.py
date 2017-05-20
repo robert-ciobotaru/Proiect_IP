@@ -6,6 +6,7 @@ import mysql.connector
 from threading import Thread
 import time
 import BaseHTTPServer
+import MySQLdb
 
 HOST_NAME='localhost'
 PORT_NUMBER=8000
@@ -13,7 +14,8 @@ dataCrawler=[]
 
 def send(raspuns):
     global dataCrawler
-    db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+    db=MySQLdb.connect(host="130.211.102.0",user="root",passwd="STUDENT",db="proiectip_a2")  
+    #mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
     #host='130.211.102.0'
     cursor=db.cursor()
     cursor2=db.cursor()
