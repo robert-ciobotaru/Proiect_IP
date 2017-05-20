@@ -49,6 +49,19 @@
         <activity android:name=".History"
             android:label="History">
         </activity>
+
+        <service
+            android:enabled="true"
+            android:name=".logic.BackgroundTask" />
+
+        <receiver
+            android:name="interfata.ip.notifier.notifications.AlarmNotificationReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="interfata.ip.notifier" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

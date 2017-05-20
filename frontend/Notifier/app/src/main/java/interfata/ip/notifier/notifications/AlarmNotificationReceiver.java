@@ -20,8 +20,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(android.R.mipmap.sym_def_app_icon)
                 .setContentTitle("Alarm activated")
-                .setContentText("This is my alarm")
-                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentText(intent.getStringExtra("notification_data"))
                 .setContentInfo("Info");
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(1, builder.build());
