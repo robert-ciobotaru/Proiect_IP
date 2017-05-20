@@ -18,7 +18,7 @@ public class NotificationsDB extends DbOperator {
     }
 
     private static final String COL_ID = "_id";
-    private static final String COL1 = "notif";
+    //private static final String COL1 = "notif";
     //private static final String COL2 = "COL2";
 
     public void deleteFirstTableDataList(List<NotificationTableData>notificationTableDataList) {
@@ -28,7 +28,7 @@ public class NotificationsDB extends DbOperator {
     }
     public void deleteFirstTableDetailData(NotificationTableData item) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(FIRST_TABLE_NAME, item.getId() + "=" + COL_ID, null);
+        db.delete(USER_NOTIFICATION_TABLE, item.getId() + "=" + COL_ID, null);
         db.close();
     }
     /**this method retrieves all the records from table and returns them as list of
@@ -37,7 +37,7 @@ public class NotificationsDB extends DbOperator {
      */
     public List< NotificationTableData > getFirstTableDataList() {
         List< NotificationTableData > firstTableDataList = new ArrayList< NotificationTableData >();
-        String refQuery = "Select * From " + FIRST_TABLE_NAME;
+        String refQuery = "Select * From " + USER_NOTIFICATION_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(refQuery, null);
         try {
@@ -48,6 +48,10 @@ public class NotificationsDB extends DbOperator {
                     itemData.setId(cursor.getInt(0));
 
                     itemData.setText(cursor.getString(1));
+
+                    itemData.setTime(cursor.getString(2));
+
+                    itemData.setImg(cursor.getString(3));
 
                     firstTableDataList.add(itemData);
                 } while (cursor.moveToNext());
@@ -61,26 +65,16 @@ public class NotificationsDB extends DbOperator {
         return firstTableDataList;
     }
 
-    public int  addFirstTableData(NotificationTableData data) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
 
-        values.put(COL1, data.getText());
-        //values.put(COL2, data.getCol2());
-
-        long x=db.insert(FIRST_TABLE_NAME, null, values);
-        db.close();
-        return (int)x;
-    }
     public int addNotification(NotificationTableData notification){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("time", notification.getTime());
         values.put("text", notification.getText());
-        values.put("img", notification.getImg());
+        values.put("time", notification.getTime());
+        values.put("image", notification.getImg());
 
-        long status = db.insert(FIRST_TABLE_NAME, null, values);
+        long status = db.insert(USER_NOTIFICATION_TABLE, null, values);
         db.close();
         return (int)status;
     }
@@ -89,11 +83,13 @@ public class NotificationsDB extends DbOperator {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(COL1, data.getText());
+        values.put("text", data.getText());
+        values.put("time", data.getTime());
+        values.put("image", data.getImg());
 
 
 
-        db.update(FIRST_TABLE_NAME, values, COL_ID + "=" + data.getId(),    null);
+        db.update(USER_NOTIFICATION_TABLE, values, COL_ID + "=" + data.getId(),    null);
         db.close();
     }
 }

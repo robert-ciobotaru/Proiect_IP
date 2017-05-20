@@ -2,6 +2,7 @@ package interfata.ip.notifier;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -62,20 +63,29 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(file.getInfo());
 */
         //Test baze de date
-/*        NotificationTableData data = new NotificationTableData();
+       NotificationTableData data = new NotificationTableData();
 
 
         data.setText("informatii");
-        data.setId(1);
+        data.setImg("3");
+        data.setTime("312312");
+        //data.setId(1);
         DbOperator db= new DbOperator(getApplicationContext());
-        NotificationsDB db2=new NotificationsDB(getApplicationContext());
-        db2.addFirstTableData(data);
 
-        db2.addNotification(data.construct());
+        NotificationsDB db2=new NotificationsDB(getApplicationContext());
+        System.out.println("inainte de insert");
+        //db2.addNotification(data);
+
 
         List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
 
         dates=db2.getFirstTableDataList();
-        */
+        for (NotificationTableData date : dates)
+        {
+            System.out.println(date.getImg());
+            System.out.println(date.getText());
+            System.out.println(date.getTime());
+        }
+
     }
 }
