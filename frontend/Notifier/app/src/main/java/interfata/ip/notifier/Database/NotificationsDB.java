@@ -35,8 +35,8 @@ public class NotificationsDB extends DbOperator {
      FirstTableData types. Now you use this list to display detail on your screen as per your
      requirements.
      */
-    public List< NotificationTableData > getFirstTableDataList() {
-        List< NotificationTableData > firstTableDataList = new ArrayList< NotificationTableData >();
+    public List<NotificationTableData> getFirstTableDataList() {
+        List<NotificationTableData> firstTableDataList = new ArrayList< NotificationTableData >();
         String refQuery = "Select * From " + FIRST_TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(refQuery, null);
@@ -44,16 +44,12 @@ public class NotificationsDB extends DbOperator {
             if (cursor.moveToFirst()) {
                 do {
                     NotificationTableData itemData = new NotificationTableData();
-
                     itemData.setId(cursor.getInt(0));
-
                     itemData.setText(cursor.getString(1));
-
                     firstTableDataList.add(itemData);
                 } while (cursor.moveToNext());
             }
         } finally {
-
             db.close();
         }
 
@@ -72,6 +68,7 @@ public class NotificationsDB extends DbOperator {
         db.close();
         return (int)x;
     }
+
     public int addNotification(NotificationTableData notification){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -80,7 +77,7 @@ public class NotificationsDB extends DbOperator {
         values.put("text", notification.getText());
         values.put("img", notification.getImg());
 
-        long status = db.insert(FIRST_TABLE_NAME, null, values);
+        long status = db.insert(USER_NOTIFICATION_TABLE, null, values);
         db.close();
         return (int)status;
     }
@@ -90,8 +87,6 @@ public class NotificationsDB extends DbOperator {
         ContentValues values = new ContentValues();
 
         values.put(COL1, data.getText());
-
-
 
         db.update(FIRST_TABLE_NAME, values, COL_ID + "=" + data.getId(),    null);
         db.close();

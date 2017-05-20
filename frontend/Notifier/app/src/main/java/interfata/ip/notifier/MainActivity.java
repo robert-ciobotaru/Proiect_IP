@@ -1,13 +1,20 @@
 package interfata.ip.notifier;
 
+import android.app.AlarmManager;
+import android.app.IntentService;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +22,8 @@ import java.util.List;
 import interfata.ip.notifier.Database.DbOperator;
 import interfata.ip.notifier.Database.NotificationTableData;
 import interfata.ip.notifier.Database.NotificationsDB;
+import interfata.ip.notifier.logic.BackgroundTask;
+import interfata.ip.notifier.notifications.AlarmNotificationReceiver;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
             //For commit the changes, Use either editor.commit(); or  editor.apply();.
             editor.commit();  ;
             Intent register = new Intent(getApplicationContext(), Register.class);
+            // startService(new Intent(, BackgroundTask.class));
             startActivity(register);
-        }else {
+        } else {
             Intent menu = new Intent(getApplicationContext(), Meniu.class);
             startActivity(menu);
         }
@@ -46,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        startService(new Intent(this, BackgroundTask.class));
+
         /*Read and write from file test */
        /* System.out.println("Test");
         FileIO file= new FileIO("test.file",getApplicationContext());

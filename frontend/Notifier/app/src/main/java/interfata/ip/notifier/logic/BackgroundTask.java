@@ -1,22 +1,35 @@
 package interfata.ip.notifier.logic;
 
-import android.app.Service;
-import android.os.IBinder;
+import android.app.AlarmManager;
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.util.Random;
 
+import interfata.ip.notifier.History;
+import interfata.ip.notifier.R;
 import interfata.ip.notifier.messenger.GetNotifications;
-import interfata.ip.notifier.types.WeatherNotification;
+import interfata.ip.notifier.notifications.AlarmNotificationReceiver;
 
 
-public class BackgroundTask extends Service {
+public class BackgroundTask extends IntentService {
 
-    String exampleRes = "{\n" +
+    static String exampleRes = "{\n" +
             "    \"userNotificationsList\" : [\n" +
             "        {\n" +
             "            \"id\": 23,\n" +
@@ -103,53 +116,65 @@ public class BackgroundTask extends Service {
             "    ]\n" +
             "}\n";
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        //TODO do something useful
 
-        JSONObject obj, weatherNotification, earthquakeNotification, floodNotification, cycloneNotification;
-        JSONArray weatherNotificationsList, earthquakesNotificationsList, floodsNotificationsList, cyclonesNotificationsList;
+    public BackgroundTask() {
+        super("defaultName");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void showNotification(JSONObject notification, String title) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.icon)
+                        .setContentTitle(title)
+                        .setContentText(String.valueOf(notification));
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, History.class);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(History.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(new Random().nextInt(), mBuilder.build());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    void showNotificationsList(JSONArray notificationsList, String category) throws JSONException {
+        JSONObject notification;
+        for(int i = 0; i < notificationsList.length(); i++) {
+            notification = notificationsList.getJSONObject(i);
+            showNotification(notification, category);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+
+        JSONObject obj;
         String reqResult;
         GetNotifications notificationGetter = new GetNotifications(2);
 
         while(true) {
             try {
                 obj = new JSONObject(exampleRes);
-                weatherNotificationsList = obj.getJSONArray("weatherNotificationsList");
-                for(int i = 0; i < weatherNotificationsList.length(); i++) {
-                    weatherNotification = weatherNotificationsList.getJSONObject(i);
-                    System.out.println(weatherNotification.toString());
-                }
-
-                earthquakesNotificationsList = obj.getJSONObject("hazzardNotifications").getJSONArray("earthquakesList");
-                for(int i = 0; i < earthquakesNotificationsList.length(); i++) {
-                    earthquakeNotification = earthquakesNotificationsList.getJSONObject(i);
-                    System.out.println(earthquakeNotification.toString());
-                }
-
-                floodsNotificationsList = obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("floodsList");
-                for(int i = 0; i < floodsNotificationsList.length(); i++) {
-                    floodNotification = floodsNotificationsList.getJSONObject(i);
-                    System.out.println(floodNotification);
-                }
-
-                cyclonesNotificationsList = obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("cyclonesList");
-                for(int i = 0; i < cyclonesNotificationsList.length(); i++) {
-                    cycloneNotification = cyclonesNotificationsList.getJSONObject(i);
-                    System.out.println(cycloneNotification);
-                }
-
-                Thread.sleep(3000);
+                showNotificationsList(obj.getJSONArray("weatherNotificationsList"), "Weather");
+                showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONArray("earthquakesList"), "Earthquake");
+                showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("floodsList"), "Flood");
+                showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("cyclonesList"), "Cyclone");
+                Thread.sleep(6000);
             } catch (JSONException | InterruptedException e) {
-                return Service.START_NOT_STICKY;
+                e.printStackTrace();
             }
         }
     }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        //TODO for communication return IBinder implementation
-        return null;
-    }
-
 }
