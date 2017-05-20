@@ -5,16 +5,82 @@ import java.util.Map;
 
 public class RequestMonitor extends Thread {
 	
-	 private static RequestMonitor requestMonitor = null;
-	 private  int maxRequestCount;
-	 private  Map<String,Integer> requestMap = new HashMap<String, Integer>();
-	 
-	 private RequestMonitor() { 
-		 maxRequestCount = 100;
+	private static RequestMonitor requestMonitor = null;
+	private int maxRequestCount;
+	private int maxGlobalRequestCount;
+	private int currentRequestCount;
+	
+	private int resetPeriod;
+	private boolean signalStop;
+	private boolean stopped;
+	
+	private  Map<String,Integer> requestMap;
+	
+	public int getMaxGlobalRequestCount() {
+		return maxGlobalRequestCount;
+	}
+
+	public void setMaxGlobalRequestCount(int maxGlobalRequestCount) {
+		this.maxGlobalRequestCount = maxGlobalRequestCount;
+	}
+
+
+	public void stopMonitor() throws Exception {
+		if (!isStopped()){
+			signalStop();
+			
+			while (!isStopped()) {
+				System.out.println("STOP PENDING");
+			}		
+			this.join();
+			System.out.println("JOIN SUCCESS");		
+			
+			requestMonitor = null;
+		}
+	}
+	
+	
+	private RequestMonitor() { 
+		signalStop = false;
+		stopped = true;
+		currentRequestCount = 0;
+		requestMap = new HashMap<String, Integer>();
 	 }
+	
+	public boolean isStopped() {
+		return stopped;
+	}
+
+	public boolean isSignalStop() {
+		return signalStop;
+	}
+
+	 @Override
+	public void start() {
+		 signalStop = false;
+		 stopped = false;
+		 reset();
+		 super.start();
+	}
+	 
+	public void signalStop() {
+		this.signalStop = true;
+	}
+	
+	 
+	 public int getResetPeriod() {
+		return resetPeriod;
+	}
+
+	public void setResetPeriod(int resetPeriod) {
+		this.resetPeriod = resetPeriod;
+	}
+
+	
 	 
 	 public void reset() {
 		 requestMap = new HashMap<String, Integer>();
+		 currentRequestCount = 0;
 	 }
 	 
 	 public static RequestMonitor getRequestMonitorInstance() {
@@ -34,6 +100,17 @@ public class RequestMonitor extends Thread {
 	 }
 	
 	 synchronized public boolean allowRequest(String address) {
+		 
+		 if (currentRequestCount >= maxGlobalRequestCount) {
+			 return false;
+		 }
+
+		 currentRequestCount++;
+		 
+		 if (currentRequestCount % 100 == 0) {
+			 System.out.println("currentRequestCount = " + currentRequestCount);
+		 }
+		 
 		if(!requestMap.containsKey(address))
 			requestMap.put(address, 1);
 
@@ -46,23 +123,19 @@ public class RequestMonitor extends Thread {
 	}
 	@Override
 	 public void run() {
-		while(true){ 
-			try {
-				Thread.sleep(1000*60);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			requestMap = new HashMap<String, Integer>();
-			
-			
+		while(!signalStop) { 
+		try{
+			Thread.sleep(resetPeriod);
 		}
+		catch (Exception e){
+			stopped = true;
+			requestMonitor = null;
+			return;
+		}					
+			requestMap = new HashMap<String, Integer>();
+			currentRequestCount = 0;
+		}
+		stopped = true;
+		System.out.println("THREAD STOPPED");
 	}
-	@SuppressWarnings("deprecation")
-	@Override
-	public void finalize(){
-	   this.stop();
-	}
-	
-
 }

@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import com.usermanagement.DTO.PostRemindersBackendRequestDTO;
@@ -201,6 +199,7 @@ public class ReminderController extends AbstractController {
     		 
     		 return new ResponseEntity<>(error,HttpStatus.TOO_MANY_REQUESTS);
     	 }
+    	//System.out.println("Request allowed");
     	
     	GetRemindersByIdBackendRequestDTO getRemindersMethod = new GetRemindersByIdBackendRequestDTO();
     	String url = new String(backEndUrlPath);

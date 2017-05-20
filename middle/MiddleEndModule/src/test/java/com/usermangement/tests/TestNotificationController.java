@@ -44,6 +44,8 @@ public class TestNotificationController {
         controllers.setBackEndUrlPath("http://localhost:9001");
         this.mockMvc = MockMvcBuilders.standaloneSetup(controllers).build();
         RequestMonitor.getRequestMonitorInstance().reset();
+        RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(100);
+        RequestMonitor.getRequestMonitorInstance().setMaxGlobalRequestCount(1000);
     }
 
     @After

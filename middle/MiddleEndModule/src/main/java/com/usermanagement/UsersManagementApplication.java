@@ -16,6 +16,11 @@ public class UsersManagementApplication {
 	
 	public static void main(String[] args) {
 		
+		RequestMonitor.getRequestMonitorInstance().setResetPeriod(10000);
+		RequestMonitor.getRequestMonitorInstance().setMaxRequestCount(10000);
+		RequestMonitor.getRequestMonitorInstance().setMaxGlobalRequestCount(10000);
+		RequestMonitor.getRequestMonitorInstance().start();
+	
 		SpringApplication.run(UsersManagementApplication.class, args);
 	}
 }

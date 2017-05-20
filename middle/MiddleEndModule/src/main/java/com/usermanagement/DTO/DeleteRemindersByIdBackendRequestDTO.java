@@ -2,8 +2,6 @@ package com.usermanagement.DTO;
 
 import javax.validation.constraints.Size;
 
-import com.usermanagement.Sanitizer;
-
 
 public class DeleteRemindersByIdBackendRequestDTO {
 	
