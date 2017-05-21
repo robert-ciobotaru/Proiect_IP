@@ -8,15 +8,15 @@ import com.usermanagement.Sanitizer;
 
 public class GetRemindersByIdBackendRequestDTO {
  
-	public Integer id;
+	public Integer userId;
 	@Size(max=1024, message="Invalid Length")
 	public String method;
 
- public Integer getId() {
-	return id;
+ public Integer getUserId() {
+	return userId;
 }
-public void setId(Integer id) {
-	this.id = id;
+public void setUserId(Integer userId) {
+	this.userId = userId;
 }
 public String getMethod() {
 	return method;

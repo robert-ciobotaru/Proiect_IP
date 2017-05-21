@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GetRemindersByIdBackendResponseDTO {
 
-	public List<PostRemindersFrontendResponseDTO> notificationsList = new ArrayList<PostRemindersFrontendResponseDTO>();
+	public List<PostRemindersFrontendResponseDTO> notificationsList;
 	public String error;
 	
 	public List<PostRemindersFrontendResponseDTO> getNotifications() {
