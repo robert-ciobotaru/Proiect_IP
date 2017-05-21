@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,6 +39,7 @@ import java.util.concurrent.ExecutionException;
 import interfata.ip.notifier.Database.DbOperator;
 import interfata.ip.notifier.Database.NotificationTableData;
 import interfata.ip.notifier.Database.NotificationsDB;
+import interfata.ip.notifier.messenger.DeleteUser;
 import interfata.ip.notifier.messenger.GetReminders;
 import interfata.ip.notifier.messenger.NetworkTask;
 
@@ -106,23 +108,23 @@ public class Meniu extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext());
-                mBuilder.setSmallIcon(R.drawable.icon);
-                mBuilder.setContentTitle("NotificatioN");
+            /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext());
+            mBuilder.setSmallIcon(R.drawable.icon);
+            mBuilder.setContentTitle("NotificatioN");
 
-                Intent resultIntent = new Intent(getBaseContext(), NotificationView.class);
-                resultIntent.putExtra("text", "test");
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
-                stackBuilder.addParentStack(NotificationView.class);
-                stackBuilder.addNextIntent(resultIntent);
-                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                mBuilder.setContentIntent(resultPendingIntent);
-                mBuilder.setAutoCancel(true);
-                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                Random rand = new Random();
-                notificationManager.notify(rand.nextInt(130000), mBuilder.build());*/
-                Intent createNotification = new Intent(getApplicationContext(),CreateNotification.class);
-                startActivity(createNotification);
+            Intent resultIntent = new Intent(getBaseContext(), NotificationView.class);
+            resultIntent.putExtra("text", "test");
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+            stackBuilder.addParentStack(NotificationView.class);
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
+            mBuilder.setAutoCancel(true);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            Random rand = new Random();
+            notificationManager.notify(rand.nextInt(130000), mBuilder.build());*/
+            Intent createNotification = new Intent(getApplicationContext(),CreateNotification.class);
+            startActivity(createNotification);
             }
         });
 
@@ -175,7 +177,20 @@ public class Meniu extends AppCompatActivity
             Intent history = new Intent(getApplicationContext(),History.class);
             startActivity(history);
         } else if (id == R.id.logout) {
+            int user_id;
             Intent register = new Intent(getApplicationContext(),Register.class);
+
+            getApplicationContext();
+            SharedPreferences sharedPreferences = getSharedPreferences("ShaPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            user_id = sharedPreferences.getInt("user_id", -1);
+            DeleteUser du = new DeleteUser(user_id);
+            NetworkTask t = new NetworkTask();
+            t.execute(du);
+            editor.putInt("user_id", -1);
+            editor.apply();
+            //TODO delete from tables
+
             startActivity(register);
         } else if (id == R.id.setting) {
             Intent setting =new Intent(getApplicationContext(),Settings.class);

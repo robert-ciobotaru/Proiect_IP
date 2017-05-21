@@ -2,6 +2,7 @@ package interfata.ip.notifier;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,8 +14,13 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import interfata.ip.notifier.messenger.NetworkTask;
 import interfata.ip.notifier.messenger.PostUsers;
 
 public class Categories extends AppCompatActivity {
@@ -52,16 +58,22 @@ public class Categories extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            if(newsCrawler.isChecked()==true || hazzardCrawler.isChecked()==true || wheaterCrawler.isChecked()==true) {
-                // aici se face requestul
-                System.out.println("register");
+            if(newsCrawler.isChecked() || hazzardCrawler.isChecked() || wheaterCrawler.isChecked()) {
                 PostUsers m = new PostUsers(city, country, email, newsCrawler.isChecked(), hazzardCrawler.isChecked(), wheaterCrawler.isChecked());
-                //NetworkTask t = new NetworkTask();
-               // t.execute(m);
-                System.out.println("dupa execute");
-               // System.out.println("in try block");
+                NetworkTask t = new NetworkTask();
+                try {
+                    JSONObject response = t.execute(m).get();
+                    System.out.println(response);
+                    int id = response.getInt("id");
 
-
+                    getApplicationContext();
+                    SharedPreferences sharedPreferences = getSharedPreferences("ShaPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("user_id", id);
+                    editor.apply();
+                } catch (InterruptedException | ExecutionException | JSONException e) {
+                    e.printStackTrace();
+                }
                 Intent notificationSend = new Intent(getApplicationContext(), Meniu.class);
                 startActivity(notificationSend);
             }

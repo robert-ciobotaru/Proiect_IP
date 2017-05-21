@@ -41,19 +41,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("ShaPreferences", getApplicationContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        boolean  firstTime=sharedPreferences.getBoolean("first", true);
-        if(firstTime) {
-            editor.putBoolean("first",false);
-            //For commit the changes, Use either editor.commit(); or  editor.apply();.
-            editor.commit();
+        getApplicationContext();
+        SharedPreferences sharedPreferences = getSharedPreferences("ShaPreferences", MODE_PRIVATE);
+        int user_id = sharedPreferences.getInt("user_id", -1);
+        if(user_id < 0) {
             Intent register = new Intent(getApplicationContext(), Register.class);
-            // startService(new Intent(, BackgroundTask.class));
             startActivity(register);
         } else {
             Intent menu = new Intent(getApplicationContext(), Meniu.class);
             startActivity(menu);
+            startService(new Intent(this, BackgroundTask.class));
         }
 
         Button b = (Button) findViewById(R.id.button2);
@@ -65,10 +62,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //startService(new Intent(this, BackgroundTask.class));
-
         /*Read and write from file test */
-       /* System.out.println("Test");
+        /* System.out.println("Test");
         FileIO file= new FileIO("test.file",getApplicationContext());
         try {
             file.saveInfo("Informatii exemplu");

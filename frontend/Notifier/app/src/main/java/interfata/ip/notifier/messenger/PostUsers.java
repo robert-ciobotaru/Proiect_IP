@@ -55,10 +55,12 @@ public class PostUsers extends Messenger {
 
         OutputStreamWriter osw = new OutputStreamWriter(urlConn.getOutputStream());
         osw.write(obj.toString());
+        System.out.println("RAW DATA: " + obj.toString());
         osw.flush();
         osw.close();
 
         int res = urlConn.getResponseCode();
+        System.out.println("Res: " + res);
 
         if (400 == res) {
             return new JSONObject("{error: 'Data for creating new user is invalid'}");
@@ -69,7 +71,7 @@ public class PostUsers extends Messenger {
         if (503 == res) {
             return new JSONObject("{error: 'The server is currently unavailable'}");
         }
-        if (200 == res) {
+        if (201 == res) {
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "utf-8"));
             StringBuilder sb = new StringBuilder();
 
@@ -89,9 +91,9 @@ public class PostUsers extends Messenger {
                 "\"country\":\"{country}\"," +
                 "\"city\":\"{city}\"," +
                 "\"email\":\"{email}\"," +
-                "\"newsCrawler\":{news}," +
-                "\"hazardCrawler\":{hazards}," +
-                "\"weatherCrawler\":{weather}" +
+                "\"newsCrawler\":\"{news}\"," +
+                "\"hazzardCrawler\":\"{hazards}\"," +
+                "\"weatherCrawler\":\"{weather}\"" +
                 "}";
         return new JSONObject(
                 result.replace("{country}", country)
