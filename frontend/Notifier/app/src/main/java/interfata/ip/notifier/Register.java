@@ -36,48 +36,47 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(first.getText().length()>3 && second.getText().length()>3 && email.getText().length()>3 && city.getText().length()>2) {
-                    Intent categories = new Intent(getApplicationContext(), Categories.class);
-                    categories.putExtra("first", first.getText().toString());
-                    categories.putExtra("second", second.getText().toString());
-                    categories.putExtra("country", country.getText().toString());
-                    categories.putExtra("email", email.getText().toString());
-                    startActivity(categories);
-                }
-                else if(first.getText().length()<=3){
-                    Snackbar snackbar = Snackbar.make(v, "First name must have at least 4 characters!", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    first.requestFocus();
-                }
-                else if(second.getText().length()<=3){
-                    Snackbar snackbar = Snackbar.make(v, "Last name must have at least 4 characters!", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    second.requestFocus();
-                }
-                else if(city.getText().length()<=2){
-                    Snackbar snackbar = Snackbar.make(v, "City does not exist!", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    email.requestFocus();
-                }
-                else if(email.getText().length()<=3){
-                    Snackbar snackbar = Snackbar.make(v, "Email must have at least 4 characters", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    email.requestFocus();
-                }
+            if(first.getText().length()>3 && second.getText().length()>3 && email.getText().length()>3 && city.getText().length()>2) {
+                Intent categories = new Intent(getApplicationContext(), Categories.class);
+                categories.putExtra("first", first.getText().toString());
+                categories.putExtra("second", second.getText().toString());
+                categories.putExtra("country", country.getText().toString());
+                categories.putExtra("city", city.getText().toString());
+                categories.putExtra("email", email.getText().toString());
+                startActivity(categories);
+            }
+            else if(first.getText().length()<=3){
+                Snackbar snackbar = Snackbar.make(v, "First name must have at least 4 characters!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                first.requestFocus();
+            }
+            else if(second.getText().length()<=3){
+                Snackbar snackbar = Snackbar.make(v, "Last name must have at least 4 characters!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                second.requestFocus();
+            }
+            else if(city.getText().length()<=2){
+                Snackbar snackbar = Snackbar.make(v, "City does not exist!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                email.requestFocus();
+            }
+            else if(email.getText().length()<=3){
+                Snackbar snackbar = Snackbar.make(v, "Email must have at least 4 characters", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                email.requestFocus();
+            }
 
 
-                String filename = "user.txt";
-                FileOutputStream outputStream;
+            String filename = "user.txt";
+            FileOutputStream outputStream;
 
-                try {
-                    outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    outputStream.write(first.getText().toString().getBytes());
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
+            try {
+                outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                outputStream.write(first.getText().toString().getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             }
         });
 
