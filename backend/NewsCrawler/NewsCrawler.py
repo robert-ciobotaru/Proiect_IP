@@ -8,7 +8,7 @@ import os
 
 apiKey = 'e013828a660644e7b531f916f38a0f86'
 url = 'https://newsapi.org/v1/articles?source=google-news&sortBy=top&apiKey=' + apiKey
-urlSend = "http://104.199.93.85:8991"
+urlSend = "http://104.198.38.180:8991"
 
 if os.path.isfile('log_news.txt'):
     os.remove('log_news.txt')
