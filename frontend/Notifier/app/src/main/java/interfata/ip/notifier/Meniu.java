@@ -23,13 +23,34 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+
+import interfata.ip.notifier.Database.DbOperator;
+import interfata.ip.notifier.Database.NotificationTableData;
+import interfata.ip.notifier.Database.NotificationsDB;
+import interfata.ip.notifier.messenger.GetReminders;
+import interfata.ip.notifier.messenger.NetworkTask;
 
 public class Meniu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    String[] titles=new String[50];
+    int[] pics= new int[50];
+    String[] contents=new String[50];
+
+
+    List<Notificare> rowItems;
+    ListView mylistview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +59,46 @@ public class Meniu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
+        rowItems = new ArrayList<Notificare>();
+        DbOperator db= new DbOperator(getApplicationContext());
+        NotificationsDB db2=new NotificationsDB(getApplicationContext());
+        List<NotificationTableData> dates = new ArrayList<NotificationTableData>();
 
-        Bundle extras = getIntent().getExtras();
-        if(extras!=null){
-            String name = extras.getString("name");
-            String time = extras.getString("time");
-            String content = extras.getString("content");
-            TextView title = (TextView) findViewById(R.id.textView5);
-            title.setText(name);
-            TextView body = (TextView) findViewById(R.id.textView6);
-            body.setText(content+" "+time);
-            ImageView img= (ImageView) findViewById(R.id.imageView2);
-            img.setVisibility(View.VISIBLE);
+        dates=db2.getFirstTableDataList();
+        int j=0;
+
+
+        GetReminders gr = new GetReminders(2);
+        NetworkTask t= new NetworkTask();
+        try {
+            JSONObject jsonObject=t.execute(gr).get();
+            JSONArray jsonArray = jsonObject.getJSONArray("remindersList");
+            JSONObject reminder;
+            for(int k = 0; k<jsonArray.length();k++){
+                reminder=jsonArray.getJSONObject(k);
+                titles[j]="Reminder";
+                contents[j]=reminder.getString("text")+ " " + reminder.getString("time");
+                j++;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
+        //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
+
+        for (int i = 0; i < titles.length && titles[i]!=null; i++ ) {
+            Notificare item2 = new Notificare(titles[i], contents[i], pics[i]);
+            rowItems.add(item2);
+        }
+
+        mylistview = (ListView) findViewById(R.id.listview);
+        NotificationAdapter adapter = new NotificationAdapter(this, rowItems);
+        mylistview.setAdapter(adapter);
 
 
 
@@ -95,7 +142,7 @@ public class Meniu extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            drawer.closeDrawer(GravityCompat.START);
         }
     }
 
@@ -143,4 +190,5 @@ public class Meniu extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

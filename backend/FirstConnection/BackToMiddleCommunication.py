@@ -21,6 +21,8 @@ def send(raspuns):
     cursor2=db.cursor()
     #print "am ajuns aici"
     print raspuns
+    #raspuns['method']='getNotifications'
+    #raspuns['userId']=6
     if raspuns['method']=='addNotification':
         try:
             #print "am intrat in addNotification"
@@ -30,7 +32,17 @@ def send(raspuns):
                 interm=1
             else:
                 interm=linie[0]
-            cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['notification']['repeatable'],raspuns['notification']['interval'],raspuns['notification']['time'],raspuns['notification']['text'],raspuns['userId']))
+
+            cursor.execute("SELECT from_unixtime(%s) FROM DUAL", (raspuns['notification']['time'],))
+            #print("after execute unix")
+            linie=cursor.fetchone()
+            #print(linie[0])
+            #print(from_unixtime(raspuns['notification']['time']))
+            cursor.execute("INSERT INTO notificari VALUES (%s,%s,%s,%s,%s,%s)",(interm,raspuns['notification']['repeatable']
+                ,raspuns['notification']['interval'] ,linie[0],raspuns['notification']['text'],raspuns['userId']))
+
+            print('trace after execute')
+           
             db.commit()
             date=json.dumps({'notificationId':interm,'error':""})
             #print "am trimis handle"
@@ -43,7 +55,8 @@ def send(raspuns):
             return date
     elif raspuns['method']=='getUserNotifications':
         print "aiciii"
-        cursor.execute("Select * from notificari where user_id = %s",(raspuns['userId'], ))
+        cursor.execute("Select id,Repeatable,Interva,unix_timestamp(Time),Text from notificari where user_id = %s",(raspuns['userId'], ))
+        #cursor.execute("Select * from notificari where user_id=%s",(raspuns['userId'], ))
         linie=cursor.fetchone()
         if linie is None:
             #print "nothing fetched"
@@ -57,11 +70,11 @@ def send(raspuns):
             date={}
             date['error']=""
             date['notificationsList']=[]
-            date['notificationsList'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+            date['notificationsList'].append({'id':linie[0],'text':linie[4],'time':linie[3],'repeatable':linie[1],'interval':linie[2]})
             while linie is not None:
                 linie=cursor.fetchone()
                 if linie is not None:
-                    date['notificationsList'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+                    date['notificationsList'].append({'id':linie[0],'text':linie[4],'time':linie[3],'repeatable':linie[1],'interval':linie[2]})
             datee=json.dumps(date)
             return datee
     elif raspuns['method']=='addUser':
@@ -103,6 +116,8 @@ def send(raspuns):
     elif raspuns['method']=='removeUser':
         try:
             #print "am intrat in removeUser"
+            #cursor.execute("SELECT id from useri where id=%s",(raspuns['userId'], ))
+            #linie=cursor.fetchone()
             cursor.execute("DELETE FROM notificari where user_id=%s",(raspuns['userId'], ))
             cursor.execute("DELETE FROM useri where id=%s",(raspuns['userId'], ))
             db.commit()
@@ -116,7 +131,7 @@ def send(raspuns):
     elif raspuns['method']=='getNotifications':
         print "la radu"
         try:
-            cursor.execute("SELECT * FROM notificari where user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
+            cursor.execute("SELECT id,Repeatable,Interva,unix_timestamp(Time),Text FROM notificari where user_id=%s and Time<(select now() from dual)",(raspuns['userId'], ))
             linie=cursor.fetchone()
             print "!!!LETS SEEEEE!!!"
             current=0
@@ -130,7 +145,7 @@ def send(raspuns):
             while linie is not None:
                 linie=cursor.fetchone()
                 if linie is not None:
-                    date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':str(linie[3]),'repeatable':linie[1],'interval':linie[2]})
+                    date['userNotifications'].append({'id':linie[0],'text':linie[4],'time':linie[3],'repeatable':linie[1],'interval':linie[2]})
             print len(dataCrawler)                
             for i in range(0,len(dataCrawler)):
                 print i
@@ -191,7 +206,7 @@ def sendCrawler():
     cursor=db.cursor()
     global dataCrawler
     verificare=json.dumps({'check':'Notificare'})
-    print "connected"
+    #print "connected"
     url='http://104.198.38.180:8991'
     #url='http://localhost:8991'
     handle=urlopen(url,verificare)
@@ -228,10 +243,13 @@ def sendCrawler():
     if linie is None:
         print "no such user"
     else:
+        #print "AM GASIT UTILIZATOR!!!!"
+        #print linie[0]
         if raspuns['Type']=="Hazzard":
             #print linie[0]
             dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Data']['type']})
         else:
+            print raspuns['Type']
             dataCrawler.append({'id':linie[0],'data':raspuns['Data'],'type':raspuns['Type']})
         while linie is not None:
             linie=cursor.fetchone()
@@ -309,7 +327,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    Thread(target = sendCrawler).start()
+    #Thread(target = sendCrawler).start()
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
     print time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER)
@@ -319,3 +337,4 @@ if __name__ == '__main__':
         pass
     httpd.server_close()
     print time.asctime(), "Server Stops - %s:%s" % (HOST_NAME, PORT_NUMBER)
+    #Thread(target = send).start()
