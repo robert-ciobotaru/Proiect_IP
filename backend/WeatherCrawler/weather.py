@@ -6,7 +6,7 @@ import datetime
 
 f = open('city_list.txt', 'r')
 apiKey = '8adc3c7f8f9235744ffd288bc0a9a2b4'  # API key for request
-urlProxy = "http://104.199.93.85:8991"
+urlProxy = "http://104.198.38.180:8991"
 
 if os.path.isfile('log_weather.txt'):
     os.remove('log_weather.txt')
