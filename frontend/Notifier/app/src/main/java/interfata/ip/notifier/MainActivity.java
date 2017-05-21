@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startService(new Intent(this, BackgroundTask.class));
+        //startService(new Intent(this, BackgroundTask.class));
 
         /*Read and write from file test */
        /* System.out.println("Test");
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         data.setText("informatii");
         data.setImg("3");
-        data.setTime("312312");
+        data.setTime("12:00");
         //data.setId(1);
         DbOperator db= new DbOperator(getApplicationContext());
 
