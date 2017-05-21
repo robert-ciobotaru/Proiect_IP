@@ -19,8 +19,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Random;
 
+import interfata.ip.notifier.Database.NotificationTableData;
 import interfata.ip.notifier.History;
 import interfata.ip.notifier.R;
 import interfata.ip.notifier.messenger.GetNotifications;
@@ -121,13 +123,44 @@ public class BackgroundTask extends IntentService {
         super("defaultName");
     }
 
+
+    private String parseObject(JSONObject obj) throws JSONException {
+        StringBuilder result = new StringBuilder();
+        for(int j = 0; j< obj.names().length(); j++){
+            if (obj.get(obj.names().getString(j)) instanceof JSONObject){
+                result.append(
+                        obj.names().getString(j))
+                        .append(": ")
+                        .append(parseObject((JSONObject)obj.get(obj.names().getString(j))))
+                        .append(", ");
+            }
+            else {
+                result.append(
+                        obj.names().getString(j).toUpperCase())
+                        .append(": ")
+                        .append(obj.get(obj.names().getString(j)))
+                        .append(", ");
+            }
+        }
+        return result.toString();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void showNotification(JSONObject notification, String title) {
+    private void showNotification(JSONObject notification, String title) throws JSONException {
+        // show notifications and store them into the database
+        String text;
+        String time;
+
+        try {
+            text = parseObject(notification);
+        } catch (JSONException e) {
+            text = notification.toString();
+        }
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.icon)
                         .setContentTitle(title)
-                        .setContentText(String.valueOf(notification));
+                        .setContentText(text);
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, History.class);
 
@@ -145,10 +178,20 @@ public class BackgroundTask extends IntentService {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(new Random().nextInt(), mBuilder.build());
+        // add the notification to the database
+
+        try {
+            time = notification.getString("time");
+        } catch (JSONException e) {
+            time = "Now";
+        }
+
+        NotificationTableData ntd = new NotificationTableData(text, time, title);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     void showNotificationsList(JSONArray notificationsList, String category) throws JSONException {
+        // shows every notification in the list
         JSONObject notification;
         for(int i = 0; i < notificationsList.length(); i++) {
             notification = notificationsList.getJSONObject(i);
@@ -159,20 +202,21 @@ public class BackgroundTask extends IntentService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
+        // Show the notifications then add them to the database
         JSONObject obj;
         String reqResult;
         GetNotifications notificationGetter = new GetNotifications(2);
 
         while(true) {
             try {
-                obj = new JSONObject(exampleRes);
+                obj = notificationGetter.makeRequest();
+                System.out.println(obj);
                 showNotificationsList(obj.getJSONArray("weatherNotificationsList"), "Weather");
                 showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONArray("earthquakesList"), "Earthquake");
                 showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("floodsList"), "Flood");
                 showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("cyclonesList"), "Cyclone");
-                Thread.sleep(6000);
-            } catch (JSONException | InterruptedException e) {
+                Thread.sleep(60000);
+            } catch (JSONException | InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }

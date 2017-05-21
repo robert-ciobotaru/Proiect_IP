@@ -27,7 +27,7 @@ abstract class GetRequest extends Messenger {
         urlConnection.setRequestProperty("Content-Type", "application/json");
         urlConnection.setRequestProperty("charset", "utf-8");
         urlConnection.setUseCaches(false);
-        urlConnection.setDoOutput(true);
+        urlConnection.setDoOutput(false);
         int res = urlConnection.getResponseCode();
 
         if (400 == res) {

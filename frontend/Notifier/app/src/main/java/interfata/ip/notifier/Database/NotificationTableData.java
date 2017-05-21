@@ -21,7 +21,7 @@ public class NotificationTableData {
     public NotificationTableData() {
     }
 
-    public NotificationTableData(int id, String text, String time, String img) {
+    public NotificationTableData(String text, String time, String img) {
         this.id = id;
         this.text = text;
         this.time = time;

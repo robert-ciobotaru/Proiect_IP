@@ -20,13 +20,17 @@ import android.widget.Button;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import interfata.ip.notifier.Database.DbOperator;
 import interfata.ip.notifier.Database.NotificationTableData;
 import interfata.ip.notifier.Database.NotificationsDB;
 import interfata.ip.notifier.logic.BackgroundTask;
+import interfata.ip.notifier.messenger.GetNotifications;
+import interfata.ip.notifier.messenger.NetworkTask;
 import interfata.ip.notifier.notifications.AlarmNotificationReceiver;
 
 
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         if(firstTime) {
             editor.putBoolean("first",false);
             //For commit the changes, Use either editor.commit(); or  editor.apply();.
-            editor.commit();  ;
+            editor.commit();
             Intent register = new Intent(getApplicationContext(), Register.class);
             // startService(new Intent(, BackgroundTask.class));
             startActivity(register);
@@ -79,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(file.getInfo());
 */
         //Test baze de date
-       NotificationTableData data = new NotificationTableData();
+/*       NotificationTableData data = new NotificationTableData();
 
 
         data.setText("informatii");
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(date.getText());
             System.out.println(date.getTime());
         }
+*/
 
     }
 }

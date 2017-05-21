@@ -8,8 +8,8 @@ import java.io.IOException;
 
 public abstract class Messenger {
 
-    private static final int port = 8080;
-    private static final String host = "104.198.253.69";
+    private static final int port = 8888;
+    private static final String host = "104.198.38.180";
     private static final String version = "v1";
     private static final String urlPattern = "http://{host}:{port}/{version}/";
 
