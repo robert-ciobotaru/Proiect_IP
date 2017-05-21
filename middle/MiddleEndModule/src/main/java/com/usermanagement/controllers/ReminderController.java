@@ -212,20 +212,15 @@ public class ReminderController extends AbstractController {
     	GetRemindersByIdBackendResponseDTO notification = null;
     	
     	try{
-    		System.out.println("1");
     		responseFromBackend = rest.postForEntity(url,getRemindersMethod,GetRemindersByIdBackendResponseDTO.class);
-    		System.out.println("2");
     		notification = responseFromBackend.getBody();
-    		System.out.println("3");
     		if(notification == null){
-    			System.out.println("4");
     			ErrorDTO error =  new ErrorDTO();
 			    error.setError("Service response is invalid");
 			    return new ResponseEntity<>(error,HttpStatus.SERVICE_UNAVAILABLE);
     		}
     		
     		if(notification.getError() == null){
-    			System.out.println("5");
     			ErrorDTO error =  new ErrorDTO();
         		error.setError("Service response is invalid");
     			
@@ -234,7 +229,6 @@ public class ReminderController extends AbstractController {
     	}
     	
     	catch (RestClientException e) {
-    		System.out.println("6");
    		 	ErrorDTO error = new ErrorDTO();
       		error.setError("The server is currently unavailable");    		
       		
@@ -242,7 +236,6 @@ public class ReminderController extends AbstractController {
       	 }
 		
 		 catch (Exception e) {
-			 System.out.println("7");
 			 ErrorDTO error = new ErrorDTO();
 			 error.setError("Unknown error occured");    		
 			 
@@ -250,7 +243,6 @@ public class ReminderController extends AbstractController {
 		 }
     	
     	if(notification.getError().length() > 0){
-    		System.out.println("8");
     		ErrorDTO error = new ErrorDTO();
  			error.setError(notification.getError());
  			
@@ -258,13 +250,11 @@ public class ReminderController extends AbstractController {
     	}
     	
     	if(notification.validate() == false){
-    		System.out.println("9");
 			ErrorDTO error =  new ErrorDTO();
     		error.setError("Service response is invalid");
 			
     		return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-    	System.out.println("10");
     	GetRemindersByIdFrontendResponseDTO remindersList = new GetRemindersByIdFrontendResponseDTO();
     	remindersList.setNotifications(notification.getNotifications());
 		

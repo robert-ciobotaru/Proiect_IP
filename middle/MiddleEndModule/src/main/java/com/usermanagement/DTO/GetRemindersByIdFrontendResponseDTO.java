@@ -1,17 +1,16 @@
 package com.usermanagement.DTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetRemindersByIdFrontendResponseDTO {
-	public List<PostRemindersFrontendResponseDTO> remindersList = new ArrayList<PostRemindersFrontendResponseDTO>();
+	public List<PostRemindersFrontendResponseDTO> remindersList;
 
-	public List<PostRemindersFrontendResponseDTO> getNotifications() {
+	public List<PostRemindersFrontendResponseDTO> getRemindersList() {
 		return remindersList;
 	}
 
-	public void setNotifications(List<PostRemindersFrontendResponseDTO> notifications) {
-		this.remindersList = notifications;
+	public void setNotifications(List<PostRemindersFrontendResponseDTO> remindersList) {
+		this.remindersList = remindersList;
 	}
 	
 }
