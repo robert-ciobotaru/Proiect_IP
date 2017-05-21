@@ -12,22 +12,18 @@ def erase_expired_events(past, opt, log):
     global already_sent_earthquakes
     global already_sent_hazzards
 
-    try:
-        if opt == 1:
-            copy = already_sent_earthquakes.copy()
-            for event in copy:
-                if copy[event] < past:
-                    print 'Am sters evenimentul ', event, '\n'
-                    del already_sent_earthquakes[event]
-        else:
-            copy = already_sent_hazzards.copy()
-            for event in copy:
-                if copy[event] < past:
-                    print 'Am sters evenimentul ', event, '\n'
-                    del already_sent_hazzards[event]
-    except:
-        log.write('Eroare la erase_expired_events!\n\n')
-        return
+    if opt == 1:
+        copy = already_sent_earthquakes.copy()
+        for event in copy:
+            if copy[event] < past:
+                print 'Am sters evenimentul ', event, '\n'
+                del already_sent_earthquakes[event]
+    else:
+        copy = already_sent_hazzards.copy()
+        for event in copy:
+            if copy[event] < past:
+                print 'Am sters evenimentul ', event, '\n'
+                del already_sent_hazzards[event]
 
 def earthquakes(past, url, log):
     global already_sent_earthquakes
@@ -143,8 +139,7 @@ def main():
     if os.path.isfile('log_hazzard.txt'):
         os.remove('log_hazzard.txt')
     log = open ('log_hazzard.txt', 'w')
-    # url='http://fenrir.info.uaic.ro:8991'
-    url = "http://104.199.93.85:8991"
+    url = "http://104.198.38.180:8991"
 
     now_minus_5_hours = datetime.datetime.now() - datetime.timedelta(hours=5)
     past = now_minus_5_hours.strftime("%Y-%m-%dT%H:%M:%S")
