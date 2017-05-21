@@ -2,14 +2,14 @@ from urllib import urlopen
 import json
 import threading
 import thread
-import mysql.connector
+#import mysql.connector
 from threading import Thread
 import time
 import BaseHTTPServer
 import MySQLdb
 
-HOST_NAME='localhost'
-PORT_NUMBER=8000
+HOST_NAME='10.128.0.2'
+PORT_NUMBER=8769
 dataCrawler=[]
 
 def send(raspuns):
@@ -186,13 +186,14 @@ def send(raspuns):
             date=json.dumps({'error':'Helau Radule :>!'})
             return date
 def sendCrawler():
-    db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+    #db=mysql.connector.connect(user='root',password='STUDENT',host='127.0.0.1',database='proiectip_a2')
+    db=MySQLdb.connect(host="130.211.102.0",user="root",passwd="STUDENT",db="proiectip_a2")
     cursor=db.cursor()
     global dataCrawler
     verificare=json.dumps({'check':'Notificare'})
     print "connected"
-    #url='http://104.198.38.180:8991'
-    url='http://localhost:8991'
+    url='http://104.198.38.180:8991'
+    #url='http://localhost:8991'
     handle=urlopen(url,verificare)
     raspunss=handle.read()
     #print raspunss
@@ -308,7 +309,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    #Thread(target = sendCrawler).start()
+    Thread(target = sendCrawler).start()
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
     print time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER)
@@ -318,4 +319,3 @@ if __name__ == '__main__':
         pass
     httpd.server_close()
     print time.asctime(), "Server Stops - %s:%s" % (HOST_NAME, PORT_NUMBER)
-    #Thread(target = send).start()
