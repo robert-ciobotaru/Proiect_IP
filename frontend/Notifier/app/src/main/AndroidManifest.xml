@@ -44,7 +44,8 @@
             android:name=".Meniu"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Settings" />
+        <activity android:name=".Settings"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateNotification"
             android:theme="@style/AppTheme.NoActionBar" />
