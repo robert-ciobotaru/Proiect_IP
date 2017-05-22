@@ -37,7 +37,9 @@
             android:name=".Register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SettingsCategories" />
+        <activity
+            android:name=".SettingsCategories"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Meniu"
             android:label="@string/title_activity_menu"
@@ -46,6 +48,7 @@
         <activity
             android:name=".CreateNotification"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".History"
             android:label="History">
         </activity>
