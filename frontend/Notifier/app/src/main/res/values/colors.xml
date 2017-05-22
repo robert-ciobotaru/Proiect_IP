@@ -7,5 +7,5 @@
     <color name="blue">#42A5F5</color>
     <color name="light_blue">#42A5F5</color>
     <color name="blue_lg">#3b94dc</color>
-    #54aef6
+    <color name="black">#000000</color>
 </resources>

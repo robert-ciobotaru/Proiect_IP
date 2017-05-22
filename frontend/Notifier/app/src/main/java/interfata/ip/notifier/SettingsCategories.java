@@ -16,8 +16,7 @@ public class SettingsCategories extends AppCompatActivity {
         CheckBox categorie_1 = (CheckBox) findViewById(R.id.checkBox);
         CheckBox categorie_2 = (CheckBox) findViewById(R.id.checkBox2);
         CheckBox categorie_3 = (CheckBox) findViewById(R.id.checkBox3);
-        CheckBox categorie_4 = (CheckBox) findViewById(R.id.checkBox4);
-        CheckBox categorie_5 = (CheckBox) findViewById(R.id.checkBox5);
+
 
         Button applyChanges = (Button) findViewById(R.id.button);
 
