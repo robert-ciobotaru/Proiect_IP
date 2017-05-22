@@ -20,7 +20,7 @@
                 android:icon="@mipmap/ic_settings_black_24dp"
                 android:title="Setting" />
             <item
-                android:id="@+id/about"
+                android:id="@+id/aboutAp"
                 android:icon="@drawable/ic_menu_send"
                 android:title="About" />
         </menu>
