@@ -61,6 +61,11 @@
                 <action android:name="interfata.ip.notifier" />
             </intent-filter>
         </receiver>
+		
+		<activity
+            android:name=".About"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
 
