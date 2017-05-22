@@ -46,26 +46,22 @@
         <activity
             android:name=".CreateNotification"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".History"
-            android:label="History"></activity>
+        <activity android:name=".History"
+            android:label="History">
+        </activity>
 
         <service
-            android:name=".logic.BackgroundTask"
-            android:enabled="true" />
+            android:enabled="true"
+            android:name=".logic.BackgroundTask" />
 
         <receiver
-            android:name=".notifications.AlarmNotificationReceiver"
-            android:enabled="true">
+            android:name="interfata.ip.notifier.notifications.AlarmNotificationReceiver"
+            android:enabled="true" >
             <intent-filter>
                 <action android:name="interfata.ip.notifier" />
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".About"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

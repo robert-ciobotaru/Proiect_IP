@@ -144,5 +144,16 @@
         android:layout_toEndOf="@+id/textClock4"
         android:layout_marginBottom="16dp" />
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="90px"
+        android:layout_height="90px"
+        android:layout_marginTop="12dp"
+        android:background="@color/blue"
+        android:text="Submit"
+        app:srcCompat="@android:drawable/stat_notify_more"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

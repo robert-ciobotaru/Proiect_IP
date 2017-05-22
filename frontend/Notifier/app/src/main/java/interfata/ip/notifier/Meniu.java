@@ -162,10 +162,6 @@ public class Meniu extends AppCompatActivity
             startActivity(setting);
         }
 
-        if (id == R.id.action_about) {
-            Intent aboutAp =new Intent(getApplicationContext(),About.class);
-            startActivity(aboutAp);
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -199,9 +195,8 @@ public class Meniu extends AppCompatActivity
         } else if (id == R.id.setting) {
             Intent setting =new Intent(getApplicationContext(),Settings.class);
             startActivity(setting);
-        } else if (id == R.id.aboutAp) {
-            Intent aboutAp =new Intent(getApplicationContext(),About.class);
-            startActivity(aboutAp);
+        } else if (id == R.id.about) {
+            return true;
         }
 
 
