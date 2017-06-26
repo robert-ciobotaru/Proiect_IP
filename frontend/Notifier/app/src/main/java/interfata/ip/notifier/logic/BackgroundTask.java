@@ -211,6 +211,7 @@ public class BackgroundTask extends IntentService {
             try {
                 obj = notificationGetter.makeRequest();
                 System.out.println(obj);
+                obj = new JSONObject(exampleRes);
                 showNotificationsList(obj.getJSONArray("weatherNotificationsList"), "Weather");
                 showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONArray("earthquakesList"), "Earthquake");
                 showNotificationsList(obj.getJSONObject("hazzardNotifications").getJSONObject("hazzard").getJSONArray("floodsList"), "Flood");

@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             startService(new Intent(this, BackgroundTask.class));
         }
 
+
         Button b = (Button) findViewById(R.id.button2);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(file.getInfo());
 */
         //Test baze de date
-/*       NotificationTableData data = new NotificationTableData();
+       NotificationTableData data = new NotificationTableData();
 
 
         data.setText("informatii");
@@ -101,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(date.getText());
             System.out.println(date.getTime());
         }
-*/
 
     }
 }
